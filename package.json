@@ -47,6 +47,10 @@
   "eslintConfig": {
     "extends": "react-app"
   },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Andrey11/cookbook.git"
+  },
   "browserslist": {
     "production": [
       ">0.2%",
