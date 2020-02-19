@@ -24,6 +24,9 @@ import {
   TopAppBarTitle,
   TopAppBarFixedAdjust
 } from "@rmwc/top-app-bar";
+import RecipeCardScene from "components/recipe/RecipeCardScene.component";
+import RecipeCardDetailsScene from "components/recipe/RecipeCardDetailsScene.component";
+import { Switch, Route } from "react-router-dom";
 import "@material/top-app-bar/dist/mdc.top-app-bar.css";
 import "@material/layout-grid/dist/mdc.layout-grid.css";
 import "@material/typography/dist/mdc.typography.css";
@@ -35,102 +38,17 @@ const App = () => {
   return (
     <Provider store={store}>
       <div className="App">
-        <>
-          <TopAppBar fixed>
-            <TopAppBarRow>
-              <TopAppBarSection>
-                <TopAppBarTitle>Fixed</TopAppBarTitle>
-              </TopAppBarSection>
-            </TopAppBarRow>
-          </TopAppBar>
-          <TopAppBarFixedAdjust />
-          <Grid>
-            <GridCell span={4}>
-              <Card style={{ width: "21rem" }}>
-                <CardPrimaryAction>
-                  <CardMedia
-                    sixteenByNine
-                    style={{
-                      backgroundImage: "url(images/backgrounds/mb-bg-fb-16.png)"
-                    }}
-                  />
-                  <div style={{ padding: "0 1rem 1rem 1rem" }}>
-                    <Typography use="headline6" tag="h2">
-                      Our Changing Planet
-                    </Typography>
-                    <Typography
-                      use="subtitle2"
-                      tag="h3"
-                      style={{ marginTop: "-1rem" }}
-                    >
-                      by Kurt Wagner
-                    </Typography>
-                    <Typography use="body1" tag="div">
-                      Visit ten places on our planet that are undergoing the
-                      biggest changes today.
-                    </Typography>
-                  </div>
-                </CardPrimaryAction>
-                <CardActions>
-                  <CardActionButtons>
-                    <CardActionButton>Read</CardActionButton>
-                    <CardActionButton>Bookmark</CardActionButton>
-                  </CardActionButtons>
-                  <CardActionIcons>
-                    <CardActionIcon onIcon="favorite" icon="favorite_border" />
-                    <CardActionIcon icon="share" />
-                    <CardActionIcon icon="more_vert" />
-                  </CardActionIcons>
-                </CardActions>
-              </Card>
-            </GridCell>
-            <GridCell span={4}>
-              <Card style={{ width: "21rem" }}>
-                <CardPrimaryAction>
-                  <CardMedia
-                    sixteenByNine
-                    style={{
-                      backgroundImage: "url(images/backgrounds/mb-bg-fb-16.png)"
-                    }}
-                  />
-                  <div style={{ padding: "0 1rem 1rem 1rem" }}>
-                    <Typography use="headline6" tag="h2">
-                      Our Best Food
-                    </Typography>
-                    <Typography
-                      use="subtitle2"
-                      tag="h3"
-                      style={{ marginTop: "-1rem" }}
-                    >
-                      by Some Author
-                    </Typography>
-                    <Typography use="body1" tag="div">
-                      Visit food that you like to eat, and you will always be
-                      happy every day.
-                    </Typography>
-                  </div>
-                </CardPrimaryAction>
-                <CardActions>
-                  <CardActionButtons>
-                    <CardActionButton>Read</CardActionButton>
-                    <CardActionButton>Bookmark</CardActionButton>
-                  </CardActionButtons>
-                  <CardActionIcons>
-                    <CardActionIcon onIcon="favorite" icon="favorite_border" />
-                    <CardActionIcon icon="share" />
-                    <CardActionIcon icon="more_vert" />
-                  </CardActionIcons>
-                </CardActions>
-              </Card>
-            </GridCell>
-            <GridCell span={4}>3</GridCell>
-          </Grid>
-          {/* <div className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-            <Counter />
-            <Button>Hello</Button>
-          </div> */}
-        </>
+        <Switch>
+          <Route path="/recipe/:id">
+            <RecipeCardDetailsScene />
+          </Route>
+          <Route path="/cookbook">
+            <RecipeCardScene />
+          </Route>
+          <Route path="/">
+            <RecipeCardScene />
+          </Route>
+        </Switch>
       </div>
     </Provider>
   );
