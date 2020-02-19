@@ -1,29 +1,7 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.scss";
-import Counter from "./features/counter/Counter";
 import { Provider } from "react-redux";
 import store from "./store";
-import { Typography } from "@rmwc/typography";
-import { Button } from "@rmwc/button";
-import { Grid, GridCell } from "@rmwc/grid";
-import {
-  Card,
-  CardPrimaryAction,
-  CardMedia,
-  CardActions,
-  CardActionButtons,
-  CardActionButton,
-  CardActionIcons,
-  CardActionIcon
-} from "@rmwc/card";
-import {
-  TopAppBar,
-  TopAppBarRow,
-  TopAppBarSection,
-  TopAppBarTitle,
-  TopAppBarFixedAdjust
-} from "@rmwc/top-app-bar";
 import RecipeCardScene from "components/recipe/RecipeCardScene.component";
 import RecipeCardDetailsScene from "components/recipe/RecipeCardDetailsScene.component";
 import { Switch, Route } from "react-router-dom";
