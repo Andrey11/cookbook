@@ -28,8 +28,13 @@ const RecipeCardScene = () => {
             <TopAppBarNavigationIcon icon="more_vert" />
           </TopAppBarSection>
         </TopAppBarRow>
+        <TopAppBarRow>
+          <TopAppBarSection alignStart>
+            <TopAppBarTitle>Another Row</TopAppBarTitle>
+          </TopAppBarSection>
+        </TopAppBarRow>
       </TopAppBar>
-      <TopAppBarFixedAdjust />
+      <TopAppBarFixedAdjust prominent />
       <Grid>
         <GridCell span={4}>
           <RecipeCard recipeId={10} />

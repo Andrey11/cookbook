@@ -29,48 +29,105 @@ const RecipeCardDetailsScene = () => {
               icon="arrow_back"
               onClick={() => history.goBack()}
             />
-            <TopAppBarTitle>One Cards</TopAppBarTitle>
+          </TopAppBarSection>
+          <TopAppBarSection alignEnd>
+            <TopAppBarNavigationIcon icon="share" />
+            <TopAppBarNavigationIcon icon="favorite" />
+            <TopAppBarNavigationIcon icon="more_vert" />
+          </TopAppBarSection>
+        </TopAppBarRow>
+        <TopAppBarRow>
+          <TopAppBarSection>
+            <Fab icon="edit" style={{ marginTop: "3rem" }} />
+            <TopAppBarTitle>Some text</TopAppBarTitle>
           </TopAppBarSection>
         </TopAppBarRow>
       </TopAppBar>
-      <TopAppBarFixedAdjust />
-      <>
-        <Grid>
-          <GridCell span={12}>
-            <List>
-              <CollapsibleList
-                handle={
-                  <SimpleListItem
-                    text="Ingridients"
-                    graphic="shopping_basket"
-                    metaIcon="chevron_right"
-                  />
-                }
-              >
-                <SimpleListItem text="Orange1" />
-                <SimpleListItem text="Orange2" />
-              </CollapsibleList>
-            </List>
-          </GridCell>
-          <GridCell span={12}>
-            <List>
-              <CollapsibleList
-                handle={
-                  <SimpleListItem
-                    text="Cooking instructions"
-                    graphic="restaurant"
-                    metaIcon="chevron_right"
-                  />
-                }
-              >
-                <SimpleListItem text="Orange1" />
-                <SimpleListItem text="Orange2" />
-              </CollapsibleList>
-            </List>
-          </GridCell>
-        </Grid>
-        <Fab icon="edit" />
-      </>
+      <TopAppBarFixedAdjust prominent />
+
+      <Grid>
+        <GridCell span={12}>
+          <List>
+            <CollapsibleList
+              startOpen
+              handle={
+                <SimpleListItem
+                  text="Photos"
+                  graphic="photo_library"
+                  metaIcon="chevron_right"
+                />
+              }
+            >
+              <SimpleListItem text="Orange1" />
+              <SimpleListItem text="Orange2" />
+            </CollapsibleList>
+          </List>
+        </GridCell>
+        <GridCell span={12}>
+          <List>
+            <CollapsibleList
+              handle={
+                <SimpleListItem
+                  text="Ingridients"
+                  graphic="shopping_basket"
+                  metaIcon="chevron_right"
+                />
+              }
+            >
+              <SimpleListItem text="Orange1" />
+              <SimpleListItem text="Orange2" />
+            </CollapsibleList>
+          </List>
+        </GridCell>
+        <GridCell span={12}>
+          <List>
+            <CollapsibleList
+              handle={
+                <SimpleListItem
+                  text="Cooking instructions"
+                  graphic="restaurant"
+                  metaIcon="chevron_right"
+                />
+              }
+            >
+              <SimpleListItem text="Orange1" />
+              <SimpleListItem text="Orange2" />
+            </CollapsibleList>
+          </List>
+        </GridCell>
+        <GridCell span={12}>
+          <List>
+            <CollapsibleList
+              handle={
+                <SimpleListItem
+                  text="Additional comments"
+                  graphic="menu_book"
+                  metaIcon="chevron_right"
+                />
+              }
+            >
+              <SimpleListItem text="Orange1" />
+              <SimpleListItem text="Orange2" />
+            </CollapsibleList>
+          </List>
+        </GridCell>
+        <GridCell span={12}>
+          <List>
+            <CollapsibleList
+              handle={
+                <SimpleListItem
+                  text="Tags"
+                  graphic="label"
+                  metaIcon="chevron_right"
+                />
+              }
+            >
+              <SimpleListItem text="Orange1" />
+              <SimpleListItem text="Orange2" />
+            </CollapsibleList>
+          </List>
+        </GridCell>
+      </Grid>
     </>
   );
 };
