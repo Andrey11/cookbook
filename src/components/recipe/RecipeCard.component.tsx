@@ -1,6 +1,6 @@
 import React from "react";
 import { Typography } from "@rmwc/typography";
-import "../../App.scss";
+// import "../../App.scss";
 import {
   Card,
   CardPrimaryAction,
@@ -12,17 +12,21 @@ import {
   CardActionIcon
 } from "@rmwc/card";
 import { useHistory } from "react-router-dom";
-import "@material/typography/dist/mdc.typography.css";
-import "@material/card/dist/mdc.card.css";
-import "@material/button/dist/mdc.button.css";
-import "@material/icon-button/dist/mdc.icon-button.css";
+// import "@material/typography/dist/mdc.typography.css";
+// import "@material/card/dist/mdc.card.css";
+// import "@material/button/dist/mdc.button.css";
+// import "@material/icon-button/dist/mdc.icon-button.css";
 
-const RecipeCard = () => {
+type RecipeCardProps = {
+  recipeId: number | null;
+};
+
+const RecipeCard = ({ recipeId }: RecipeCardProps) => {
   const history = useHistory();
 
   return (
     <Card style={{ width: "21rem" }}>
-      <CardPrimaryAction onClick={() => history.push("/recipe/01")}>
+      <CardPrimaryAction onClick={() => history.push("/recipe/" + recipeId)}>
         <CardMedia
           sixteenByNine
           style={{

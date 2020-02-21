@@ -1,16 +1,17 @@
 import React from "react";
-import "../../App.scss";
+// import "../../App.scss";
+import { Typography } from "@rmwc/typography";
 import { Grid, GridCell } from "@rmwc/grid";
 import {
   TopAppBar,
   TopAppBarRow,
   TopAppBarSection,
   TopAppBarTitle,
-  TopAppBarFixedAdjust
+  TopAppBarFixedAdjust,
+  TopAppBarNavigationIcon
 } from "@rmwc/top-app-bar";
+import { ChipSet, Chip } from "@rmwc/chip";
 import RecipeCard from "./RecipeCard.component";
-import "@material/top-app-bar/dist/mdc.top-app-bar.css";
-import "@material/layout-grid/dist/mdc.layout-grid.css";
 
 const RecipeCardScene = () => {
   return (
@@ -18,19 +19,35 @@ const RecipeCardScene = () => {
       <TopAppBar fixed>
         <TopAppBarRow>
           <TopAppBarSection>
+            <TopAppBarNavigationIcon icon="menu" />
             <TopAppBarTitle>All Cards</TopAppBarTitle>
+          </TopAppBarSection>
+          <TopAppBarSection alignEnd>
+            <TopAppBarNavigationIcon icon="search" />
+            <TopAppBarNavigationIcon icon="filter_list" />
+            <TopAppBarNavigationIcon icon="more_vert" />
           </TopAppBarSection>
         </TopAppBarRow>
       </TopAppBar>
       <TopAppBarFixedAdjust />
       <Grid>
         <GridCell span={4}>
-          <RecipeCard />
+          <RecipeCard recipeId={10} />
         </GridCell>
         <GridCell span={4}>
-          <RecipeCard />
+          <RecipeCard recipeId={11} />
         </GridCell>
-        <GridCell span={4}>3</GridCell>
+        <GridCell span={4}>
+          <ChipSet>
+            <Chip selected label="Cookies" />
+            <Chip label="Pizza" />
+            <Chip label="Icecream" />
+          </ChipSet>
+          <Typography use="body1">Our Best Food</Typography>
+          <Typography use="body2" style={{ marginTop: "-1rem" }}>
+            by Some Author
+          </Typography>
+        </GridCell>
       </Grid>
     </>
   );

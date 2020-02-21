@@ -1,33 +1,76 @@
 import React from "react";
-import "../../App.scss";
 import { Grid, GridCell } from "@rmwc/grid";
 import {
   TopAppBar,
   TopAppBarRow,
   TopAppBarSection,
   TopAppBarTitle,
-  TopAppBarFixedAdjust
+  TopAppBarFixedAdjust,
+  TopAppBarNavigationIcon
 } from "@rmwc/top-app-bar";
-import RecipeCard from "./RecipeCard.component";
+import { Fab } from "@rmwc/fab";
+import { useHistory } from "react-router-dom";
+import { List, CollapsibleList, SimpleListItem } from "@rmwc/list";
 import "@material/top-app-bar/dist/mdc.top-app-bar.css";
 import "@material/layout-grid/dist/mdc.layout-grid.css";
+import "@material/fab/dist/mdc.fab.css";
+import "@material/list/dist/mdc.list.css";
+import "@rmwc/list/collapsible-list.css";
 
 const RecipeCardDetailsScene = () => {
+  const history = useHistory();
+
   return (
     <>
       <TopAppBar fixed>
         <TopAppBarRow>
           <TopAppBarSection>
+            <TopAppBarNavigationIcon
+              icon="arrow_back"
+              onClick={() => history.goBack()}
+            />
             <TopAppBarTitle>One Cards</TopAppBarTitle>
           </TopAppBarSection>
         </TopAppBarRow>
       </TopAppBar>
       <TopAppBarFixedAdjust />
-      <Grid>
-        <GridCell span={12}>
-          <RecipeCard />
-        </GridCell>
-      </Grid>
+      <>
+        <Grid>
+          <GridCell span={12}>
+            <List>
+              <CollapsibleList
+                handle={
+                  <SimpleListItem
+                    text="Ingridients"
+                    graphic="shopping_basket"
+                    metaIcon="chevron_right"
+                  />
+                }
+              >
+                <SimpleListItem text="Orange1" />
+                <SimpleListItem text="Orange2" />
+              </CollapsibleList>
+            </List>
+          </GridCell>
+          <GridCell span={12}>
+            <List>
+              <CollapsibleList
+                handle={
+                  <SimpleListItem
+                    text="Cooking instructions"
+                    graphic="restaurant"
+                    metaIcon="chevron_right"
+                  />
+                }
+              >
+                <SimpleListItem text="Orange1" />
+                <SimpleListItem text="Orange2" />
+              </CollapsibleList>
+            </List>
+          </GridCell>
+        </Grid>
+        <Fab icon="edit" />
+      </>
     </>
   );
 };

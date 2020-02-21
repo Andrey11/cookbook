@@ -1,27 +1,34 @@
 :root {
   --mdc-theme-primary: #69A267;
-  --mdc-theme-secondary: #EE7457;
+  --mdc-theme-secondary: #00cb00;
+  // --mdc-theme-surface: #e6f3e7;
+  // --mdc-theme-background: #f9fffa;
   --mdc-theme-surface: #EDF8EE;
   --mdc-theme-background: #EDF8EE;
   --mdc-theme-on-primary: #096809;
   --mdc-theme-on-secondary: #096809;
   --mdc-theme-on-surface: #096809;
+  --mdc-theme-on-hint: #096809;
   --mdc-theme-text-primary-on-background: #096809;
   --mdc-theme-text-secondary-on-background: #096809;
   --mdc-theme-text-surface-on-background: #096809;
   --mdc-theme-text-hint-on-background: #096809;
-  --mdc-theme-text-primary-on-light: #096809;
-  --mdc-theme-text-secondary-on-light: #096809;
-  --mdc-theme-text-surface-on-light: #096809;
-  --mdc-theme-text-primary-on-dark: #096809;
-  --mdc-theme-text-secondary-on-dark: #096809;
-  --mdc-theme-text-surface-on-dark: #096809;
+
+  // --mdc-theme-text-primary-on-light: #096809;
+  // --mdc-theme-text-secondary-on-light: #096809;
+  // --mdc-theme-text-surface-on-light: #096809;
+  // --mdc-theme-text-hint-on-ling: #096809;
+  // --mdc-theme-text-primary-on-dark: #096809;
+  // --mdc-theme-text-secondary-on-dark: #096809;
+  // --mdc-theme-text-surface-on-dark: #096809;
+  // --mdc-theme-text-hint-on-dark: #096809;
 }
 
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Roboto", "Segoe UI", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
