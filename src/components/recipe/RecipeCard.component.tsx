@@ -1,6 +1,5 @@
-import React from "react";
+import React, { CSSProperties } from "react";
 import { Typography } from "@rmwc/typography";
-// import "../../App.scss";
 import {
   Card,
   CardPrimaryAction,
@@ -12,16 +11,14 @@ import {
   CardActionIcon
 } from "@rmwc/card";
 import { useHistory } from "react-router-dom";
-// import "@material/typography/dist/mdc.typography.css";
-// import "@material/card/dist/mdc.card.css";
-// import "@material/button/dist/mdc.button.css";
-// import "@material/icon-button/dist/mdc.icon-button.css";
 
 type RecipeCardProps = {
   recipeId: number | null;
+  imageUrl: string | null;
+  recipeTitle: string | "Title";
 };
 
-const RecipeCard = ({ recipeId }: RecipeCardProps) => {
+const RecipeCard = ({ recipeId, imageUrl, recipeTitle }: RecipeCardProps) => {
   const history = useHistory();
 
   return (
@@ -29,13 +26,11 @@ const RecipeCard = ({ recipeId }: RecipeCardProps) => {
       <CardPrimaryAction onClick={() => history.push("/recipe/" + recipeId)}>
         <CardMedia
           sixteenByNine
-          style={{
-            backgroundImage: "url(/images/mb-bg-fb-16.png)"
-          }}
+          style={{ backgroundImage: imageUrl } as CSSProperties}
         />
         <div style={{ padding: "0 1rem 1rem 1rem" }}>
           <Typography use="headline6" tag="h2">
-            Our Best Food
+            {recipeTitle}
           </Typography>
           <Typography use="subtitle2" tag="h3" style={{ marginTop: "-1rem" }}>
             by Some Author

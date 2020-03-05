@@ -1,7 +1,7 @@
 {
   "name": "cookbook",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "dependencies": {
     "@reduxjs/toolkit": "1.2.3",
     "@testing-library/dom": "^6.12.0",
@@ -22,6 +22,8 @@
     "eslint-plugin-flowtype": "^4.6.0",
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.18.0",
+    "firebase": "^7.9.1",
+    "firebase-tools": "^7.13.1",
     "material-components-web": "^5.0.0",
     "node-sass": "^4.13.1",
     "prettier": "^1.19.1",

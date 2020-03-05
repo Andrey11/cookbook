@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { HashRouter } from "react-router-dom";
 import App from "./App";
+import Firebase, { FirebaseContext } from "./components/firebase/Firebase";
 
 import "@material/theme/dist/mdc.theme.css";
 import "@material/typography/dist/mdc.typography.css";
@@ -17,8 +18,10 @@ import "./index.scss";
 import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(
-  <HashRouter basename="/cookbook">
-    <App />
+  <HashRouter basename="/">
+    <FirebaseContext.Provider value={new Firebase()}>
+      <App />
+    </FirebaseContext.Provider>
   </HashRouter>,
   document.getElementById("root")
 );

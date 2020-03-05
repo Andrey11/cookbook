@@ -4,16 +4,14 @@ import RecipeCard from "./RecipeCard.component";
 import store from "../../store";
 
 const mapStateToProps = (state: any, ownProps: any) => ({
-  recipeId: ownProps.recipeId
-  // numTags: selectors.getNumCompanyTags(state),
-  // toggledTags: selectors.getToggledCompanyTags(state),
-  // isAllTagsSelected: selectors.isAllCompanyTagsSelected(state),
-  // currentSearchString: selectors.getCurrentSearchString(state)
+  recipeId: ownProps.recipeId,
+  imageUrl: ownProps.imageUrl,
+  recipeTitle: state.recipeTitle
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-  // showRecipeDetail: (id: number) => dispatch(actions.toggleCompanyTag(id))
-  // showRecipeDetail: (id: number) => dispatch(actions.toggleCompanyTag(id))
+  // loadRecipe: (id: number) => dispatch(actions.toggleCompanyTag(id))
+  // loadRecipe: (id: number) => dispatch(actions.toggleCompanyTag(id))
 });
 
 const Connected = connect(mapStateToProps, mapDispatchToProps)(RecipeCard);

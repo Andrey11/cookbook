@@ -2,9 +2,13 @@ import { configureStore } from "@reduxjs/toolkit";
 import { Action, combineReducers } from "@reduxjs/toolkit";
 import { ThunkAction } from "redux-thunk";
 import counterReducer from "./features/counter/CounterSlice";
+import cookbookReducer from "./components/recipe/RecipeCardSceneSlice";
+import recipeDetailReducer from "components/recipe/RecipeCard.reducer";
 
 export const rootReducer = combineReducers({
-  counter: counterReducer
+  counter: counterReducer,
+  cookbook: cookbookReducer,
+  recipeDetails: recipeDetailReducer
 });
 
 const store = configureStore({
