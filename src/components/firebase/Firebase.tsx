@@ -15,7 +15,7 @@ class Firebase {
     this.database = firebase.firestore(this.app);
     console.log("[Firebase][constructor] initialized");
 
-    this.doSignInWithEmailAndPassword("user1@test.com", "password");
+    // this.doSignInWithEmailAndPassword("user1@test.com", "password");
   }
 
   // *** Auth API ***
@@ -43,6 +43,13 @@ class Firebase {
       return this.database.collection("cookbook").doc();
     }
     return this.database.collection("cookbook").doc(cookbookId);
+  };
+
+  doLoadCurrentUserCookbook = () => {
+    if (this.auth.currentUser) {
+      return this.database.collection("users").doc(this.auth.currentUser.uid);
+    }
+    return this.database.collection("users").doc();
   };
 }
 

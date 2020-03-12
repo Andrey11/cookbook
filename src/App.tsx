@@ -4,7 +4,8 @@ import { Provider } from "react-redux";
 import store from "./store";
 import RecipeCardSceneContainer from "components/recipe/RecipeCardScene.container";
 import RecipeCardDetailsScene from "components/recipe/RecipeCardDetailsScene.component";
-import Login from "components/authentication/CreateAccount.component";
+import CookbookSceneContainer from "components/cookbook/CookbookScene.container";
+import LoginContainer from "components/authentication/Login.container";
 import { Switch, Route } from "react-router-dom";
 import { withFirebase } from "components/firebase/Firebase";
 
@@ -17,10 +18,11 @@ const App = () => {
             <RecipeCardDetailsScene />
           </Route>
           <Route path="/cookbook/:id">
-            <RecipeCardSceneContainer cookbookId="mnJyuZQWjsD2PJI7uVsc" />
+            {/* <RecipeCardSceneContainer cookbookId="MVNzqtXaUq7HJq0PgOrn" /> */}
+            <CookbookSceneContainer />
           </Route>
           <Route path="/">
-            <Login />
+            <LoginContainer />
           </Route>
         </Switch>
       </div>

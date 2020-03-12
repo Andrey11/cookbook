@@ -1,15 +1,15 @@
 import React from "react";
 import { connect, Provider } from "react-redux";
-import RecipeCardScene from "./RecipeCardScene.component";
+import CookbookScene from "./CookbookScene.component";
 import store from "../../store";
-import { loadCardList } from "./RecipeCardSceneSlice";
-import { loadCookbook } from "./RecipeCardScene.actions";
+import { loadCardList } from "./CookbookSceneSlice";
+import { loadCookbook } from "./CookbookScene.actions";
 import { logout } from "../authentication/Authentication.actions";
 import { withFirebase } from "../firebase/Firebase";
 import { withRouter } from "react-router-dom";
 
 const mapStateToProps = (state: any, ownProps: any) => ({
-  cookbookId: state.cookbook.cookbookId || ownProps.cookbookId,
+  cookbookId: state.cookbook.cookbookId || state.userInfo.cookbookId,
   recipes: state.recipes,
   loaded: state.cookbook.loaded,
   shouldLogout: state.userInfo.loggedIn === false
@@ -22,14 +22,14 @@ const mapDispatchToProps = (dispatch: any, ownProps: any) => ({
 });
 
 const Connected = withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(RecipeCardScene)
+  connect(mapStateToProps, mapDispatchToProps)(CookbookScene)
 );
 
 // TODO: should pass a list of card items (recipes)
-const RecipeCardSceneContainer = (props: any) => (
+const CookbookSceneContainer = (props: any) => (
   <Provider store={store}>
     <Connected {...props} />
   </Provider>
 );
 
-export default withFirebase(RecipeCardSceneContainer);
+export default withFirebase(CookbookSceneContainer);

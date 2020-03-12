@@ -11,10 +11,10 @@ import {
   TopAppBarNavigationIcon
 } from "@rmwc/top-app-bar";
 import { ChipSet, Chip } from "@rmwc/chip";
-import RecipeCard from "./RecipeCard.component";
+import RecipeCard from "../recipe/RecipeCard.component";
 import { withFirebase } from "../firebase/Firebase";
 
-type RecipeCardSceneProps = {
+type CookbookSceneProps = {
   cookbookId: string;
   loaded: boolean;
   shouldLogout: boolean;
@@ -22,20 +22,21 @@ type RecipeCardSceneProps = {
   logoutUser: Function;
 };
 
-const RecipeCardScene = ({
+const CookbookScene = ({
   loadCookbook,
   logoutUser,
   cookbookId,
   loaded,
   shouldLogout
-}: RecipeCardSceneProps) => {
+}: CookbookSceneProps) => {
   const history = useHistory();
   const { id } = useParams();
-  const [bookId, setBookId] = useState(cookbookId);
 
   useEffect(() => {
     if (shouldLogout) {
       history.replace("/");
+    } else if (!loaded && cookbookId) {
+      loadCookbook(cookbookId);
     }
   });
 
@@ -125,4 +126,4 @@ const RecipeCardScene = ({
   );
 };
 
-export default withFirebase(RecipeCardScene);
+export default withFirebase(CookbookScene);
