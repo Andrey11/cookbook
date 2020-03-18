@@ -12,13 +12,17 @@ import "@material/icon-button/dist/mdc.icon-button.css";
 import "@material/top-app-bar/dist/mdc.top-app-bar.css";
 import "@material/layout-grid/dist/mdc.layout-grid.css";
 import "@material/chips/dist/mdc.chips.css";
+import "@material/textfield/dist/mdc.textfield.css";
+import "@material/floating-label/dist/mdc.floating-label.css";
+import "@material/notched-outline/dist/mdc.notched-outline.css";
+import "@material/line-ripple/dist/mdc.line-ripple.css";
 
 import "./index.scss";
 
 import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(
-  <HashRouter basename="/">
+  <HashRouter>
     <FirebaseContext.Provider value={new Firebase()}>
       <App />
     </FirebaseContext.Provider>

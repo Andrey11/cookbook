@@ -50,6 +50,24 @@ export const slice = createSlice({
       state.id = null;
       state.user = null;
       state.error = action.payload;
+    },
+    onCreateUserSuccess: (state, action: PayloadAction<User>) => {
+      state.user = action.payload;
+      state.username = action.payload.username;
+      state.password = action.payload.password;
+      state.loggedIn = true;
+      state.id = action.payload.id;
+      state.cookbookId = action.payload.cookbookId; // "MVNzqtXaUq7HJq0PgOrn";
+      state.error = "";
+    },
+    onCreateUserError: (state, action: PayloadAction<string>) => {
+      state.username = "";
+      state.password = "";
+      state.loggedIn = false;
+      state.cookbookId = "";
+      state.id = null;
+      state.user = null;
+      state.error = action.payload;
     }
   }
 });
@@ -58,7 +76,9 @@ export const {
   onLoginSuccess,
   onLoginError,
   onLogoutError,
-  onLogoutSuccess
+  onLogoutSuccess,
+  onCreateUserSuccess,
+  onCreateUserError
 } = slice.actions;
 
 export default slice.reducer;

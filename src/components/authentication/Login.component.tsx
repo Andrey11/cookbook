@@ -1,43 +1,32 @@
-import React, {
-  CSSProperties,
-  useState,
-  useEffect,
-  SyntheticEvent
-} from "react";
+import React, { CSSProperties, useState, useEffect } from "react";
 import { Typography } from "@rmwc/typography";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import { TextField } from "@rmwc/textfield";
 import { Button } from "@rmwc/button";
+import Header from "components/header/Header.container";
 import { User } from "./Authentication.types";
 
 type LoginUserProps = {
-  username: string;
-  password: string;
   isLoggedIn: boolean;
   cookbookId: string;
   loginUser: Function;
 };
 
-const Login = ({
-  username,
-  password,
-  isLoggedIn,
-  cookbookId,
-  loginUser
-}: LoginUserProps) => {
+const Login = ({ isLoggedIn, cookbookId, loginUser }: LoginUserProps) => {
   const history = useHistory();
-  const [email, setEmail] = useState(username);
-  const [pwd, setPwd] = useState(password);
+  const [email, setEmail] = useState("");
+  const [pwd, setPwd] = useState("");
 
   useEffect(() => {
-    if (isLoggedIn && cookbookId && cookbookId.length > 0) {
-      history.replace("cookbook/" + cookbookId);
+    if (isLoggedIn && cookbookId) {
+      history.replace("/cookbook/" + cookbookId);
     }
   });
 
   console.log("user logged in: " + isLoggedIn);
   return (
     <div>
+      <Header type="login" />
       Login
       <TextField
         outlined
@@ -57,6 +46,15 @@ const Login = ({
         label="Login"
         onClick={() => loginUser(email, pwd)}
       />
+      <Link
+        to={{
+          pathname: "/create",
+          hash: "#",
+          search: ""
+        }}
+      >
+        Create Account
+      </Link>
     </div>
   );
 };

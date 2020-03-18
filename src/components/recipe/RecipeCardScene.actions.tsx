@@ -1,18 +1,18 @@
 import { AppDispatch, AppThunk } from "../../store";
 import {
-  loadCardList,
+  beginLoadCardList,
   onCardListLoaded,
   onCardListLoadError,
   onLoadCookbook,
   onLoadCookbookSuccess,
   onLoadCookbookError
 } from "./RecipeCardSceneSlice";
-import { Cookbook } from "./RecipeCard.types";
+import { Cookbook } from "../cookbook/Cookbook.types";
 
 import Firebase from "../firebase/Firebase";
 
-export const loadCardDetails = (id: string) => (dispatch: AppDispatch) => {
-  dispatch(loadCardList(id));
+export const loadRecipeDetails = (id: string) => (dispatch: AppDispatch) => {
+  dispatch(beginLoadCardList(id));
   try {
     dispatch(onCardListLoaded([]));
   } catch (e) {

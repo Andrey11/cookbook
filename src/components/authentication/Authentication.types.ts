@@ -1,10 +1,10 @@
 import { Url } from "url";
-import { Cookbook } from "../recipe/RecipeCard.types";
+import { Cookbook } from "../cookbook/Cookbook.types";
 
 export interface User {
   id: string | null;
   username: string | "";
-  password: string | "";
+  password: string | ""; // TODO: remove me
   avatarUrl: Url | null; // TODO: Add a default image url
   cookbooks: Array<Cookbook> | [];
   cookbookId: string | null;

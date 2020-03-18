@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Cookbook } from "./RecipeCard.types";
+import { Cookbook } from "../cookbook/Cookbook.types";
 
 interface InitialState {
   record: Cookbook | null;
@@ -27,7 +27,7 @@ export const slice = createSlice({
   name: "recipeCardScene",
   initialState,
   reducers: {
-    loadCardList: (state, action: PayloadAction<string>) => {
+    beginLoadCardList: (state, action: PayloadAction<string>) => {
       state.loading = true;
       state.cookbookId = action.payload;
     },
@@ -63,7 +63,7 @@ export const slice = createSlice({
 });
 
 export const {
-  loadCardList,
+  beginLoadCardList,
   onCardListLoaded,
   onCardListLoadError,
   onLoadCookbook,

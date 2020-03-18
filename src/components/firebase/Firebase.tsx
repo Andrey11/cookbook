@@ -38,18 +38,36 @@ class Firebase {
   };
 
   // *** Database API ***
+  doCreateCookbook = (cookbookId: string, username: string) => {
+    return this.database
+      .collection("cookbook")
+      .doc(cookbookId)
+      .set({
+        name: username,
+        recipes: []
+      })
+      .catch(function(error) {
+        console.error(
+          "[Firebase][doCreateCookbook] Error writing new message to database",
+          error
+        );
+      });
+  };
+
   doLoadCookbookRecipies = (cookbookId: string) => {
     if (!cookbookId || cookbookId.length === 0) {
-      return this.database.collection("cookbook").doc();
+      return this.database.collection("recipe").doc();
     }
     return this.database.collection("cookbook").doc(cookbookId);
   };
 
   doLoadCurrentUserCookbook = () => {
     if (this.auth.currentUser) {
-      return this.database.collection("users").doc(this.auth.currentUser.uid);
+      return this.database
+        .collection("cookbook")
+        .doc(this.auth.currentUser.uid);
     }
-    return this.database.collection("users").doc();
+    return this.database.collection("recipe").doc();
   };
 }
 

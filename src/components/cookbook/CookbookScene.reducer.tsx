@@ -27,7 +27,7 @@ export const slice = createSlice({
   name: "CookbookScene",
   initialState,
   reducers: {
-    loadCardList: (state, action: PayloadAction<string>) => {
+    beginLoadCardList: (state, action: PayloadAction<string>) => {
       state.loading = true;
       state.cookbookId = action.payload;
     },
@@ -59,17 +59,25 @@ export const slice = createSlice({
       state.record = null;
       state.error = action.payload;
       state.loaded = true;
+    },
+    resetCookbook: state => {
+      state.loaded = false;
+      state.loading = false;
+      state.record = null;
+      state.error = null;
+      state.cookbookId = null;
     }
   }
 });
 
 export const {
-  loadCardList,
+  beginLoadCardList,
   onCardListLoaded,
   onCardListLoadError,
   onLoadCookbook,
   onLoadCookbookSuccess,
-  onLoadCookbookError
+  onLoadCookbookError,
+  resetCookbook
 } = slice.actions;
 
 export default slice.reducer;

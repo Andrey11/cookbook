@@ -1,18 +1,18 @@
 import { AppDispatch, AppThunk } from "../../store";
 import {
-  loadCardList,
+  beginLoadCardList,
   onCardListLoaded,
   onCardListLoadError,
   onLoadCookbook,
   onLoadCookbookSuccess,
   onLoadCookbookError
-} from "./CookbookSceneSlice";
+} from "./CookbookScene.reducer";
 import { Cookbook } from "./Cookbook.types";
 
 import Firebase from "../firebase/Firebase";
 
-export const loadCardDetails = (id: string) => (dispatch: AppDispatch) => {
-  dispatch(loadCardList(id));
+export const loadRecipeDetails = (id: string) => (dispatch: AppDispatch) => {
+  dispatch(beginLoadCardList(id));
   try {
     dispatch(onCardListLoaded([]));
   } catch (e) {
@@ -30,10 +30,14 @@ export const loadCookbook = (id: string, firebase: Firebase) => (
     .get()
     .then((querySnapshot: any) => {
       console.log(`${querySnapshot.id} => ${querySnapshot.data().name}`);
+      const recipeIds = querySnapshot.data().recipes.map((item: any) => {
+        return item.id;
+      });
+
       const book: Cookbook = {
         id: querySnapshot.id,
         name: querySnapshot.data().name,
-        recipes: []
+        recipes: recipeIds
       };
       dispatch(onLoadCookbookSuccess(book));
     })

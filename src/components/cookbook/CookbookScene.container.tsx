@@ -2,21 +2,21 @@ import React from "react";
 import { connect, Provider } from "react-redux";
 import CookbookScene from "./CookbookScene.component";
 import store from "../../store";
-import { loadCardList } from "./CookbookSceneSlice";
+import { beginLoadCardList } from "./CookbookScene.reducer";
 import { loadCookbook } from "./CookbookScene.actions";
 import { logout } from "../authentication/Authentication.actions";
 import { withFirebase } from "../firebase/Firebase";
 import { withRouter } from "react-router-dom";
 
-const mapStateToProps = (state: any, ownProps: any) => ({
+const mapStateToProps = (state: any) => ({
   cookbookId: state.cookbook.cookbookId || state.userInfo.cookbookId,
   recipes: state.recipes,
   loaded: state.cookbook.loaded,
-  shouldLogout: state.userInfo.loggedIn === false
+  shouldLogout: state.userInfo.loggedIn === false && !state.cookbook.cookbookId
 });
 
 const mapDispatchToProps = (dispatch: any, ownProps: any) => ({
-  loadRecipe: (id: string) => dispatch(loadCardList(id)),
+  loadRecipe: (id: string) => dispatch(beginLoadCardList(id)),
   loadCookbook: (id: string) => dispatch(loadCookbook(id, ownProps.firebase)),
   logoutUser: () => dispatch(logout(ownProps.firebase))
 });

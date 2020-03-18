@@ -2,7 +2,7 @@ import React from "react";
 import { connect, Provider } from "react-redux";
 import RecipeCardScene from "./RecipeCardScene.component";
 import store from "../../store";
-import { loadCardList } from "./RecipeCardSceneSlice";
+import { beginLoadCardList } from "./RecipeCardSceneSlice";
 import { loadCookbook } from "./RecipeCardScene.actions";
 import { logout } from "../authentication/Authentication.actions";
 import { withFirebase } from "../firebase/Firebase";
@@ -16,7 +16,7 @@ const mapStateToProps = (state: any, ownProps: any) => ({
 });
 
 const mapDispatchToProps = (dispatch: any, ownProps: any) => ({
-  loadRecipe: (id: string) => dispatch(loadCardList(id)),
+  loadRecipe: (id: string) => dispatch(beginLoadCardList(id)),
   loadCookbook: (id: string) => dispatch(loadCookbook(id, ownProps.firebase)),
   logoutUser: () => dispatch(logout(ownProps.firebase))
 });

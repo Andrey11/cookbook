@@ -13,6 +13,7 @@ import {
 import { ChipSet, Chip } from "@rmwc/chip";
 import RecipeCard from "../recipe/RecipeCard.component";
 import { withFirebase } from "../firebase/Firebase";
+import Header from "../header/Header.container";
 
 type CookbookSceneProps = {
   cookbookId: string;
@@ -23,20 +24,24 @@ type CookbookSceneProps = {
 };
 
 const CookbookScene = ({
-  loadCookbook,
-  logoutUser,
   cookbookId,
   loaded,
-  shouldLogout
+  shouldLogout,
+  loadCookbook,
+  logoutUser
 }: CookbookSceneProps) => {
   const history = useHistory();
   const { id } = useParams();
 
   useEffect(() => {
     if (shouldLogout) {
+      console.log("Should logout");
       history.replace("/");
     } else if (!loaded && cookbookId) {
+      console.log("Not loaded, and cookbook is set");
       loadCookbook(cookbookId);
+    } else if (!loaded && !cookbookId) {
+      console.log("Not logged in, and no cookbook is set");
     }
   });
 
@@ -49,34 +54,7 @@ const CookbookScene = ({
 
   return (
     <>
-      <TopAppBar fixed>
-        <TopAppBarRow>
-          <TopAppBarSection>
-            <TopAppBarNavigationIcon icon="menu" />
-            <TopAppBarTitle>All Cards</TopAppBarTitle>
-          </TopAppBarSection>
-          <TopAppBarSection alignEnd>
-            <TopAppBarNavigationIcon icon="search" />
-            <TopAppBarNavigationIcon icon="filter_list" />
-            <TopAppBarNavigationIcon icon="add" />
-            <TopAppBarNavigationIcon
-              icon="directions_run"
-              onClick={() => logoutUser()}
-            />
-          </TopAppBarSection>
-        </TopAppBarRow>
-        <TopAppBarRow>
-          <TopAppBarSection alignStart>
-            <TopAppBarTitle>Another Row</TopAppBarTitle>
-            <ChipSet>
-              <Chip selected label="Cookies" trailingIcon="close" />
-              <Chip label="Pizza" trailingIcon="close" />
-              <Chip label="Icecream" trailingIcon="close" />
-            </ChipSet>
-          </TopAppBarSection>
-        </TopAppBarRow>
-      </TopAppBar>
-      <TopAppBarFixedAdjust prominent />
+      <Header type="cookbook" />
       <Grid>
         <GridCell span={4}>
           <RecipeCard

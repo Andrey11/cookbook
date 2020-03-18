@@ -1,14 +1,16 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface InitialState {
-  recipeId: number;
+  recipeId: string | null;
   loading: boolean;
+  loaded: boolean;
   error: string | null;
 }
 
 export const initialState: InitialState = {
-  recipeId: -1,
+  recipeId: null,
   loading: false,
+  loaded: false,
   error: null
 };
 
@@ -18,7 +20,17 @@ export const slice = createSlice({
   reducers: {
     onChanges: state => {
       state.loading = true;
-      state.recipeId = state.recipeId;
+      state.recipeId;
+    },
+    onLoadRecipeData: (state, action: PayloadAction<string>) => {
+      state.loading = true;
+      state.loaded = false;
+      state.recipeId = action.payload;
+    },
+    onLoadRecipeDataSuccess: (state, action: PayloadAction<string>) => {
+      state.loading = false;
+      state.loaded = true;
+      state.recipeId = action.payload;
     }
   }
 });

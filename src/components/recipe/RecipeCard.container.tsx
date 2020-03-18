@@ -1,5 +1,6 @@
 import React from "react";
 import { connect, Provider } from "react-redux";
+import { withFirebase } from "../firebase/Firebase";
 import RecipeCard from "./RecipeCard.component";
 import store from "../../store";
 
@@ -22,4 +23,4 @@ const RecipeCardContainer = (props: any) => (
   </Provider>
 );
 
-export default RecipeCardContainer;
+export default withFirebase(RecipeCardContainer);

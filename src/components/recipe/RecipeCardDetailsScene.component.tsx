@@ -17,6 +17,7 @@ import {
   ImageListSupporting,
   ImageListLabel
 } from "@rmwc/image-list";
+import Header from "components/header/Header.container";
 import { List, CollapsibleList, SimpleListItem } from "@rmwc/list";
 
 import "@material/top-app-bar/dist/mdc.top-app-bar.css";
@@ -31,7 +32,8 @@ const RecipeCardDetailsScene = () => {
 
   return (
     <>
-      <TopAppBar fixed>
+      <Header type="recipe-details" />
+      {/* <TopAppBar fixed>
         <TopAppBarRow>
           <TopAppBarSection>
             <TopAppBarNavigationIcon
@@ -51,7 +53,7 @@ const RecipeCardDetailsScene = () => {
           </TopAppBarSection>
         </TopAppBarRow>
       </TopAppBar>
-      <TopAppBarFixedAdjust prominent />
+      <TopAppBarFixedAdjust prominent /> */}
 
       <Grid>
         <GridCell span={12}>
