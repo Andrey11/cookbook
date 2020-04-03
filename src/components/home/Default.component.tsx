@@ -32,28 +32,28 @@ const Default = ({ type }: DefaultProps) => {
       <Grid>
         <GridCell span={4}>
           <RecipeCard
-            recipeId={10}
+            recipeId={String(10)}
             imageUrl="url(images/mb-bg-fb-16.png)"
             recipeTitle="Recipe #10"
           />
         </GridCell>
         <GridCell span={4}>
           <RecipeCard
-            recipeId={11}
+            recipeId={String(11)}
             imageUrl="url(images/image-001-600x400.png)"
             recipeTitle="Recipe #11"
           />
         </GridCell>
         <GridCell span={4}>
           <RecipeCard
-            recipeId={12}
+            recipeId={String(12)}
             imageUrl="url(images/image-002-600x400.png)"
             recipeTitle="Recipe #12"
           />
         </GridCell>
         <GridCell span={4}>
           <RecipeCard
-            recipeId={13}
+            recipeId={String(13)}
             imageUrl="url(images/image-003-600x400.png)"
             recipeTitle="Recipe #13"
           />

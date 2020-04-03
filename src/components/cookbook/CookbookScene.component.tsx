@@ -1,89 +1,68 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Typography } from "@rmwc/typography";
 import { useHistory, useParams } from "react-router-dom";
 import { Grid, GridCell } from "@rmwc/grid";
-import {
-  TopAppBar,
-  TopAppBarRow,
-  TopAppBarSection,
-  TopAppBarTitle,
-  TopAppBarFixedAdjust,
-  TopAppBarNavigationIcon
-} from "@rmwc/top-app-bar";
 import { ChipSet, Chip } from "@rmwc/chip";
 import RecipeCard from "../recipe/RecipeCard.component";
 import { withFirebase } from "../firebase/Firebase";
 import Header from "../header/Header.container";
+import { Recipe } from "components/recipe/RecipeCard.types";
 
 type CookbookSceneProps = {
   cookbookId: string;
   loaded: boolean;
+  loading: boolean;
   shouldLogout: boolean;
+  recipes: Array<Recipe>;
   loadCookbook: Function;
-  logoutUser: Function;
+  // logoutUser: Function;
 };
 
 const CookbookScene = ({
   cookbookId,
   loaded,
+  loading,
+  recipes,
   shouldLogout,
-  loadCookbook,
-  logoutUser
-}: CookbookSceneProps) => {
+  loadCookbook
+}: // logoutUser
+CookbookSceneProps) => {
   const history = useHistory();
   const { id } = useParams();
 
   useEffect(() => {
-    if (shouldLogout) {
+    if (shouldLogout && id) {
       console.log("Should logout");
       history.replace("/");
-    } else if (!loaded && cookbookId) {
+    } else if (!loading && !loaded && cookbookId) {
       console.log("Not loaded, and cookbook is set");
       loadCookbook(cookbookId);
     } else if (!loaded && !cookbookId) {
       console.log("Not logged in, and no cookbook is set");
+    } else {
     }
   });
 
-  if (id !== cookbookId) {
-    if (!loaded) {
-      // setBookId(cookbookId);
+  const createRecipeCardList = () => {
+    if (!recipes || recipes.length === 0) {
+      return;
     }
-    // history.replace("cookbook/" + cookbookId);
-  }
+    return recipes.map((recipe, index) => (
+      <GridCell span={4} key={index + Math.round(Math.random() * 1000)}>
+        <RecipeCard
+          recipeId={recipe.id}
+          imageUrl="url(images/mb-bg-fb-16.png)"
+          recipeTitle={"Recipe #" + recipe.id}
+        />
+      </GridCell>
+    ));
+  };
 
   return (
     <>
       <Header type="cookbook" />
       <Grid>
-        <GridCell span={4}>
-          <RecipeCard
-            recipeId={10}
-            imageUrl="url(images/mb-bg-fb-16.png)"
-            recipeTitle="Recipe #10"
-          />
-        </GridCell>
-        <GridCell span={4}>
-          <RecipeCard
-            recipeId={11}
-            imageUrl="url(images/image-001-600x400.png)"
-            recipeTitle="Recipe #11"
-          />
-        </GridCell>
-        <GridCell span={4}>
-          <RecipeCard
-            recipeId={12}
-            imageUrl="url(images/image-002-600x400.png)"
-            recipeTitle="Recipe #12"
-          />
-        </GridCell>
-        <GridCell span={4}>
-          <RecipeCard
-            recipeId={13}
-            imageUrl="url(images/image-003-600x400.png)"
-            recipeTitle="Recipe #13"
-          />
-        </GridCell>
+        {createRecipeCardList()}
         <GridCell span={4}>
           <ChipSet>
             <Chip

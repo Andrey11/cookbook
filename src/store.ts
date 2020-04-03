@@ -1,15 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { Action, combineReducers } from "@reduxjs/toolkit";
 import { ThunkAction } from "redux-thunk";
-import cookbookReducer from "./components/cookbook/CookbookScene.reducer";
-import recipeDetailReducer from "components/recipe/RecipeCard.reducer";
+import data from "./components/cookbook/CookbookScene.reducer";
 import userReducer from "components/authentication/Authentication.reducer";
 import counterReducer from "./features/counter/CounterSlice"; // TODO: Remove me
 
 export const rootReducer = combineReducers({
+  data,
   counter: counterReducer,
-  cookbook: cookbookReducer,
-  recipeDetails: recipeDetailReducer,
   userInfo: userReducer
 });
 

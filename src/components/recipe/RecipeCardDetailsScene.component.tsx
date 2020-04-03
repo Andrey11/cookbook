@@ -1,14 +1,6 @@
 import React from "react";
-import { useHistory, useParams } from "react-router-dom";
+// import { useHistory, useParams } from "react-router-dom";
 import { Grid, GridCell } from "@rmwc/grid";
-import {
-  TopAppBar,
-  TopAppBarRow,
-  TopAppBarSection,
-  TopAppBarTitle,
-  TopAppBarFixedAdjust,
-  TopAppBarNavigationIcon
-} from "@rmwc/top-app-bar";
 import {
   ImageList,
   ImageListItem,
@@ -27,33 +19,12 @@ import "@material/image-list/dist/mdc.image-list.css";
 import "@rmwc/list/collapsible-list.css";
 
 const RecipeCardDetailsScene = () => {
-  const history = useHistory();
-  const { id } = useParams();
+  // const history = useHistory();
+  // const { id } = useParams();
 
   return (
     <>
       <Header type="recipe-details" />
-      {/* <TopAppBar fixed>
-        <TopAppBarRow>
-          <TopAppBarSection>
-            <TopAppBarNavigationIcon
-              icon="arrow_back"
-              onClick={() => history.goBack()}
-            />
-          </TopAppBarSection>
-          <TopAppBarSection alignEnd>
-            <TopAppBarNavigationIcon icon="share" />
-            <TopAppBarNavigationIcon icon="favorite" />
-            <TopAppBarNavigationIcon icon="more_vert" />
-          </TopAppBarSection>
-        </TopAppBarRow>
-        <TopAppBarRow>
-          <TopAppBarSection>
-            <TopAppBarTitle>Some text {id}</TopAppBarTitle>
-          </TopAppBarSection>
-        </TopAppBarRow>
-      </TopAppBar>
-      <TopAppBarFixedAdjust prominent /> */}
 
       <Grid>
         <GridCell span={12}>

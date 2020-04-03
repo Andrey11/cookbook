@@ -13,7 +13,7 @@ import {
 import { useHistory } from "react-router-dom";
 
 type RecipeCardProps = {
-  recipeId: number | null;
+  recipeId: string | null;
   imageUrl: string | null;
   recipeTitle: string | "Title";
 };

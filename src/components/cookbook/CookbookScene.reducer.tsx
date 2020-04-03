@@ -1,34 +1,25 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Cookbook } from "./Cookbook.types";
+import { PayloadAction, createSlice, combineReducers } from "@reduxjs/toolkit";
+import { Cookbook, CookbookState } from "./Cookbook.types";
+import { RecipesState, Recipe } from "components/recipe/RecipeCard.types";
 
-interface InitialState {
-  record: Cookbook | null;
-  cardList: Array<any>;
-  cookbookId: string | null;
-  loading: boolean;
-  error: string | null;
-  filters: Array<string>;
-  detailCardList: Array<any>;
-  loaded: boolean;
-}
-
-export const initialState: InitialState = {
-  record: null,
-  cardList: [],
-  cookbookId: "",
-  error: null,
-  filters: [],
-  detailCardList: [],
-  loading: false,
-  loaded: false
-};
-
-export const slice = createSlice({
+export const cookbookSlice = createSlice({
   name: "CookbookScene",
-  initialState,
+  initialState: {
+    record: null,
+    cookbookId: "",
+    error: null,
+    filters: [],
+    detailCardList: [],
+    loading: false,
+    loaded: false
+  } as CookbookState,
   reducers: {
-    beginLoadCardList: (state, action: PayloadAction<string>) => {
+    beginLoadCardList: (
+      state: CookbookState,
+      action: PayloadAction<string>
+    ) => {
       state.loading = true;
+      state.loaded = false;
       state.cookbookId = action.payload;
     },
     onCardListLoaded: (state, action: PayloadAction<Array<any>>) => {
@@ -78,6 +69,36 @@ export const {
   onLoadCookbookSuccess,
   onLoadCookbookError,
   resetCookbook
-} = slice.actions;
+} = cookbookSlice.actions;
 
-export default slice.reducer;
+export const recipesSlice = createSlice({
+  name: "Recipes",
+  initialState: {
+    records: [],
+    uiRecords: [],
+    filters: [],
+    test: {}
+  } as RecipesState,
+  reducers: {
+    onBeginLoadRecipe: (state: RecipesState, action: PayloadAction<Recipe>) => {
+      state.test = {
+        ...state.test,
+        [action.payload.id]: action.payload
+      };
+    },
+    onLoadRecipe: (state: RecipesState, action: PayloadAction<Recipe>) => {
+      state.records?.push(action.payload);
+      state.test = {
+        ...state.test,
+        [action.payload.id]: action.payload
+      };
+    }
+  }
+});
+
+export const { onBeginLoadRecipe, onLoadRecipe } = recipesSlice.actions;
+
+export default combineReducers({
+  cookbook: cookbookSlice.reducer,
+  recipes: recipesSlice.reducer
+});

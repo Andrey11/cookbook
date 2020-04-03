@@ -8,14 +8,14 @@ class Firebase {
   auth: firebase.auth.Auth;
   database: firebase.firestore.Firestore;
   app: firebase.app.App;
+  isInitialized: boolean;
 
   constructor() {
     this.app = firebase.initializeApp(FirebaseConfig);
     this.auth = firebase.auth();
     this.database = firebase.firestore(this.app);
+    this.isInitialized = true;
     console.log("[Firebase][constructor] initialized");
-
-    // this.doSignInWithEmailAndPassword("user1@test.com", "password");
   }
 
   // *** Auth API ***
@@ -54,7 +54,7 @@ class Firebase {
       });
   };
 
-  doLoadCookbookRecipies = (cookbookId: string) => {
+  doLoadCookbookById = (cookbookId: string) => {
     if (!cookbookId || cookbookId.length === 0) {
       return this.database.collection("recipe").doc();
     }

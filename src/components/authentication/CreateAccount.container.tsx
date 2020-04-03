@@ -6,7 +6,7 @@ import { withRouter } from "react-router-dom";
 import { createAccount } from "./Authentication.actions";
 import { withFirebase } from "../firebase/Firebase";
 
-const mapStateToProps = (state: any, ownProps: any) => ({
+const mapStateToProps = (state: any) => ({
   loggedIn: state.userInfo.loggedIn,
   cookbookId: state.userInfo.cookbookId
 });

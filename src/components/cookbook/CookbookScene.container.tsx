@@ -7,12 +7,15 @@ import { loadCookbook } from "./CookbookScene.actions";
 import { logout } from "../authentication/Authentication.actions";
 import { withFirebase } from "../firebase/Firebase";
 import { withRouter } from "react-router-dom";
+import * as selector from "./CookbookScene.selector";
 
 const mapStateToProps = (state: any) => ({
-  cookbookId: state.cookbook.cookbookId || state.userInfo.cookbookId,
-  recipes: state.recipes,
-  loaded: state.cookbook.loaded,
-  shouldLogout: state.userInfo.loggedIn === false && !state.cookbook.cookbookId
+  cookbookId: state.data.cookbook.cookbookId || state.userInfo.cookbookId,
+  recipes: selector.recipesList(state),
+  loaded: state.data.cookbook.loaded,
+  loading: state.data.cookbook.loading,
+  shouldLogout:
+    state.userInfo.loggedIn === false && !state.data.cookbook.cookbookId
 });
 
 const mapDispatchToProps = (dispatch: any, ownProps: any) => ({
