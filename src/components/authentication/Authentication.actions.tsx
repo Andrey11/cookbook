@@ -1,15 +1,19 @@
-import { AppDispatch, AppThunk } from "../../store";
+import { AppDispatch } from "../../store";
 import {
   onLoginSuccess,
   onLoginError,
   onLogoutSuccess,
   onLogoutError,
   onCreateUserSuccess,
-  onCreateUserError
+  onCreateUserError,
+  onFirebaseInitialized
 } from "./Authentication.reducer";
-import { resetCookbook } from "components/cookbook/CookbookScene.reducer";
-import { User } from "./Authentication.types";
+import {
+  resetCookbook,
+  resetRecipes
+} from "components/cookbook/CookbookScene.reducer";
 import Firebase from "../firebase/Firebase";
+import { User, AuthState } from "./Authentication.types";
 
 export const login = (
   username: string,
@@ -26,7 +30,6 @@ export const login = (
   firebase
     .doSignInWithEmailAndPassword(username, password)
     .then((result: any) => {
-      const test = result;
       const currentUser = result.user;
       const user: User = {
         id: currentUser.uid,
@@ -46,16 +49,50 @@ export const login = (
     });
 };
 
+export const checkAuthState = (firebase: Firebase) => (
+  dispatch: AppDispatch
+) => {
+  console.log(
+    "[Authentication.actions][checkAuthState] from Scene.component[useEffect]"
+  );
+  firebase.auth.onAuthStateChanged((fbUser: firebase.User | null) => {
+    let user: User | undefined;
+    let isLoggedIn = false;
+
+    if (fbUser) {
+      isLoggedIn = true;
+      user = {
+        id: fbUser.uid,
+        loggedIn: true,
+        password: "",
+        avatarUrl: null,
+        username: fbUser.email || "",
+        cookbookId: fbUser.uid,
+        cookbooks: [],
+        recipes: []
+      };
+    }
+
+    const userState: AuthState = {
+      user: user,
+      loggedIn: isLoggedIn,
+      isFirebaseInitialized: true
+    };
+
+    dispatch(onFirebaseInitialized(userState));
+  });
+};
+
 export const logout = (firebase: Firebase) => (dispatch: AppDispatch) => {
   console.log("Action logout has been called");
 
   firebase
     .doSignOut()
-    .then((result: any) => {
-      const test = result;
+    .then(() => {
       console.log("onLogoutSuccess");
       dispatch(onLogoutSuccess());
       dispatch(resetCookbook());
+      dispatch(resetRecipes());
     })
     .catch((error: any) => {
       console.log("onLogoutError");
@@ -78,7 +115,6 @@ export const createAccount = (
   firebase
     .doCreateUserWithEmailAndPassword(username, password)
     .then((result: any) => {
-      const test = result;
       const currentUser = result.user;
       const user: User = {
         id: currentUser.uid,

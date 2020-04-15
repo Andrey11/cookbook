@@ -82,7 +82,7 @@ const defaultHeader = (id: string | undefined, history: any) => {
         </TopAppBarRow>
         <TopAppBarRow>
           <TopAppBarSection>
-            <TopAppBarTitle>Some text {id}</TopAppBarTitle>
+            <TopAppBarTitle>Default Scene</TopAppBarTitle>
           </TopAppBarSection>
         </TopAppBarRow>
       </TopAppBar>

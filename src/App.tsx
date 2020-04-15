@@ -7,8 +7,8 @@ import RecipeCardDetailsScene from "components/recipe/RecipeCardDetailsScene.com
 import CookbookSceneContainer from "components/cookbook/CookbookScene.container";
 import LoginContainer from "components/authentication/Login.container";
 import CreateAccountContainer from "components/authentication/CreateAccount.container";
+import SceneContainer from "components/scene/Scene.container";
 import { Switch, Route } from "react-router-dom";
-import { withFirebase } from "components/firebase/Firebase";
 
 const App = () => {
   return (
@@ -16,24 +16,34 @@ const App = () => {
       <div className="App">
         <Switch>
           <Route path="/recipe/:id">
-            <RecipeCardDetailsScene />
+            <SceneContainer sceneName="RecipeCardDetailsScene">
+              <RecipeCardDetailsScene />
+            </SceneContainer>
           </Route>
           <Route path="/cookbook/:id">
-            {/* <RecipeCardSceneContainer cookbookId="MVNzqtXaUq7HJq0PgOrn" /> */}
-            <CookbookSceneContainer />
+            <SceneContainer sceneName="CookbookSceneContainer">
+              <CookbookSceneContainer />
+            </SceneContainer>
           </Route>
           <Route path="/cookbook">
-            {/* <RecipeCardSceneContainer cookbookId="MVNzqtXaUq7HJq0PgOrn" /> */}
-            <CookbookSceneContainer />
+            <SceneContainer sceneName="CookbookSceneContainer">
+              <CookbookSceneContainer />
+            </SceneContainer>
           </Route>
           <Route path="/create">
-            <CreateAccountContainer />
+            <SceneContainer sceneName="CreateAccountContainer">
+              <CreateAccountContainer />
+            </SceneContainer>
           </Route>
           <Route path="/login">
-            <LoginContainer />
+            <SceneContainer sceneName="LoginContainer">
+              <LoginContainer />
+            </SceneContainer>
           </Route>
           <Route path="/">
-            <DefaultScene />
+            <SceneContainer sceneName="DefaultScene">
+              <DefaultScene />
+            </SceneContainer>
           </Route>
         </Switch>
       </div>
@@ -41,4 +51,4 @@ const App = () => {
   );
 };
 
-export default withFirebase(App);
+export default App;

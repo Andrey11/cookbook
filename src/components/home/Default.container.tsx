@@ -4,18 +4,16 @@ import Default from "./Default.component";
 import store from "../../store";
 import { withFirebase } from "../firebase/Firebase";
 import { withRouter } from "react-router-dom";
+import { loadAllRecipes } from "components/cookbook/CookbookScene.actions";
+import * as selector from "components/cookbook/CookbookScene.selector";
 
-const mapStateToProps = () => ({
-  type: "default"
-  // recipes: state.recipes,
-  // loaded: state.cookbook.loaded,
-  // shouldLogout: false // state.userInfo.loggedIn === false
+const mapStateToProps = (state: any) => ({
+  recipes: selector.allRecipesList(state),
+  shouldReloadAllRecipes: selector.shouldReloadAllRecipesList(state)
 });
 
 const mapDispatchToProps = (dispatch: any, ownProps: any) => ({
-  // loadRecipe: (id: string) => dispatch(beginLoadCardList(id)),
-  // loadCookbook: (id: string) => dispatch(loadCookbook(id, ownProps.firebase)),
-  // logoutUser: () => dispatch(logout(ownProps.firebase))
+  loadAllRecipes: () => dispatch(loadAllRecipes(ownProps.firebase))
 });
 
 const Connected = withRouter(

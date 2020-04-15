@@ -9,19 +9,25 @@ export interface Recipe {
 }
 
 export interface RecipeState {
-  id: Recipe["id"];
+  id: string;
   record?: Recipe;
-  loaded: boolean;
-  loading: boolean;
+  loaded?: boolean | false;
+  loading?: boolean | false;
 }
 
 export type Partial<T> = {
   [P in keyof T]?: T[P];
-}
+};
 
 export interface RecipesState {
-  records?: Array<Recipe>;
-  uiRecords?: Array<RecipeState>;
+  records: Partial<RecipeState>;
   filters?: Array<string>;
-  test: Partial<Recipe>; 
+  test: Partial<Recipe>;
+}
+
+export interface CreateRecipeState {
+  name: string;
+  imageUrl?: Url;
+  visible: boolean;
+  created: boolean;
 }

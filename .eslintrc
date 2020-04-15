@@ -9,16 +9,14 @@
   "rules": {
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/ban-ts-ignore": "off"
+    "@typescript-eslint/ban-ts-ignore": "warn"
   },
-  "overrides": [
-    {
-      "files": ["**/*.tsx"],
-      "rules": {
-        "react/prop-types": "off"
-      }
+  "overrides": [{
+    "files": ["**/*.tsx"],
+    "rules": {
+      "react/prop-types": "warn"
     }
-  ],
+  }],
   "settings": {
     "react": {
       "version": "detect"

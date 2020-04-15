@@ -1,66 +1,51 @@
-import React, { useEffect, useState } from "react";
-import { Typography } from "@rmwc/typography";
-import { useHistory, useParams } from "react-router-dom";
+import React, { useEffect } from "react";
 import { Grid, GridCell } from "@rmwc/grid";
-import RecipeCard from "../recipe/RecipeCard.component";
-import { withFirebase } from "../firebase/Firebase";
+import RecipeCard from "../recipe/RecipeCard.container";
 import Header from "../header/Header.container";
+import { Recipe } from "components/recipe/RecipeCard.types";
 
 type DefaultProps = {
-  type: string;
+  recipes: Array<Recipe>;
+  loadAllRecipes: Function;
+  shouldReloadAllRecipes: boolean;
 };
 
-const Default = ({ type }: DefaultProps) => {
-  const history = useHistory();
-  const { id } = useParams();
-
+const Default = ({
+  recipes,
+  loadAllRecipes,
+  shouldReloadAllRecipes
+}: DefaultProps) => {
   useEffect(() => {
-    // if (shouldLogout) {
-    //   console.log("Should logout");
-    //   history.replace("/");
-    // } else if (!loaded && cookbookId) {
-    //   console.log("Not loaded, and cookbook is set");
-    //   loadCookbook(cookbookId);
-    // } else if (!loaded && !cookbookId) {
-    //   console.log("Not logged in, and no cookbook is set");
-    // }
-  });
+    console.log("[Default.component] useEffect()");
+    if (shouldReloadAllRecipes) {
+      console.log("shouldReloadAllRecipes true");
+      loadAllRecipes();
+    }
+  }, [shouldReloadAllRecipes]);
+
+  const createRecipeCardList = () => {
+    const allRecipes: Array<Recipe> = Object.values(recipes);
+    if (allRecipes.length === 0) {
+      return;
+    }
+    return allRecipes.map((recipe: Recipe, index) => (
+      <GridCell span={4} key={index + "_" + recipe.id}>
+        <RecipeCard
+          recipeId={recipe.id}
+          imageUrl="url(images/mb-bg-fb-16.png)"
+          recipeTitle={"Recipe #" + recipe.name}
+          loaded={true}
+        />
+      </GridCell>
+    ));
+  };
 
   return (
     <>
-      <Header type={type} />
-      <Grid>
-        <GridCell span={4}>
-          <RecipeCard
-            recipeId={String(10)}
-            imageUrl="url(images/mb-bg-fb-16.png)"
-            recipeTitle="Recipe #10"
-          />
-        </GridCell>
-        <GridCell span={4}>
-          <RecipeCard
-            recipeId={String(11)}
-            imageUrl="url(images/image-001-600x400.png)"
-            recipeTitle="Recipe #11"
-          />
-        </GridCell>
-        <GridCell span={4}>
-          <RecipeCard
-            recipeId={String(12)}
-            imageUrl="url(images/image-002-600x400.png)"
-            recipeTitle="Recipe #12"
-          />
-        </GridCell>
-        <GridCell span={4}>
-          <RecipeCard
-            recipeId={String(13)}
-            imageUrl="url(images/image-003-600x400.png)"
-            recipeTitle="Recipe #13"
-          />
-        </GridCell>
-      </Grid>
+      <Header type={"default"} />
+      <Grid>{createRecipeCardList()}</Grid>
     </>
   );
 };
 
-export default withFirebase(Default);
+export default Default;

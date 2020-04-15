@@ -1,10 +1,6 @@
-import React, { CSSProperties } from "react";
-import { Typography } from "@rmwc/typography";
-import { useHistory } from "react-router-dom";
+import React from "react";
 
 const ResetPassword = () => {
-  const history = useHistory();
-
   return <div>Reset password</div>;
 };
 

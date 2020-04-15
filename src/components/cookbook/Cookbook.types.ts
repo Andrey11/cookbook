@@ -8,14 +8,10 @@ export interface Cookbook {
 
 export interface CookbookState {
   record?: Cookbook | null;
-  cardList?: Array<any> | null;
   recipeIds?: Array<RecipeState> | null;
   cookbookId?: string | null;
   filters?: Array<string>;
   error?: string | null;
-  detailCardList?: Array<any>;
   loading: boolean;
   loaded: boolean;
 }
-
-

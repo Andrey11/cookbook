@@ -1,5 +1,4 @@
-import React, { CSSProperties, useState, useEffect } from "react";
-import { Typography } from "@rmwc/typography";
+import React, { useState, useEffect } from "react";
 import { FormField } from "@rmwc/formfield";
 import { TextField } from "@rmwc/textfield";
 import { Button } from "@rmwc/button";

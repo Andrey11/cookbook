@@ -1,4 +1,4 @@
-import React, { CSSProperties } from "react";
+import React, { CSSProperties, useEffect } from "react";
 import { Typography } from "@rmwc/typography";
 import {
   Card,
@@ -16,10 +16,27 @@ type RecipeCardProps = {
   recipeId: string | null;
   imageUrl: string | null;
   recipeTitle: string | "Title";
+  isLoaded: boolean;
+  loadData: Function;
 };
 
-const RecipeCard = ({ recipeId, imageUrl, recipeTitle }: RecipeCardProps) => {
+const RecipeCard = ({
+  recipeId,
+  imageUrl,
+  recipeTitle,
+  isLoaded,
+  loadData
+}: RecipeCardProps) => {
   const history = useHistory();
+
+  useEffect(() => {
+    if (!isLoaded && recipeId) {
+      console.log("Should load recipe");
+      if (typeof loadData === "function") {
+        loadData(recipeId);
+      }
+    }
+  });
 
   return (
     <Card style={{ width: "21rem" }}>

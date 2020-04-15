@@ -1,6 +1,11 @@
 import { PayloadAction, createSlice, combineReducers } from "@reduxjs/toolkit";
 import { Cookbook, CookbookState } from "./Cookbook.types";
-import { RecipesState, Recipe } from "components/recipe/RecipeCard.types";
+import {
+  RecipesState,
+  RecipeState,
+  CreateRecipeState
+} from "components/recipe/RecipeCard.types";
+import { Url } from "url";
 
 export const cookbookSlice = createSlice({
   name: "CookbookScene",
@@ -9,28 +14,10 @@ export const cookbookSlice = createSlice({
     cookbookId: "",
     error: null,
     filters: [],
-    detailCardList: [],
     loading: false,
     loaded: false
   } as CookbookState,
   reducers: {
-    beginLoadCardList: (
-      state: CookbookState,
-      action: PayloadAction<string>
-    ) => {
-      state.loading = true;
-      state.loaded = false;
-      state.cookbookId = action.payload;
-    },
-    onCardListLoaded: (state, action: PayloadAction<Array<any>>) => {
-      state.cardList = action.payload;
-      state.loading = false;
-      state.loaded = true;
-    },
-    onCardListLoadError: (state, action: PayloadAction<string>) => {
-      state.error = action.payload;
-      state.loading = false;
-    },
     onLoadCookbook: (state, action: PayloadAction<string>) => {
       state.loading = true;
       state.loaded = false;
@@ -46,12 +33,11 @@ export const cookbookSlice = createSlice({
     },
     onLoadCookbookError: (state, action: PayloadAction<string>) => {
       state.loading = false;
-      state.cardList = [];
       state.record = null;
       state.error = action.payload;
-      state.loaded = true;
+      state.loaded = false;
     },
-    resetCookbook: state => {
+    resetCookbook: (state: any) => {
       state.loaded = false;
       state.loading = false;
       state.record = null;
@@ -62,9 +48,6 @@ export const cookbookSlice = createSlice({
 });
 
 export const {
-  beginLoadCardList,
-  onCardListLoaded,
-  onCardListLoadError,
   onLoadCookbook,
   onLoadCookbookSuccess,
   onLoadCookbookError,
@@ -74,31 +57,104 @@ export const {
 export const recipesSlice = createSlice({
   name: "Recipes",
   initialState: {
-    records: [],
+    records: {},
     uiRecords: [],
     filters: [],
     test: {}
   } as RecipesState,
   reducers: {
-    onBeginLoadRecipe: (state: RecipesState, action: PayloadAction<Recipe>) => {
+    onBeginLoadRecipe: (
+      state: RecipesState,
+      action: PayloadAction<RecipeState>
+    ) => {
+      state.records = {
+        ...state.records,
+        [action.payload.id]: action.payload
+      };
       state.test = {
         ...state.test,
         [action.payload.id]: action.payload
       };
     },
-    onLoadRecipe: (state: RecipesState, action: PayloadAction<Recipe>) => {
-      state.records?.push(action.payload);
+    onLoadRecipeSuccess: (
+      state: RecipesState,
+      action: PayloadAction<RecipeState>
+    ) => {
+      state.records = {
+        ...state.records,
+        [action.payload.id]: action.payload
+      };
       state.test = {
         ...state.test,
         [action.payload.id]: action.payload
       };
+    },
+    onLoadAllRecipesSuccess: (
+      state: RecipesState,
+      action: PayloadAction<RecipesState>
+    ) => {
+      state.records = action.payload.records;
+      state.filters = action.payload.filters;
+      state.test = action.payload.test;
+    },
+    resetRecipes: (state: RecipesState) => {
+      (state.records = {}), (state.filters = []), (state.test = {});
     }
   }
 });
 
-export const { onBeginLoadRecipe, onLoadRecipe } = recipesSlice.actions;
+export const {
+  onBeginLoadRecipe,
+  onLoadRecipeSuccess,
+  onLoadAllRecipesSuccess,
+  resetRecipes
+} = recipesSlice.actions;
+
+export const createRecipeSlice = createSlice({
+  name: "CreateRecipe",
+  initialState: {
+    name: "",
+    created: false
+  } as CreateRecipeState,
+  reducers: {
+    onBeginCreateRecipe: (state: CreateRecipeState) => {
+      state.visible = true;
+    },
+    onCreateRecipeNameChange: (
+      state: CreateRecipeState,
+      action: PayloadAction<string>
+    ) => {
+      state.name = action.payload;
+    },
+    onCreateRecipeImageUrlChange: (
+      state: CreateRecipeState,
+      action: PayloadAction<Url>
+    ) => {
+      state.imageUrl = action.payload;
+    },
+    onCreateRecipeAction: (state: CreateRecipeState) => {
+      state.created = true;
+      state.visible = false;
+    },
+    onEndCreateRecipe: (state: CreateRecipeState) => {
+      state.name = "";
+      state.imageUrl = undefined;
+      state.visible = false;
+      state.created = false;
+    }
+  }
+});
+
+export const {
+  onBeginCreateRecipe,
+  onCreateRecipeNameChange,
+  onCreateRecipeImageUrlChange,
+  onCreateRecipeAction,
+  onEndCreateRecipe
+} = createRecipeSlice.actions;
 
 export default combineReducers({
   cookbook: cookbookSlice.reducer,
-  recipes: recipesSlice.reducer
+  recipes: recipesSlice.reducer,
+  createrecipe: createRecipeSlice.reducer
 });

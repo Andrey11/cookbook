@@ -1,10 +1,8 @@
-import React, { CSSProperties, useState, useEffect } from "react";
-import { Typography } from "@rmwc/typography";
+import React, { useState, useEffect, FormEvent } from "react";
 import { useHistory, Link } from "react-router-dom";
 import { TextField } from "@rmwc/textfield";
 import { Button } from "@rmwc/button";
 import Header from "components/header/Header.container";
-import { User } from "./Authentication.types";
 
 type LoginUserProps = {
   isLoggedIn: boolean;
@@ -21,7 +19,7 @@ const Login = ({ isLoggedIn, cookbookId, loginUser }: LoginUserProps) => {
     if (isLoggedIn && cookbookId) {
       history.replace("/cookbook/" + cookbookId);
     }
-  });
+  }, [isLoggedIn, cookbookId]);
 
   console.log("user logged in: " + isLoggedIn);
   return (
