@@ -13,7 +13,7 @@ import { Switch, Route } from "react-router-dom";
 const App = () => {
   return (
     <Provider store={store}>
-      <div className="App">
+      <div className={"App"}>
         <Switch>
           <Route path="/recipe/:id">
             <SceneContainer sceneName="RecipeCardDetailsScene">

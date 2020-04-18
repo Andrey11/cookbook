@@ -16,10 +16,9 @@ type CookbookSceneProps = {
   shouldLogout: boolean;
   isFirebaseInitialized: boolean;
   recipes: Array<Recipe>;
-  loadCookbook: Function;
-  onCreateRecipe: Function;
+  loadCookbook: (cookbookId: string) => void;
   shouldLoadCookbook: boolean;
-  showCreateRecipeDialog: Function;
+  showCreateRecipeDialog: () => void;
 };
 
 const CookbookScene = ({
@@ -47,6 +46,7 @@ const CookbookScene = ({
     } else if (!loaded && !cookbookId) {
       console.log("Not logged in, and no cookbook is set");
     } else {
+      console.log("What is happening");
     }
   });
 

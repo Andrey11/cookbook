@@ -20,7 +20,7 @@ const Scene = ({
   }, [isFirebaseInitialized]);
 
   const createInitScreen = () => {
-    return <div>Empty Screen</div>;
+    return <>Empty Screen</>;
   };
 
   const loadScreen = () => {
@@ -29,7 +29,7 @@ const Scene = ({
     if (!isFirebaseInitialized) {
       return createInitScreen();
     }
-    return <div>{children}</div>;
+    return <>{children}</>;
   };
 
   return <>{loadScreen()}</>;

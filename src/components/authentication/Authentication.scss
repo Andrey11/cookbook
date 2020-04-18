@@ -1,0 +1,16 @@
+.authForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.authForm {
+  .authField:first-of-type {
+    margin-bottom: 1rem;
+  }
+
+  .mdc-text-field {
+    display: flex;
+  }
+}

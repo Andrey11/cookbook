@@ -19,12 +19,9 @@ const mapStateToProps = (state: any, ownProps: any) => ({
 });
 
 const mapDispatchToProps = (dispatch: any, ownProps: any) => ({
-  onNameChange: (name: string) =>
-    dispatch(createRecipeNameChange(name, ownProps.firebase)),
-  onImageUrlChange: (url: Url) =>
-    dispatch(createRecipeImageUrlChange(url, ownProps.firebase)),
-  onRecipeCreate: (name: string) =>
-    dispatch(createRecipe(name, ownProps.firebase)),
+  onNameChange: (name: string) => dispatch(createRecipeNameChange(name)),
+  onImageUrlChange: (url: Url) => dispatch(createRecipeImageUrlChange(url)),
+  onRecipeCreate: (name: string) => dispatch(createRecipe(name)),
   onCloseDialog: () => dispatch(hideCreateRecipeDialog())
 });
 

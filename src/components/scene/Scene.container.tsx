@@ -16,8 +16,8 @@ const mapStateToProps = (state: any, ownProps: any) => ({
 });
 
 const mapDispatchToProps = (dispatch: any, ownProps: any) => ({
-  logoutUser: () => dispatch(logout(ownProps.firebase)),
-  verityAuthState: () => dispatch(checkAuthState(ownProps.firebase))
+  logoutUser: () => dispatch(logout()),
+  verityAuthState: () => dispatch(checkAuthState())
 });
 
 const Connected = withRouter(

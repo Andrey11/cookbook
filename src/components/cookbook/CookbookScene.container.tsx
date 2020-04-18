@@ -19,10 +19,9 @@ const mapStateToProps = (state: any) => ({
   shouldLogout: selector.shouldLogout(state)
 });
 
-const mapDispatchToProps = (dispatch: any, ownProps: any) => ({
-  loadCookbook: (id: string) => dispatch(loadCookbook(id, ownProps.firebase)),
-  logoutUser: () => dispatch(logout(ownProps.firebase)),
-  // onCreateRecipe: () => dispatch(createRecipe(ownProps.firebase)),
+const mapDispatchToProps = (dispatch: any) => ({
+  loadCookbook: (id: string) => dispatch(loadCookbook(id)),
+  logoutUser: () => dispatch(logout()),
   showCreateRecipeDialog: () => dispatch(showCreateRecipeDialog())
 });
 

@@ -5,13 +5,14 @@ import store from "../../store";
 import { logout } from "../authentication/Authentication.actions";
 import { withFirebase } from "../firebase/Firebase";
 import { withRouter } from "react-router-dom";
+import { HEADER_TYPE } from "./Header.types";
 
 const mapStateToProps = (state: any, ownProps: any) => ({
-  type: ownProps.type || "default"
+  type: ownProps.type || HEADER_TYPE.DEFAULT
 });
 
-const mapDispatchToProps = (dispatch: any, ownProps: any) => ({
-  logoutUser: () => dispatch(logout(ownProps.firebase))
+const mapDispatchToProps = (dispatch: any) => ({
+  logoutUser: () => dispatch(logout())
 });
 
 const Connected = withRouter(

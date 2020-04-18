@@ -15,11 +15,11 @@ import {
 import Firebase from "../firebase/Firebase";
 import { User, AuthState } from "./Authentication.types";
 
-export const login = (
-  username: string,
-  password: string,
-  firebase: Firebase
-) => (dispatch: AppDispatch) => {
+const firebase = Firebase.getInstance();
+
+export const login = (username: string, password: string) => (
+  dispatch: AppDispatch
+) => {
   console.log(
     "Action login has been called, username=" +
       username +
@@ -49,12 +49,11 @@ export const login = (
     });
 };
 
-export const checkAuthState = (firebase: Firebase) => (
-  dispatch: AppDispatch
-) => {
+export const checkAuthState = () => (dispatch: AppDispatch) => {
   console.log(
     "[Authentication.actions][checkAuthState] from Scene.component[useEffect]"
   );
+
   firebase.auth.onAuthStateChanged((fbUser: firebase.User | null) => {
     let user: User | undefined;
     let isLoggedIn = false;
@@ -83,7 +82,7 @@ export const checkAuthState = (firebase: Firebase) => (
   });
 };
 
-export const logout = (firebase: Firebase) => (dispatch: AppDispatch) => {
+export const logout = () => (dispatch: AppDispatch) => {
   console.log("Action logout has been called");
 
   firebase
@@ -100,11 +99,9 @@ export const logout = (firebase: Firebase) => (dispatch: AppDispatch) => {
     });
 };
 
-export const createAccount = (
-  username: string,
-  password: string,
-  firebase: Firebase
-) => (dispatch: AppDispatch) => {
+export const createAccount = (username: string, password: string) => (
+  dispatch: AppDispatch
+) => {
   console.log(
     "Action create account has been called, username=" +
       username +

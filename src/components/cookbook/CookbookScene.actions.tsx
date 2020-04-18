@@ -23,13 +23,13 @@ import {
 } from "components/recipe/RecipeCard.types";
 import { Url } from "url";
 
-export const loadCookbook = (id: string, firebase: Firebase) => (
-  dispatch: AppDispatch
-) => {
-  dispatch(onLoadCookbook(id));
+const firebase = Firebase.getInstance();
 
-  firebase
-    .doLoadCookbookById(id)
+export const loadCookbook = (id: string) => (dispatch: AppDispatch) => {
+  dispatch(onLoadCookbook(id));
+  const fb = Firebase.getInstance();
+
+  fb.doLoadCookbookById(id)
     .get()
     .then((querySnapshot: any) => {
       console.log(`${querySnapshot.id} => ${querySnapshot.data().name}`);
@@ -52,9 +52,7 @@ export const loadCookbook = (id: string, firebase: Firebase) => (
     });
 };
 
-export const loadRecipe = (id: string, firebase: Firebase) => (
-  dispatch: AppDispatch
-) => {
+export const loadRecipe = (id: string) => (dispatch: AppDispatch) => {
   const rec: Recipe = { id: id };
   const defaultRecipe: RecipeState = { id: id, loading: true, record: rec };
   dispatch(onBeginLoadRecipe(defaultRecipe));
@@ -99,9 +97,7 @@ export const convertToRecipeState = (rec: firebase.firestore.DocumentData) => {
   return recipeState;
 };
 
-export const loadAllRecipes = (firebase: Firebase) => (
-  dispatch: AppDispatch
-) => {
+export const loadAllRecipes = () => (dispatch: AppDispatch) => {
   // dispatch(onBeginLoadRecipe(defaultRecipe));
   firebase
     .doLoadAllRecipes()
@@ -145,9 +141,7 @@ export const hideCreateRecipeDialog = () => (dispatch: AppDispatch) => {
   dispatch(onEndCreateRecipe());
 };
 
-export const createRecipe = (name: string, firebase: Firebase) => (
-  dispatch: AppDispatch
-) => {
+export const createRecipe = (name: string) => (dispatch: AppDispatch) => {
   console.log("[CookbookScene.actions] createRecipe");
   firebase
     .doCreateRecipe(name)
@@ -179,7 +173,7 @@ export const createRecipe = (name: string, firebase: Firebase) => (
       dispatch(onLoadCookbookError("Error"));
     });
 };
-export const createRecipeNameChange = (name: string, firebase: Firebase) => (
+export const createRecipeNameChange = (name: string) => (
   dispatch: AppDispatch
 ) => {
   console.log(
@@ -191,7 +185,7 @@ export const createRecipeNameChange = (name: string, firebase: Firebase) => (
   dispatch(onCreateRecipeNameChange(name));
 };
 
-export const createRecipeImageUrlChange = (url: Url, firebase: Firebase) => (
+export const createRecipeImageUrlChange = (url: Url) => (
   dispatch: AppDispatch
 ) => {
   console.log(

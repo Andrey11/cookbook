@@ -13,7 +13,7 @@ const mapStateToProps = (state: any) => ({
 });
 
 const mapDispatchToProps = (dispatch: any, ownProps: any) => ({
-  loadAllRecipes: () => dispatch(loadAllRecipes(ownProps.firebase))
+  loadAllRecipes: () => dispatch(loadAllRecipes())
 });
 
 const Connected = withRouter(

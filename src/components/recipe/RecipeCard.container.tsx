@@ -14,8 +14,8 @@ const mapStateToProps = (state: any, ownProps: any) => ({
     selector.isRecipeLoaded(state, ownProps.recipeId) || ownProps.isLoaded
 });
 
-const mapDispatchToProps = (dispatch: any, ownProps: any) => ({
-  loadData: (id: string) => dispatch(loadRecipe(id, ownProps.firebase))
+const mapDispatchToProps = (dispatch: any) => ({
+  loadData: (id: string) => dispatch(loadRecipe(id))
 });
 
 const Connected = connect(mapStateToProps, mapDispatchToProps)(RecipeCard);

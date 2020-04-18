@@ -20,12 +20,11 @@ import "@material/top-app-bar/dist/mdc.top-app-bar.css";
 import "@material/typography/dist/mdc.typography.css";
 
 import "./index.scss";
-
 import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(
   <HashRouter>
-    <FirebaseContext.Provider value={new Firebase()}>
+    <FirebaseContext.Provider value={Firebase.getInstance()}>
       <App />
     </FirebaseContext.Provider>
   </HashRouter>,

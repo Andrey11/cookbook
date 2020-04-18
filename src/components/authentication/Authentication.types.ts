@@ -1,6 +1,27 @@
 import { Url } from "url";
 import { Cookbook } from "../cookbook/Cookbook.types";
 
+export type AuthenticationFormField = {
+  id: string;
+  label: string;
+  value: string;
+  type: string;
+};
+
+export type AuthenticationFormAction = {
+  id: string;
+  label: string;
+  onClick: (history: any) => void;
+};
+
+export interface AuthenticationFormState {
+  formTitle: string;
+  formFields: Array<AuthenticationFormField>;
+  formActions: Array<AuthenticationFormAction>;
+  shouldNavigate: boolean;
+  navigateToUrl: string;
+}
+
 export interface User {
   id: string | null;
   username: string;
