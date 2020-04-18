@@ -39,7 +39,8 @@ const RecipeCard = ({
   });
 
   return (
-    <Card style={{ width: "21rem" }}>
+    <Card style={{ width: "auto" }}>
+      {/* <Card style={{ width: "21rem" }}></Card> */}
       <CardPrimaryAction onClick={() => history.push("/recipe/" + recipeId)}>
         <CardMedia
           sixteenByNine

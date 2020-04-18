@@ -15,7 +15,7 @@ const mapStateToProps = (state: any, ownProps: any) => ({
   isFirebaseInitialized: state.userInfo.isFirebaseInitialized
 });
 
-const mapDispatchToProps = (dispatch: any, ownProps: any) => ({
+const mapDispatchToProps = (dispatch: any) => ({
   logoutUser: () => dispatch(logout()),
   verityAuthState: () => dispatch(checkAuthState())
 });

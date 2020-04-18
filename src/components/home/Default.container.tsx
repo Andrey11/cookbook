@@ -12,7 +12,7 @@ const mapStateToProps = (state: any) => ({
   shouldReloadAllRecipes: selector.shouldReloadAllRecipesList(state)
 });
 
-const mapDispatchToProps = (dispatch: any, ownProps: any) => ({
+const mapDispatchToProps = (dispatch: any) => ({
   loadAllRecipes: () => dispatch(loadAllRecipes())
 });
 

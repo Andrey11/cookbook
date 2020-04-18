@@ -43,7 +43,9 @@ const Default = ({
   return (
     <>
       <Header type={"default"} />
-      <Grid>{createRecipeCardList()}</Grid>
+      <main>
+        <Grid>{createRecipeCardList()}</Grid>
+      </main>
     </>
   );
 };

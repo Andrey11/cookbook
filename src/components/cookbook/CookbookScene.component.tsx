@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { Typography } from "@rmwc/typography";
 import { useHistory, useParams } from "react-router-dom";
 import { Grid, GridCell } from "@rmwc/grid";
 import { ChipSet, Chip } from "@rmwc/chip";
@@ -55,7 +54,7 @@ const CookbookScene = ({
       return;
     }
     return recipes.map((recipe, index) => (
-      <GridCell span={4} key={index + "_" + recipe.id}>
+      <GridCell span={6} key={index + "_" + recipe.id}>
         <RecipeCard
           recipeId={recipe.id}
           imageUrl="url(images/mb-bg-fb-16.png)"
@@ -72,7 +71,7 @@ const CookbookScene = ({
       <AddRecipeDialog />
       <Grid>
         {createRecipeCardList()}
-        <GridCell span={4}>
+        <GridCell span={6}>
           <ChipSet>
             <Chip
               selected
@@ -80,12 +79,14 @@ const CookbookScene = ({
               onClick={() => loadCookbook("mnJyuZQWjsD2PJI7uVsc")}
             />
             <Chip label="Pizza" />
-            <Chip label="Icecream" />
+            <Chip
+              label="Icecream"
+              trailingIcon="cancel"
+              onRemove={() => {
+                console.log("removed");
+              }}
+            />
           </ChipSet>
-          <Typography use="body1">Our Best Food</Typography>
-          <Typography use="body2" style={{ marginTop: "-1rem" }}>
-            by Some Author
-          </Typography>
         </GridCell>
       </Grid>
       <Fab

@@ -18,7 +18,7 @@ const mapStateToProps = (state: any, ownProps: any) => ({
   created: state.data.createrecipe.created
 });
 
-const mapDispatchToProps = (dispatch: any, ownProps: any) => ({
+const mapDispatchToProps = (dispatch: any) => ({
   onNameChange: (name: string) => dispatch(createRecipeNameChange(name)),
   onImageUrlChange: (url: Url) => dispatch(createRecipeImageUrlChange(url)),
   onRecipeCreate: (name: string) => dispatch(createRecipe(name)),

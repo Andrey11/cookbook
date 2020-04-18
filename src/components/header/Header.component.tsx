@@ -8,6 +8,7 @@ import {
   TopAppBarFixedAdjust,
   TopAppBarNavigationIcon
 } from "@rmwc/top-app-bar";
+import { Avatar } from "@rmwc/avatar";
 
 import "@material/top-app-bar/dist/mdc.top-app-bar.css";
 
@@ -70,23 +71,31 @@ const defaultHeader = (id: string | undefined, history: any) => {
     <>
       <TopAppBar fixed>
         <TopAppBarRow>
+          <TopAppBarSection alignStart>
+            <TopAppBarNavigationIcon
+              unselectable="on"
+              disabled
+              ripple={{ accent: false, surface: false, unbounded: false }}
+              icon={{
+                icon: "images/icon-pot.svg",
+                strategy: "url"
+              }}
+            />
+            <TopAppBarTitle>Default Scene</TopAppBarTitle>
+          </TopAppBarSection>
           <TopAppBarSection alignEnd>
             <TopAppBarNavigationIcon icon="share" />
             <TopAppBarNavigationIcon icon="favorite" />
-            <TopAppBarNavigationIcon icon="more_vert" />
+            <TopAppBarNavigationIcon icon="account_circle" />
             <TopAppBarNavigationIcon
               icon="directions_run"
               onClick={() => history.push("/login")}
             />
-          </TopAppBarSection>
-        </TopAppBarRow>
-        <TopAppBarRow>
-          <TopAppBarSection>
-            <TopAppBarTitle>Default Scene</TopAppBarTitle>
+            <TopAppBarNavigationIcon icon="more_vert" />
           </TopAppBarSection>
         </TopAppBarRow>
       </TopAppBar>
-      <TopAppBarFixedAdjust prominent />
+      <TopAppBarFixedAdjust />
     </>
   );
 };
