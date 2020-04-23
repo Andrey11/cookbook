@@ -51,7 +51,7 @@ export const slice = createSlice({
       state.user.password = "";
       state.loggedIn = true;
       state.id = action.payload.id || undefined;
-      state.cookbookId = action.payload.cookbookId || undefined; // "MVNzqtXaUq7HJq0PgOrn";
+      state.cookbookId = action.payload.cookbookId || undefined;
       state.error = "";
     },
     onCreateUserError: (state, action: PayloadAction<string>) => {

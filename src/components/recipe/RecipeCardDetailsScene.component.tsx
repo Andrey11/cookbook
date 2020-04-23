@@ -12,12 +12,6 @@ import {
 import Header from "components/header/Header.container";
 import { List, CollapsibleList, SimpleListItem } from "@rmwc/list";
 
-import "@material/top-app-bar/dist/mdc.top-app-bar.css";
-import "@material/layout-grid/dist/mdc.layout-grid.css";
-import "@material/list/dist/mdc.list.css";
-import "@material/image-list/dist/mdc.image-list.css";
-import "@rmwc/list/collapsible-list.css";
-
 const RecipeCardDetailsScene = () => {
   // const history = useHistory();
   // const { id } = useParams();

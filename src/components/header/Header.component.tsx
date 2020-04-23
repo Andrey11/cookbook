@@ -1,5 +1,7 @@
 import React from "react";
 import { useHistory, useParams } from "react-router-dom";
+import Search from "../fields/search/Search.component";
+import { Icon } from "@rmwc/icon";
 import {
   TopAppBar,
   TopAppBarRow,
@@ -8,9 +10,6 @@ import {
   TopAppBarFixedAdjust,
   TopAppBarNavigationIcon
 } from "@rmwc/top-app-bar";
-import { Avatar } from "@rmwc/avatar";
-
-import "@material/top-app-bar/dist/mdc.top-app-bar.css";
 
 const recipeDetailsHeader = (id: string | undefined, history: any) => {
   return (
@@ -45,23 +44,36 @@ const cookbookHeader = (id: string | undefined, logoutUser: Function) => {
     <>
       <TopAppBar fixed>
         <TopAppBarRow>
+          <TopAppBarSection alignStart>
+            <Icon icon="images/icon-pot.svg" name="Cookbook" />
+            <div className={"headerSearchFieldWrapper"}>
+              <Search
+                submit={(val: string) => {
+                  console.log("Clicked sumbit with: " + val);
+                }}
+              />
+              {/* <TextField
+                className={"headerSearchField"}
+                icon="search"
+                outlined
+                trailingIcon={{
+                  icon: "close",
+                  tabIndex: 1,
+                  onClick: () => console.log("Clear")
+                }}
+              /> */}
+            </div>
+          </TopAppBarSection>
           <TopAppBarSection alignEnd>
-            <TopAppBarNavigationIcon icon="share" />
-            <TopAppBarNavigationIcon icon="favorite" />
-            <TopAppBarNavigationIcon icon="more_vert" />
             <TopAppBarNavigationIcon
-              icon="directions_run"
+              icon="account_circle"
               onClick={() => logoutUser()}
             />
-          </TopAppBarSection>
-        </TopAppBarRow>
-        <TopAppBarRow>
-          <TopAppBarSection>
-            <TopAppBarTitle>Some text {id}</TopAppBarTitle>
+            <TopAppBarNavigationIcon icon="more_vert" />
           </TopAppBarSection>
         </TopAppBarRow>
       </TopAppBar>
-      <TopAppBarFixedAdjust prominent />
+      <TopAppBarFixedAdjust />
     </>
   );
 };
@@ -72,23 +84,13 @@ const defaultHeader = (id: string | undefined, history: any) => {
       <TopAppBar fixed>
         <TopAppBarRow>
           <TopAppBarSection alignStart>
-            <TopAppBarNavigationIcon
-              unselectable="on"
-              disabled
-              ripple={{ accent: false, surface: false, unbounded: false }}
-              icon={{
-                icon: "images/icon-pot.svg",
-                strategy: "url"
-              }}
-            />
-            <TopAppBarTitle>Default Scene</TopAppBarTitle>
+            <Icon icon="images/icon-pot.svg" name="Cookbook" />
+            <TopAppBarTitle>Cookbook</TopAppBarTitle>
           </TopAppBarSection>
           <TopAppBarSection alignEnd>
-            <TopAppBarNavigationIcon icon="share" />
-            <TopAppBarNavigationIcon icon="favorite" />
-            <TopAppBarNavigationIcon icon="account_circle" />
             <TopAppBarNavigationIcon
-              icon="directions_run"
+              className={"material-icons-outlined"}
+              icon="account_circle"
               onClick={() => history.push("/login")}
             />
             <TopAppBarNavigationIcon icon="more_vert" />

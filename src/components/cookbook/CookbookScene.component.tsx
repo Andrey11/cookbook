@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { Grid, GridCell } from "@rmwc/grid";
 import { ChipSet, Chip } from "@rmwc/chip";
+import { TextField } from "@rmwc/textfield";
 import { Fab } from "@rmwc/fab";
 import RecipeCard from "../recipe/RecipeCard.container";
 import Header from "../header/Header.container";
@@ -87,8 +88,10 @@ const CookbookScene = ({
               }}
             />
           </ChipSet>
+          <TextField icon="search" trailingIcon="close" />
         </GridCell>
       </Grid>
+
       <Fab
         icon="restaurant"
         className="app-fab--absolute"

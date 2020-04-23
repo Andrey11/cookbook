@@ -20,13 +20,6 @@ const firebase = Firebase.getInstance();
 export const login = (username: string, password: string) => (
   dispatch: AppDispatch
 ) => {
-  console.log(
-    "Action login has been called, username=" +
-      username +
-      ", password=" +
-      password
-  );
-
   firebase
     .doSignInWithEmailAndPassword(username, password)
     .then((result: any) => {
@@ -41,7 +34,6 @@ export const login = (username: string, password: string) => (
         cookbooks: [],
         recipes: []
       };
-      console.log("logged in");
       dispatch(onLoginSuccess(user));
     })
     .catch((error: any) => {
