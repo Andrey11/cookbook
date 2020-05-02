@@ -45,31 +45,23 @@ const cookbookHeader = (id: string | undefined, logoutUser: Function) => {
       <TopAppBar fixed>
         <TopAppBarRow>
           <TopAppBarSection alignStart>
-            <Icon icon="images/icon-pot.svg" name="Cookbook" />
-            <div className={"headerSearchFieldWrapper"}>
-              <Search
-                submit={(val: string) => {
-                  console.log("Clicked sumbit with: " + val);
-                }}
-              />
-              {/* <TextField
-                className={"headerSearchField"}
-                icon="search"
-                outlined
-                trailingIcon={{
-                  icon: "close",
-                  tabIndex: 1,
-                  onClick: () => console.log("Clear")
-                }}
-              /> */}
-            </div>
+            <Icon
+              icon="images/icon-pot.svg"
+              name="Cookbook"
+              style={{ marginLeft: "0.25rem" }}
+            />
+            <Search
+              submit={(val: string) => {
+                console.log("Clicked sumbit with: " + val);
+              }}
+            />
           </TopAppBarSection>
           <TopAppBarSection alignEnd>
             <TopAppBarNavigationIcon
               icon="account_circle"
               onClick={() => logoutUser()}
             />
-            <TopAppBarNavigationIcon icon="more_vert" />
+            <TopAppBarNavigationIcon icon="filter_list" />
           </TopAppBarSection>
         </TopAppBarRow>
       </TopAppBar>

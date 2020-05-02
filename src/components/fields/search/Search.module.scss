@@ -1,0 +1,34 @@
+.SearchFieldWrapper {
+  margin-left: 0.75rem;
+
+  .SearchField {
+    height: 2.5rem;
+
+    & [class*="mdc-notched-outline__"] {
+      border-color: var(--mdc-theme-on-primary, #69a267) !important;
+      border-width: 1px;
+      opacity: 0.5;
+    }
+
+    &[class*="mdc-text-field--focused"] {
+      & [class*="mdc-notched-outline__"] {
+        border-color: var(--mdc-theme-on-primary, #69a267) !important;
+        border-width: 1px;
+        opacity: 1;
+      }
+    }
+
+    &[class*="mdc-text-field"] {
+      > input {
+        // color: var(--mdc-theme-surface);
+        color: var(--mdc-theme-text-secondary-on-background, #ecffec);
+        caret-color: var(--mdc-theme-on-primary);
+      }
+
+      > i {
+        top: 20%;
+        color: var(--mdc-theme-on-primary);
+      }
+    }
+  }
+}

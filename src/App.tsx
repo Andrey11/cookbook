@@ -1,5 +1,5 @@
 import React from "react";
-import "./App.scss";
+import styles from "./App.module.scss";
 import { Provider } from "react-redux";
 import store from "./store";
 import DefaultScene from "components/home/Default.container";
@@ -13,7 +13,7 @@ import { Switch, Route } from "react-router-dom";
 const App = () => {
   return (
     <Provider store={store}>
-      <div className={"App"}>
+      <div className={styles.App}>
         <Switch>
           <Route path="/recipe/:id">
             <SceneContainer sceneName="RecipeCardDetailsScene">

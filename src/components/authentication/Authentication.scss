@@ -6,6 +6,9 @@
 }
 
 .authForm {
+  .authField {
+    width: 100%;
+  }
   .authField:first-of-type {
     margin-bottom: 1rem;
   }

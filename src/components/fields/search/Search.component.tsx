@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
 import { TextField } from "@rmwc/textfield";
+import styles from "./Search.module.scss";
 
 type SearchFieldProps = {
   submit: (searchString: string) => void;
@@ -15,9 +15,10 @@ const Search = ({ submit }: SearchFieldProps) => {
   }, [searchText]);
 
   return (
-    <>
+    <div className={styles.SearchFieldWrapper}>
       <TextField
-        className={"headerSearchField"}
+        outlined
+        className={styles.SearchField}
         icon="search"
         value={searchText}
         type="text"
@@ -29,7 +30,6 @@ const Search = ({ submit }: SearchFieldProps) => {
             submit(searchText);
           }
         }}
-        outlined
         trailingIcon={{
           icon: closeIcon,
           onClick: () => {
@@ -37,7 +37,7 @@ const Search = ({ submit }: SearchFieldProps) => {
           }
         }}
       />
-    </>
+    </div>
   );
 };
 

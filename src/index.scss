@@ -1,30 +1,36 @@
 :root {
-  --mdc-theme-primary: #69A267;
+  --mdc-theme-primary: #69a267;
   --mdc-theme-secondary: #00cb00;
-  --mdc-theme-surface: #e6f3e7;
-  --mdc-theme-background: #f9fffa;
-  --mdc-theme-surface: #EDF8EE;
-  --mdc-theme-background: #EDF8EE;
+  --mdc-theme-surface: #fcfffb;
+  // --mdc-theme-background: #f9fffa;
+  --mdc-theme-background: #edf8ee;
+  // --mdc-theme-on-primary: #12c612;
   --mdc-theme-on-primary: #096809;
   --mdc-theme-on-secondary: #096809;
   --mdc-theme-on-surface: #096809;
   --mdc-theme-on-hint: #096809;
   --mdc-theme-text-primary-on-background: #096809;
-  --mdc-theme-text-secondary-on-background: #096809;
+  --mdc-theme-text-secondary-on-background: #ecffec;
   --mdc-theme-text-surface-on-background: #096809;
   --mdc-theme-text-hint-on-background: #096809;
-
   --mdc-theme-text-primary-on-light: #096809;
   --mdc-theme-text-secondary-on-light: #096809;
 }
 
 body {
   margin: 0;
+  padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Roboto", "Segoe UI", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--mdc-theme-surface, #fcfffb);
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
 }
 
 .app-fab--absolute {
