@@ -77,7 +77,8 @@ const CookbookScene = ({
             <Chip
               selected
               label="Cookies"
-              onClick={() => loadCookbook("mnJyuZQWjsD2PJI7uVsc")}
+              onClick={() => loadCookbook("")}
+              // onClick={() => loadCookbook("mnJyuZQWjsD2PJI7uVsc")}
             />
             <Chip label="Pizza" />
             <Chip

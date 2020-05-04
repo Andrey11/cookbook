@@ -34,23 +34,15 @@ const defaultLoginActions: Array<AuthenticationFormAction> = [
   {
     id: "loginAction",
     label: "Login",
-    onClick: () => {
-      console.log("onClick login");
-
-      const fieldNodes: NodeList = document.querySelectorAll(
-        AUTH_FORM.SELECTOR_MATCH
-      );
-      const results: Array<string> = [];
-      fieldNodes.forEach((item: any) => {
-        results.push(item.firstElementChild.value);
-      });
-
-      store.dispatch(login(results[0], results[1]));
-      // return true;
+    primary: true,
+    onClick: (_history: any, options: any) => {
+      const { email, password } = options;
+      store.dispatch(login(email, password));
     }
   },
   {
     id: "navigateToCreateAccountAction",
+    primary: false,
     label: "Create Account",
     onClick: (history: any) => {
       history.push("/create");
@@ -68,11 +60,6 @@ const mapStateToProps = (
   shouldNavigate: state.userInfo.loggedIn || false,
   navigateToUrl: "/cookbook/" + state.userInfo.cookbookId
 });
-
-// const mapDispatchToProps = (dispatch: any, ownProps: any) => ({
-//   on: (username: string, password: string) =>
-//     dispatch(login(username, password, ownProps.firebase))
-// });
 
 const Connected = connect(mapStateToProps)(Authentication);
 

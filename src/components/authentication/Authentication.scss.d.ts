@@ -1,1 +1,1 @@
-export const authForm: string;
+export const AuthForm: string;

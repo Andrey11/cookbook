@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import Search from "../fields/search/Search.component";
 import { Icon } from "@rmwc/icon";
+import Filter, { FiterSearchProps } from "../filter/Filter.component";
 import {
   TopAppBar,
   TopAppBarRow,
@@ -40,6 +41,7 @@ const recipeDetailsHeader = (id: string | undefined, history: any) => {
 };
 
 const cookbookHeader = (id: string | undefined, logoutUser: Function) => {
+  const [openFilter, setOpenFilter] = useState(false);
   return (
     <>
       <TopAppBar fixed>
@@ -61,11 +63,23 @@ const cookbookHeader = (id: string | undefined, logoutUser: Function) => {
               icon="account_circle"
               onClick={() => logoutUser()}
             />
-            <TopAppBarNavigationIcon icon="filter_list" />
+            <TopAppBarNavigationIcon
+              icon="filter_list"
+              onClick={() => setOpenFilter(!openFilter)}
+            />
           </TopAppBarSection>
         </TopAppBarRow>
       </TopAppBar>
       <TopAppBarFixedAdjust />
+      <Filter
+        visible={openFilter}
+        reset={() => console.log("Filter reset")}
+        submit={(filterData?: FiterSearchProps) => {
+          console.log(
+            "Filter submit: " + (filterData ? filterData.russian : "nope")
+          );
+        }}
+      />
     </>
   );
 };
@@ -76,7 +90,11 @@ const defaultHeader = (id: string | undefined, history: any) => {
       <TopAppBar fixed>
         <TopAppBarRow>
           <TopAppBarSection alignStart>
-            <Icon icon="images/icon-pot.svg" name="Cookbook" />
+            <Icon
+              icon="images/icon-pot.svg"
+              name="Cookbook"
+              style={{ marginLeft: "0.25rem" }}
+            />
             <TopAppBarTitle>Cookbook</TopAppBarTitle>
           </TopAppBarSection>
           <TopAppBarSection alignEnd>
@@ -85,7 +103,7 @@ const defaultHeader = (id: string | undefined, history: any) => {
               icon="account_circle"
               onClick={() => history.push("/login")}
             />
-            <TopAppBarNavigationIcon icon="more_vert" />
+            <TopAppBarNavigationIcon icon="menu_book" />
           </TopAppBarSection>
         </TopAppBarRow>
       </TopAppBar>
@@ -107,7 +125,7 @@ const loginHeader = (history: any) => {
           </TopAppBarSection>
         </TopAppBarRow>
       </TopAppBar>
-      <TopAppBarFixedAdjust prominent />
+      <TopAppBarFixedAdjust />
     </>
   );
 };

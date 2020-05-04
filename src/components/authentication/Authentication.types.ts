@@ -8,10 +8,16 @@ export type AuthenticationFormField = {
   type: string;
 };
 
+export type AuthenticationFormOptions = {
+  email: string;
+  password?: string;
+}
+
 export type AuthenticationFormAction = {
   id: string;
   label: string;
-  onClick: (history: any) => void;
+  primary: boolean;
+  onClick: (history: any, options?: AuthenticationFormOptions) => void;
 };
 
 export interface AuthenticationFormState {

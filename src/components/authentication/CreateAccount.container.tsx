@@ -12,8 +12,8 @@ import { withFirebase } from "../firebase/Firebase";
 import { AUTH_FORM } from "utils/Constants";
 
 const formEmailField: AuthenticationFormField = {
-  id: "username",
-  label: "Username",
+  id: "email",
+  label: "Email",
   value: "",
   type: "text"
 };
@@ -33,20 +33,11 @@ const defaultCreateAccountFields: Array<AuthenticationFormField> = [
 const defaultCreateAccountActions: Array<AuthenticationFormAction> = [
   {
     id: "createAccountAction",
-    label: "CreateAccount",
-    onClick: () => {
-      console.log("onClick create account");
-
-      const fieldNodes: NodeList = document.querySelectorAll(
-        AUTH_FORM.SELECTOR_MATCH
-      );
-      const results: Array<string> = [];
-      fieldNodes.forEach((item: any) => {
-        results.push(item.firstElementChild.value);
-      });
-
-      store.dispatch(createAccount(results[0], results[1]));
-      // return true;
+    primary: true,
+    label: "Create",
+    onClick: (_history: any, options: any) => {
+      const { email, password } = options;
+      store.dispatch(createAccount(email, password));
     }
   }
 ];

@@ -1,8 +1,12 @@
-.SearchFieldWrapper {
-  margin-left: 0.75rem;
+.AuthForm {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
-  .SearchField {
-    height: 2.5rem;
+  .AuthField {
+    width: 100%;
 
     & [class*="mdc-notched-outline__"] {
       border-color: var(--mdc-theme-on-primary, #69a267) !important;
@@ -20,10 +24,11 @@
 
     &[class*="mdc-text-field"] {
       > input {
-        color: var(--mdc-theme-text-secondary-on-background, #ecffec);
+        color: var(--mdc-theme-text-primary-on-background, #096809);
         caret-color: var(--mdc-theme-on-primary, #69a267);
       }
 
+      label[class="mdc-floating-label"],
       label[class="mdc-floating-label mdc-floating-label--float-above"] {
         color: var(--mdc-theme-on-primary, #69a267);
       }
@@ -33,5 +38,8 @@
         color: var(--mdc-theme-on-primary, #69a267);
       }
     }
+  }
+  .AuthField:first-of-type {
+    margin-bottom: 1rem;
   }
 }
