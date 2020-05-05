@@ -22,10 +22,14 @@ const Scene = ({
     }
   }, [isFirebaseInitialized]);
 
-  const createInitScreen = () => {
+  const createSplashScreen = () => {
     return (
       <div className={styles.SplashScreen}>
-        <img src="images/icon-pot.svg" alt="Cookbook logo"></img>
+        <img
+          className={styles.Logo}
+          src="images/icon-pot.svg"
+          alt="Cookbook logo"
+        />
         <div className={styles.InfiniteSpinner}>
           <CircularProgress size="xlarge" />
         </div>
@@ -37,10 +41,10 @@ const Scene = ({
     console.log("[Scene.component] " + sceneName);
 
     if (!isFirebaseInitialized) {
-      return createInitScreen();
+      return createSplashScreen();
     }
-    // return createInitScreen();
-    return <>{children}</>;
+    return createSplashScreen();
+    // return <>{children}</>;
   };
 
   return <>{loadScreen()}</>;

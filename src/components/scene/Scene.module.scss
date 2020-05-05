@@ -1,34 +1,20 @@
 .SplashScreen {
-  // color: var(--mdc-theme-on-primary, #12c612);
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   color: var(--mdc-theme-primary, #69a267);
   min-height: 100vh;
-  padding-top: 30px;
 
-  img {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 70%;
-    height: max-content;
+  img.Logo {
+    margin: 32px;
+    max-width: 512px;
+    max-height: 512px;
+    width: 90%;
   }
 
   .InfiniteSpinner {
     text-align: center;
-  }
-
-  div[class="mdc-typography--headline1"] {
-    margin-top: 1rem;
-    font-weight: 800;
-    font-size: 4rem;
-    text-align: center;
-  }
-
-  @media screen and (max-width: 500px) {
-    div[class="mdc-typography--headline1"] {
-      margin-top: -5rem;
-      font-weight: 800;
-      font-size: 3rem;
-      text-align: center;
-    }
   }
 }
