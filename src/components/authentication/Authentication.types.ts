@@ -6,12 +6,13 @@ export type AuthenticationFormField = {
   label: string;
   value: string;
   type: string;
+  pattern?: string;
 };
 
 export type AuthenticationFormOptions = {
   email: string;
   password?: string;
-}
+};
 
 export type AuthenticationFormAction = {
   id: string;
@@ -26,6 +27,8 @@ export interface AuthenticationFormState {
   formActions: Array<AuthenticationFormAction>;
   shouldNavigate: boolean;
   navigateToUrl: string;
+  errors: any;
+  clearError: () => void;
 }
 
 export interface User {

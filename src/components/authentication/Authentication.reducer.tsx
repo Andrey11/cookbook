@@ -45,6 +45,9 @@ export const slice = createSlice({
       state.user = undefined;
       state.error = action.payload;
     },
+    onClearError: state => {
+      state.error = "";
+    },
     onCreateUserSuccess: (state, action: PayloadAction<User>) => {
       state.user = action.payload;
       state.user.username = action.payload.username;
@@ -69,6 +72,7 @@ export const {
   onLoginError,
   onLogoutError,
   onLogoutSuccess,
+  onClearError,
   onCreateUserSuccess,
   onCreateUserError,
   onFirebaseInitialized

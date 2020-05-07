@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { Typography } from "@rmwc/typography";
 import styles from "./Scene.module.scss";
 import { CircularProgress } from "@rmwc/circular-progress";
 
@@ -43,8 +42,8 @@ const Scene = ({
     if (!isFirebaseInitialized) {
       return createSplashScreen();
     }
-    return createSplashScreen();
-    // return <>{children}</>;
+    // return createSplashScreen();
+    return <>{children}</>;
   };
 
   return <>{loadScreen()}</>;

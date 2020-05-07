@@ -7,14 +7,14 @@ import {
   AuthenticationFormAction
 } from "./Authentication.types";
 import store from "../../store";
-import { login } from "./Authentication.actions";
+import { login, dismissError } from "./Authentication.actions";
 import { withFirebase } from "../firebase/Firebase";
-import { AUTH_FORM } from "utils/Constants";
 
 const formEmailField: AuthenticationFormField = {
   id: "username",
   label: "Email",
   value: "",
+  pattern: "^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$",
   type: "text"
 };
 
@@ -58,10 +58,15 @@ const mapStateToProps = (
   formFields: formFields || defaultLoginFields,
   formActions: defaultLoginActions,
   shouldNavigate: state.userInfo.loggedIn || false,
-  navigateToUrl: "/cookbook/" + state.userInfo.cookbookId
+  navigateToUrl: "/cookbook/" + state.userInfo.cookbookId,
+  errors: state.userInfo.error || ""
 });
 
-const Connected = connect(mapStateToProps)(Authentication);
+const mapDispatchToProps = (dispatch: any) => ({
+  clearError: () => dispatch(dismissError())
+});
+
+const Connected = connect(mapStateToProps, mapDispatchToProps)(Authentication);
 
 const LoginContainer = (props: any) => (
   <Provider store={store}>

@@ -1,3 +1,36 @@
+@mixin input-text-field-style {
+  &[class*="mdc-text-field"]:not([class*="mdc-text-field--invalid"]) {
+    & [class*="mdc-notched-outline__"] {
+      border-color: var(--mdc-theme-primary, #69a267) !important;
+      border-width: 1px;
+      opacity: 0.6;
+    }
+
+    &[class*="mdc-text-field--focused"] {
+      & [class*="mdc-notched-outline__"] {
+        border-color: var(--mdc-theme-primary, #69a267) !important;
+        border-width: 2px;
+        opacity: 1;
+      }
+    }
+
+    > input {
+      color: var(--mdc-theme-text-primary-on-background, #096809);
+      caret-color: var(--mdc-theme-on-primary, #69a267);
+    }
+
+    label[class="mdc-floating-label"],
+    label[class="mdc-floating-label mdc-floating-label--float-above"] {
+      color: var(--mdc-theme-on-primary, #69a267);
+    }
+
+    > i {
+      top: 20%;
+      color: var(--mdc-theme-on-primary, #69a267);
+    }
+  }
+}
+
 .AuthForm {
   margin-top: 16px;
   display: flex;
@@ -7,39 +40,20 @@
 
   .AuthField {
     width: 100%;
+    margin-top: 20px;
+    @include input-text-field-style();
 
-    & [class*="mdc-notched-outline__"] {
-      border-color: var(--mdc-theme-on-primary, #69a267) !important;
-      border-width: 1px;
-      opacity: 0.5;
-    }
-
-    &[class*="mdc-text-field--focused"] {
-      & [class*="mdc-notched-outline__"] {
-        border-color: var(--mdc-theme-on-primary, #69a267) !important;
-        border-width: 1px;
-        opacity: 1;
-      }
-    }
-
-    &[class*="mdc-text-field"] {
-      > input {
-        color: var(--mdc-theme-text-primary-on-background, #096809);
-        caret-color: var(--mdc-theme-on-primary, #69a267);
-      }
-
-      label[class="mdc-floating-label"],
-      label[class="mdc-floating-label mdc-floating-label--float-above"] {
-        color: var(--mdc-theme-on-primary, #69a267);
-      }
-
-      > i {
-        top: 20%;
-        color: var(--mdc-theme-on-primary, #69a267);
-      }
+    &:first-of-type {
+      margin-top: 0;
     }
   }
-  .AuthField:first-of-type {
-    margin-bottom: 1rem;
+
+  .ErrorNotification {
+    width: 100%;
+    text-align: center;
+
+    & > button[class*="mdc-chip"] {
+      background-color: red;
+    }
   }
 }

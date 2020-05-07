@@ -50,7 +50,8 @@ const mapStateToProps = (
   formFields: formFields || defaultCreateAccountFields,
   formActions: defaultCreateAccountActions,
   shouldNavigate: state.userInfo.loggedIn || false,
-  navigateToUrl: "/cookbook/" + state.userInfo.cookbookId
+  navigateToUrl: "/cookbook/" + state.userInfo.cookbookId,
+  errors: state.userInfo.error || ""
 });
 
 const Connected = connect(mapStateToProps)(Authentication);

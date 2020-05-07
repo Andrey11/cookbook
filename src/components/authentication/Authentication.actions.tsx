@@ -4,6 +4,7 @@ import {
   onLoginError,
   onLogoutSuccess,
   onLogoutError,
+  onClearError,
   onCreateUserSuccess,
   onCreateUserError,
   onFirebaseInitialized
@@ -17,9 +18,18 @@ import { User, AuthState } from "./Authentication.types";
 
 const firebase = Firebase.getInstance();
 
+export const dismissError = () => (dispatch: AppDispatch) => {
+  dispatch(onClearError());
+};
+
 export const login = (username: string, password: string) => (
   dispatch: AppDispatch
 ) => {
+  if (!username || !password) {
+    dispatch(onLoginError("username or password is not present"));
+    return;
+  }
+
   firebase
     .doSignInWithEmailAndPassword(username, password)
     .then((result: any) => {

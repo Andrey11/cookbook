@@ -1,7 +1,8 @@
-import React, { useEffect, CSSProperties } from "react";
+import React, { useEffect, CSSProperties, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { TextField } from "@rmwc/textfield";
 import { Typography } from "@rmwc/typography";
+import { Chip } from "@rmwc/chip";
 import {
   Card,
   CardMedia,
@@ -22,21 +23,35 @@ const Authentication = ({
   formTitle,
   formFields,
   formActions,
+  errors,
+  clearError,
   shouldNavigate,
   navigateToUrl
 }: AuthenticationFormState) => {
   const history = useHistory();
   const imageUrl = "url(images/image-pot-512.png)";
 
+  const [initAuthForm, setInitAuthForm] = useState(false);
+
   const createFormFields = () => {
+    if (formFields && formFields.length > 0) {
+      const fld: AuthenticationFormField = formFields[0];
+    }
+
     return formFields.map((field: AuthenticationFormField) => (
       <TextField
         className={styles.AuthField}
         key={field.id}
+        pattern={field.pattern}
         outlined
         type={field.type}
         label={field.label}
         defaultValue={field.value}
+        helpText={{
+          persistent: false,
+          validationMsg: true,
+          children: "field.errorMsg"
+        }}
       />
     ));
   };
@@ -68,12 +83,33 @@ const Authentication = ({
     );
   };
 
+  const createErrorNotification = () => {
+    if (errors && errors.length > 0) {
+      return (
+        <div className={styles.ErrorNotification}>
+          <Chip
+            icon="error"
+            label={errors}
+            onTrailingIconInteraction={() => {
+              clearError();
+            }}
+            trailingIcon="close"
+          />
+        </div>
+      );
+    }
+    return <></>;
+  };
+
   useEffect(() => {
     console.log("styles: " + `${styles.AuthForm}`);
     if (shouldNavigate) {
       history.replace(navigateToUrl);
+    } else if (!initAuthForm) {
+      console.log("Initialized form: " + formTitle);
+      setInitAuthForm(true);
     }
-  }, [shouldNavigate]);
+  }, [shouldNavigate, initAuthForm]);
 
   return (
     <>
@@ -96,6 +132,7 @@ const Authentication = ({
               {formTitle}
             </Typography>
             {createFormFields()}
+            {createErrorNotification()}
           </div>
           <CardActions>
             <CardActionButtons
