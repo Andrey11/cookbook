@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { User, AuthState } from "./Authentication.types";
+import { User, AuthState, FormError } from "./Authentication.types";
 
 const initialState: AuthState = {
   loggedIn: false,
@@ -57,12 +57,13 @@ export const slice = createSlice({
       state.cookbookId = action.payload.cookbookId || undefined;
       state.error = "";
     },
-    onCreateUserError: (state, action: PayloadAction<string>) => {
+    onCreateUserError: (state, action: PayloadAction<Array<FormError>>) => {
       state.loggedIn = false;
       state.cookbookId = "";
       state.id = undefined;
       state.user = undefined;
-      state.error = action.payload;
+      state.error = action.payload.join(" ,");
+      state.formErrors = action.payload;
     }
   }
 });

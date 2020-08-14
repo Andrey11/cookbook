@@ -1,24 +1,44 @@
 import { Url } from "url";
 import { Cookbook } from "../cookbook/Cookbook.types";
 
+export enum ErrorCode {
+  EmailNotFound,
+  EmailEmpty,
+  EmailInvalid,
+  PasswordNotFound,
+  PasswordEmpty,
+  PasswordInvalid,
+  EmailPasswordEmpty
+}
+
+export interface FormError {
+  errorMessage: string;
+  errorCode?: string;
+  fieldId?: string;
+}
+
 export type AuthenticationFormField = {
   id: string;
   label: string;
   value: string;
   type: string;
   pattern?: string;
+  formError?: FormError;
 };
 
-export type AuthenticationFormOptions = {
-  email: string;
-  password?: string;
+export type FieldType = "email" | "password" | "title";
+
+export type FormFieldState = {
+  value: string;
+  valid: boolean;
+  fieldType: FieldType;
 };
 
 export type AuthenticationFormAction = {
   id: string;
   label: string;
   primary: boolean;
-  onClick: (history: any, options?: AuthenticationFormOptions) => void;
+  onClick: (history: any, options: Array<FormFieldState>) => void;
 };
 
 export interface AuthenticationFormState {
@@ -27,7 +47,8 @@ export interface AuthenticationFormState {
   formActions: Array<AuthenticationFormAction>;
   shouldNavigate: boolean;
   navigateToUrl: string;
-  errors: any;
+  errors: string;
+  formErrors?: boolean;
   clearError: () => void;
 }
 
@@ -46,10 +67,11 @@ export interface AuthState {
   user?: User;
   loggedIn: boolean | false;
   avatarUrl?: Url;
-  error?: string;
+  error?: string; // TODO: deprecate in favor of formErrors
   id?: string;
   cookbooks?: Array<Cookbook>;
   cookbookId?: string;
   recipes?: Array<Cookbook>;
   isFirebaseInitialized: boolean | false;
+  formErrors?: Array<FormError>;
 }

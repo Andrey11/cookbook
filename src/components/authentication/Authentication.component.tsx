@@ -13,7 +13,9 @@ import {
 import {
   AuthenticationFormState,
   AuthenticationFormField,
-  AuthenticationFormAction
+  AuthenticationFormAction,
+  FormFieldState,
+  FieldType
 } from "./Authentication.types";
 import { HEADER_TYPE } from "components/header/Header.types";
 import Header from "../header/Header.container";
@@ -24,6 +26,7 @@ const Authentication = ({
   formFields,
   formActions,
   errors,
+  formErrors,
   clearError,
   shouldNavigate,
   navigateToUrl
@@ -31,36 +34,48 @@ const Authentication = ({
   const history = useHistory();
   const imageUrl = "url(images/image-pot-512.png)";
 
-  const [initAuthForm, setInitAuthForm] = useState(false);
+  const [authFormInitialized, setAuthFormInitialized] = useState(false);
+  const [fieldError, setFieldErrors] = useState([]);
 
   const createFormFields = () => {
-    if (formFields && formFields.length > 0) {
-      const fld: AuthenticationFormField = formFields[0];
-    }
-
     return formFields.map((field: AuthenticationFormField) => (
       <TextField
+        itemID={field.id}
         className={styles.AuthField}
         key={field.id}
         pattern={field.pattern}
         outlined
+        invalid={errors !== null && errors.length > 0}
+        autoFocus={false}
         type={field.type}
         label={field.label}
         defaultValue={field.value}
+        onChange={(...args) => {
+          console.log("changed");
+        }}
         helpText={{
           persistent: false,
           validationMsg: true,
-          children: "field.errorMsg"
+          children: field.formError?.errorMessage
         }}
       />
     ));
   };
 
-  const getOptions = (id: string) => {
+  const getFormData = () => {
     const fields: NodeList = document.querySelectorAll("." + styles.AuthField);
-    const options: any = {};
+    const options: Array<FormFieldState> = [];
     fields.forEach((item: any) => {
-      options[item.innerText.toLowerCase()] = item.firstElementChild.value;
+      const inputField: HTMLInputElement = item.firstElementChild;
+      const fieldType: FieldType = item.innerText.toLowerCase();
+      const val: string = inputField.value;
+      const isValid: boolean = inputField.validity.valid && val.length > 0;
+      const opts: FormFieldState = {
+        fieldType: fieldType,
+        valid: isValid,
+        value: val
+      };
+      options.push(opts);
     });
 
     return options;
@@ -73,8 +88,7 @@ const Authentication = ({
           raised={primary}
           key={id}
           onClick={() => {
-            const options: any = getOptions(id);
-            return onClick(history, options);
+            return onClick(history, getFormData());
           }}
         >
           {label}
@@ -84,7 +98,7 @@ const Authentication = ({
   };
 
   const createErrorNotification = () => {
-    if (errors && errors.length > 0) {
+    if (formErrors) {
       return (
         <div className={styles.ErrorNotification}>
           <Chip
@@ -104,12 +118,15 @@ const Authentication = ({
   useEffect(() => {
     console.log("styles: " + `${styles.AuthForm}`);
     if (shouldNavigate) {
+      clearError();
       history.replace(navigateToUrl);
-    } else if (!initAuthForm) {
+    } else if (!authFormInitialized) {
       console.log("Initialized form: " + formTitle);
-      setInitAuthForm(true);
+      setAuthFormInitialized(true);
+    } else if (fieldError.length > 0) {
+      console.log("contains field errors");
     }
-  }, [shouldNavigate, initAuthForm]);
+  }, [shouldNavigate, authFormInitialized, fieldError]);
 
   return (
     <>

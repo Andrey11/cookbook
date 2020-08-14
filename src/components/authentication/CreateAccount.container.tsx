@@ -4,40 +4,60 @@ import Authentication from "./Authentication.component";
 import {
   AuthenticationFormAction,
   AuthenticationFormField,
-  AuthenticationFormState
+  AuthenticationFormState,
+  FormError,
+  FormFieldState
 } from "./Authentication.types";
 import store from "../../store";
-import { createAccount } from "./Authentication.actions";
+import { createAccount, dismissError } from "./Authentication.actions";
+import * as selector from "./Authentication.selector";
 import { withFirebase } from "../firebase/Firebase";
-import { AUTH_FORM } from "utils/Constants";
 
 const formEmailField: AuthenticationFormField = {
   id: "email",
   label: "Email",
   value: "",
-  type: "text"
+  pattern: "^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$",
+  type: "text",
+  formError: { errorMessage: "Error: Email address is invalid" }
 };
 
 const formPasswordField: AuthenticationFormField = {
   id: "password",
   label: "Password",
   value: "",
-  type: "password"
+  type: "new-password",
+  formError: { errorMessage: "Error: Password is invalid" }
 };
 
-const defaultCreateAccountFields: Array<AuthenticationFormField> = [
-  formEmailField,
-  formPasswordField
-];
+const getEmailField = (state: any) => {
+  if (state.userInfo.error) {
+    const errorList: Array<string> = state.userInfo.error.split(",");
+    const emailField = formEmailField;
+    const emailError: FormError = {
+      errorMessage: "asdasd"
+    };
+
+    emailField.formError = emailError;
+
+    return emailField;
+  }
+
+  return formEmailField;
+};
+
+const defaultCreateAccountFields = (state: any) => {
+  return [getEmailField(state), formPasswordField];
+};
 
 const defaultCreateAccountActions: Array<AuthenticationFormAction> = [
   {
     id: "createAccountAction",
     primary: true,
     label: "Create",
-    onClick: (_history: any, options: any) => {
-      const { email, password } = options;
-      store.dispatch(createAccount(email, password));
+    onClick: (_history: any, options: Array<FormFieldState>) => {
+      // const { email, password } = options;
+      store.dispatch(createAccount(options));
     }
   }
 ];
@@ -47,14 +67,19 @@ const mapStateToProps = (
   { formTitle, formFields }: AuthenticationFormState
 ) => ({
   formTitle: formTitle || "Create Account",
-  formFields: formFields || defaultCreateAccountFields,
+  formFields: formFields || defaultCreateAccountFields(state),
   formActions: defaultCreateAccountActions,
-  shouldNavigate: state.userInfo.loggedIn || false,
+  shouldNavigate: selector.userLoggedIn(state),
   navigateToUrl: "/cookbook/" + state.userInfo.cookbookId,
-  errors: state.userInfo.error || ""
+  errors: state.userInfo.error || "",
+  formErrors: selector.hasCreateAccountFormErrors(state)
 });
 
-const Connected = connect(mapStateToProps)(Authentication);
+const mapDispatchToProps = (dispatch: any) => ({
+  clearError: () => dispatch(dismissError())
+});
+
+const Connected = connect(mapStateToProps, mapDispatchToProps)(Authentication);
 
 const CreateAccountContainer = (props: any) => (
   <Provider store={store}>

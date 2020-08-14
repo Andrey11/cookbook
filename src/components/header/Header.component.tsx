@@ -132,7 +132,7 @@ const loginHeader = (history: any) => {
 
 type HeaderProps = {
   type: string;
-  logoutUser: Function;
+  logoutUser: () => void;
 };
 
 const Header = ({ type, logoutUser }: HeaderProps) => {

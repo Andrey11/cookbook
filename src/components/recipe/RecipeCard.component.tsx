@@ -62,7 +62,7 @@ const RecipeCard = ({
       <CardActions>
         <CardActionButtons>
           <CardActionButton>Read</CardActionButton>
-          <CardActionButton>Bookmark</CardActionButton>
+          {/* <CardActionButton>Bookmark</CardActionButton> */}
         </CardActionButtons>
         <CardActionIcons>
           <CardActionIcon onIcon="favorite" icon="favorite_border" />

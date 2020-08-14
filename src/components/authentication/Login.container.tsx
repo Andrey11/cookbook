@@ -4,7 +4,8 @@ import Authentication from "./Authentication.component";
 import {
   AuthenticationFormState,
   AuthenticationFormField,
-  AuthenticationFormAction
+  AuthenticationFormAction,
+  FormFieldState
 } from "./Authentication.types";
 import store from "../../store";
 import { login, dismissError } from "./Authentication.actions";
@@ -15,14 +16,16 @@ const formEmailField: AuthenticationFormField = {
   label: "Email",
   value: "",
   pattern: "^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$",
-  type: "text"
+  type: "text",
+  formError: { errorMessage: "Error: Email address is invalid" }
 };
 
 const formPasswordField: AuthenticationFormField = {
   id: "password",
   label: "Password",
   value: "",
-  type: "password"
+  type: "password",
+  formError: { errorMessage: "Error: Password address is invalid" }
 };
 
 const defaultLoginFields: Array<AuthenticationFormField> = [
@@ -35,9 +38,8 @@ const defaultLoginActions: Array<AuthenticationFormAction> = [
     id: "loginAction",
     label: "Login",
     primary: true,
-    onClick: (_history: any, options: any) => {
-      const { email, password } = options;
-      store.dispatch(login(email, password));
+    onClick: (_history: any, options: Array<FormFieldState>) => {
+      store.dispatch(login(options));
     }
   },
   {
@@ -45,6 +47,7 @@ const defaultLoginActions: Array<AuthenticationFormAction> = [
     primary: false,
     label: "Create Account",
     onClick: (history: any) => {
+      store.dispatch(dismissError());
       history.push("/create");
     }
   }
@@ -57,7 +60,7 @@ const mapStateToProps = (
   formTitle: formTitle || "Login",
   formFields: formFields || defaultLoginFields,
   formActions: defaultLoginActions,
-  shouldNavigate: state.userInfo.loggedIn || false,
+  shouldNavigate: state.userInfo.loggedIn === true,
   navigateToUrl: "/cookbook/" + state.userInfo.cookbookId,
   errors: state.userInfo.error || ""
 });

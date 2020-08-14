@@ -1,5 +1,9 @@
 import { AppDispatch } from "../../store";
 import {
+  onFormUpdate,
+  onCreateUserFormUpdate
+} from "../../reducers/UserInterface.reducer";
+import {
   onLoginSuccess,
   onLoginError,
   onLogoutSuccess,
@@ -14,17 +18,30 @@ import {
   resetRecipes
 } from "components/cookbook/CookbookScene.reducer";
 import Firebase from "../firebase/Firebase";
-import { User, AuthState } from "./Authentication.types";
+import {
+  User,
+  AuthState,
+  FormFieldState,
+  ErrorCode,
+  FormError
+} from "./Authentication.types";
 
 const firebase = Firebase.getInstance();
 
 export const dismissError = () => (dispatch: AppDispatch) => {
   dispatch(onClearError());
+  dispatch(onFormUpdate(null));
+  dispatch(onCreateUserFormUpdate({ errorMessage: "", hasError: false }));
 };
 
-export const login = (username: string, password: string) => (
+export const login = (formFields: Array<FormFieldState>) => (
   dispatch: AppDispatch
 ) => {
+  const usernameValid: boolean = formFields[0].valid;
+  const username: string = formFields[0].value;
+  const passwordValid: boolean = formFields[1].valid;
+  const password: string = formFields[1].value;
+
   if (!username || !password) {
     dispatch(onLoginError("username or password is not present"));
     return;
@@ -101,25 +118,50 @@ export const logout = () => (dispatch: AppDispatch) => {
     });
 };
 
-export const createAccount = (username: string, password: string) => (
+export const createAccount = (options: Array<FormFieldState>) => (
   dispatch: AppDispatch
 ) => {
-  console.log(
-    "Action create account has been called, username=" +
-      username +
-      ", password=" +
-      password
-  );
+  const emailState: FormFieldState = options[0];
+  const pwdState: FormFieldState = options[1];
+  const errorList: Array<FormError> = [];
+  if (!emailState.valid) {
+    const emailError: FormError = {
+      errorMessage: "Email invalid",
+      errorCode: ErrorCode.EmailInvalid.toString(),
+      fieldId: "email"
+    };
+    errorList.push(emailError);
+  }
+  if (!pwdState.valid) {
+    const pwdError: FormError = {
+      errorMessage: "Password invalid",
+      errorCode: ErrorCode.PasswordInvalid.toString(),
+      fieldId: "password"
+    };
+    errorList.push(pwdError);
+  }
+
+  if (errorList.length > 0) {
+    dispatch(onCreateUserError(errorList));
+    dispatch(
+      onCreateUserFormUpdate({
+        errorMessage: "Please enter email and password",
+        hasError: true,
+        code: ErrorCode.EmailPasswordEmpty
+      })
+    );
+    return;
+  }
 
   firebase
-    .doCreateUserWithEmailAndPassword(username, password)
+    .doCreateUserWithEmailAndPassword(emailState.value, pwdState.value)
     .then((result: any) => {
       const currentUser = result.user;
       const user: User = {
         id: currentUser.uid,
         loggedIn: true,
         username: currentUser.email,
-        password: password,
+        password: "",
         avatarUrl: currentUser.avatarUrl,
         cookbookId: currentUser.uid,
         cookbooks: [],

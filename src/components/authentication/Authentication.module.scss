@@ -1,35 +1,4 @@
-@mixin input-text-field-style {
-  &[class*="mdc-text-field"]:not([class*="mdc-text-field--invalid"]) {
-    & [class*="mdc-notched-outline__"] {
-      border-color: var(--mdc-theme-primary, #69a267) !important;
-      border-width: 1px;
-      opacity: 0.6;
-    }
-
-    &[class*="mdc-text-field--focused"] {
-      & [class*="mdc-notched-outline__"] {
-        border-color: var(--mdc-theme-primary, #69a267) !important;
-        border-width: 2px;
-        opacity: 1;
-      }
-    }
-
-    > input {
-      color: var(--mdc-theme-text-primary-on-background, #096809);
-      caret-color: var(--mdc-theme-on-primary, #69a267);
-    }
-
-    label[class="mdc-floating-label"],
-    label[class="mdc-floating-label mdc-floating-label--float-above"] {
-      color: var(--mdc-theme-on-primary, #69a267);
-    }
-
-    > i {
-      top: 20%;
-      color: var(--mdc-theme-on-primary, #69a267);
-    }
-  }
-}
+@import "src/scss/mixins";
 
 .AuthForm {
   margin-top: 16px;
@@ -40,7 +9,7 @@
 
   .AuthField {
     width: 100%;
-    margin-top: 20px;
+    margin-top: 1rem;
     @include input-text-field-style();
 
     &:first-of-type {
@@ -50,10 +19,16 @@
 
   .ErrorNotification {
     width: 100%;
+    margin-top: 1rem;
     text-align: center;
 
     & > button[class*="mdc-chip"] {
-      background-color: red;
+      background-color: var(--mdc-theme-error, #ea2227);
+      color: rgb(252, 252, 252);
+
+      & > i {
+        color: rgba(230, 231, 232, 0.8);
+      }
     }
   }
 }
