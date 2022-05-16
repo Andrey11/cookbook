@@ -3,22 +3,19 @@ import { connect, Provider } from "react-redux";
 import Default from "./Default.component";
 import store from "../../store";
 import { withFirebase } from "../firebase/Firebase";
-import { withRouter } from "react-router-dom";
 import { loadAllRecipes } from "components/cookbook/CookbookScene.actions";
 import * as selector from "components/cookbook/CookbookScene.selector";
 
 const mapStateToProps = (state: any) => ({
   recipes: selector.allRecipesList(state),
-  shouldReloadAllRecipes: selector.shouldReloadAllRecipesList(state)
+  shouldReloadAllRecipes: selector.shouldReloadAllRecipesList(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-  loadAllRecipes: () => dispatch(loadAllRecipes())
+  loadAllRecipes: () => dispatch(loadAllRecipes()),
 });
 
-const Connected = withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(Default)
-);
+const Connected = connect(mapStateToProps, mapDispatchToProps)(Default);
 
 // TODO: should pass a list of card items (recipes)
 const DefaultContainer = (props: any) => (

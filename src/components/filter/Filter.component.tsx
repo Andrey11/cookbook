@@ -23,7 +23,7 @@ const defaultFiterState: FiterSearchProps = {
   likedRecipes: true,
   italian: true,
   russian: true,
-  french: true
+  french: true,
 };
 
 const Filter = ({ visible, reset, submit }: FilterOwnProps) => {
@@ -34,7 +34,7 @@ const Filter = ({ visible, reset, submit }: FilterOwnProps) => {
   const toggleSelected = (key: string, selState: boolean) => {
     setSelected({
       ...selected,
-      [key]: !selState
+      [key]: !selState,
     });
   };
 

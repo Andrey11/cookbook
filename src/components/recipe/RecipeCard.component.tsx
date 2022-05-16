@@ -8,16 +8,16 @@ import {
   CardActionButtons,
   CardActionButton,
   CardActionIcons,
-  CardActionIcon
+  CardActionIcon,
 } from "@rmwc/card";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 type RecipeCardProps = {
   recipeId: string | null;
   imageUrl: string | null;
   recipeTitle: string | "Title";
   isLoaded: boolean;
-  loadData: Function;
+  loadData: (recipeId: string) => void;
 };
 
 const RecipeCard = ({
@@ -25,9 +25,9 @@ const RecipeCard = ({
   imageUrl,
   recipeTitle,
   isLoaded,
-  loadData
+  loadData,
 }: RecipeCardProps) => {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!isLoaded && recipeId) {
@@ -41,7 +41,7 @@ const RecipeCard = ({
   return (
     <Card style={{ width: "auto" }}>
       {/* <Card style={{ width: "21rem" }}></Card> */}
-      <CardPrimaryAction onClick={() => history.push("/recipe/" + recipeId)}>
+      <CardPrimaryAction onClick={() => navigate("/recipe/" + recipeId)}>
         <CardMedia
           sixteenByNine
           style={{ backgroundImage: imageUrl } as CSSProperties}

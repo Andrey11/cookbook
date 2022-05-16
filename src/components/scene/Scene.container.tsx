@@ -4,25 +4,22 @@ import Scene from "./Scene.component";
 import store from "../../store";
 import {
   logout,
-  checkAuthState
+  checkAuthState,
 } from "../authentication/Authentication.actions";
 import { withFirebase } from "../firebase/Firebase";
-import { withRouter } from "react-router-dom";
 
 const mapStateToProps = (state: any, ownProps: any) => ({
   sceneName: ownProps.sceneName,
   children: ownProps.children,
-  isFirebaseInitialized: state.userInfo.isFirebaseInitialized
+  isFirebaseInitialized: state.userInfo.isFirebaseInitialized,
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
   logoutUser: () => dispatch(logout()),
-  verityAuthState: () => dispatch(checkAuthState())
+  verityAuthState: () => dispatch(checkAuthState()),
 });
 
-const Connected = withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(Scene)
-);
+const Connected = connect(mapStateToProps, mapDispatchToProps)(Scene);
 
 const SceneContainer = (props: any) => (
   <Provider store={store}>

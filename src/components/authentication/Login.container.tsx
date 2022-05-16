@@ -4,30 +4,30 @@ import Authentication from "./Authentication.component";
 import {
   AuthenticationFormState,
   AuthenticationFormField,
-  AuthenticationFormAction
+  AuthenticationFormAction,
 } from "./Authentication.types";
 import store from "../../store";
 import { login } from "./Authentication.actions";
 import { withFirebase } from "../firebase/Firebase";
-import { AUTH_FORM } from "utils/Constants";
+// import { AUTH_FORM } from "utils/Constants";
 
 const formEmailField: AuthenticationFormField = {
   id: "username",
   label: "Email",
   value: "",
-  type: "text"
+  type: "text",
 };
 
 const formPasswordField: AuthenticationFormField = {
   id: "password",
   label: "Password",
   value: "",
-  type: "password"
+  type: "password",
 };
 
 const defaultLoginFields: Array<AuthenticationFormField> = [
   formEmailField,
-  formPasswordField
+  formPasswordField,
 ];
 
 const defaultLoginActions: Array<AuthenticationFormAction> = [
@@ -35,19 +35,19 @@ const defaultLoginActions: Array<AuthenticationFormAction> = [
     id: "loginAction",
     label: "Login",
     primary: true,
-    onClick: (_history: any, options: any) => {
+    onClick: (_navigate: any, options: any) => {
       const { email, password } = options;
       store.dispatch(login(email, password));
-    }
+    },
   },
   {
     id: "navigateToCreateAccountAction",
     primary: false,
     label: "Create Account",
-    onClick: (history: any) => {
-      history.push("/create");
-    }
-  }
+    onClick: (navigate: any) => {
+      navigate("/create");
+    },
+  },
 ];
 
 const mapStateToProps = (
@@ -58,7 +58,7 @@ const mapStateToProps = (
   formFields: formFields || defaultLoginFields,
   formActions: defaultLoginActions,
   shouldNavigate: state.userInfo.loggedIn || false,
-  navigateToUrl: "/cookbook/" + state.userInfo.cookbookId
+  navigateToUrl: "/cookbook/" + state.userInfo.cookbookId,
 });
 
 const Connected = connect(mapStateToProps)(Authentication);

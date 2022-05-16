@@ -2,27 +2,27 @@ import React, { useState, useEffect } from "react";
 import { FormField } from "@rmwc/formfield";
 import { TextField } from "@rmwc/textfield";
 import { Button } from "@rmwc/button";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Header from "../header/Header.container";
 
 type CreateAccountProps = {
   loggedIn: boolean;
   cookbookId: string;
-  createUser: Function;
+  createUser: (email: string, password: string) => void;
 };
 
 const CreateAccount = ({
   loggedIn,
   createUser,
-  cookbookId
+  cookbookId,
 }: CreateAccountProps) => {
-  const history = useHistory();
-  const [email, setEmail] = useState();
-  const [pwd, setPwd] = useState();
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [pwd, setPwd] = useState("");
 
   useEffect(() => {
     if (loggedIn && cookbookId && cookbookId.length > 0) {
-      history.replace("/cookbook/" + cookbookId);
+      navigate("/cookbook/" + cookbookId, { replace: true });
     }
   });
 

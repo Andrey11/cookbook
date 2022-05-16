@@ -6,14 +6,14 @@ import { Recipe } from "components/recipe/RecipeCard.types";
 
 type DefaultProps = {
   recipes: Array<Recipe>;
-  loadAllRecipes: Function;
+  loadAllRecipes: () => void;
   shouldReloadAllRecipes: boolean;
 };
 
 const Default = ({
   recipes,
   loadAllRecipes,
-  shouldReloadAllRecipes
+  shouldReloadAllRecipes,
 }: DefaultProps) => {
   useEffect(() => {
     console.log("[Default.component] useEffect()");

@@ -10,7 +10,7 @@ import {
   onCreateRecipeImageUrlChange,
   onCreateRecipeAction,
   onEndCreateRecipe,
-  onLoadAllRecipesSuccess
+  onLoadAllRecipesSuccess,
 } from "./CookbookScene.reducer";
 
 import { Cookbook } from "./Cookbook.types";
@@ -19,9 +19,10 @@ import Firebase from "../firebase/Firebase";
 import {
   Recipe,
   RecipeState,
-  RecipesState
+  RecipesState,
 } from "components/recipe/RecipeCard.types";
 import { Url } from "url";
+import { DocumentData, QuerySnapshot } from "firebase/firestore";
 
 const firebase = Firebase.getInstance();
 
@@ -30,12 +31,11 @@ export const loadCookbook = (id: string) => (dispatch: AppDispatch) => {
   const fb = Firebase.getInstance();
 
   fb.doLoadCookbookById(id)
-    .get()
     .then((querySnapshot: any) => {
       console.log(`${querySnapshot.id} => ${querySnapshot.data().name}`);
       const recipes = querySnapshot.data().recipes.map((item: any) => {
         const recipe: Recipe = {
-          id: item.id
+          id: item.id,
         };
         return recipe;
       });
@@ -43,7 +43,7 @@ export const loadCookbook = (id: string) => (dispatch: AppDispatch) => {
       const book: Cookbook = {
         id: querySnapshot.id,
         name: querySnapshot.data().name,
-        recipes
+        recipes,
       };
       dispatch(onLoadCookbookSuccess(book));
     })
@@ -58,19 +58,18 @@ export const loadRecipe = (id: string) => (dispatch: AppDispatch) => {
   dispatch(onBeginLoadRecipe(defaultRecipe));
   firebase
     .doLoadRecipeById(id)
-    .get()
     .then((querySnapshot: any) => {
       console.log(`${querySnapshot.id} => ${querySnapshot.data().name}`);
       const recipeRecord: Recipe = {
         id: querySnapshot.id,
         name: querySnapshot.data().name,
-        description: querySnapshot.data().description
+        description: querySnapshot.data().description,
       };
       const recipe: RecipeState = {
         id: recipeRecord.id,
         record: recipeRecord,
         loaded: true,
-        loading: false
+        loading: false,
       };
       dispatch(onLoadRecipeSuccess(recipe));
     })
@@ -80,18 +79,18 @@ export const loadRecipe = (id: string) => (dispatch: AppDispatch) => {
     });
 };
 
-export const convertToRecipeState = (rec: firebase.firestore.DocumentData) => {
+export const convertToRecipeState = (rec: DocumentData) => {
   const recipeRec: Recipe = {
     id: rec.id,
     description: rec.data().description,
-    name: rec.data().name
+    name: rec.data().name,
   };
 
   const recipeState: RecipeState = {
     id: rec.id,
     loaded: true,
     loading: false,
-    record: recipeRec
+    record: recipeRec,
   };
 
   return recipeState;
@@ -101,18 +100,17 @@ export const loadAllRecipes = () => (dispatch: AppDispatch) => {
   // dispatch(onBeginLoadRecipe(defaultRecipe));
   firebase
     .doLoadAllRecipes()
-    .get()
-    .then((querySnapshot: firebase.firestore.QuerySnapshot) => {
+    .then((querySnapshot: QuerySnapshot) => {
       const recipes: RecipesState = {
         records: {},
         test: {},
-        filters: []
+        filters: [],
       };
 
-      querySnapshot.forEach((recipe: firebase.firestore.DocumentData) => {
+      querySnapshot.forEach((recipe: DocumentData) => {
         recipes.records = {
           ...recipes.records,
-          [recipe.id]: convertToRecipeState(recipe)
+          [recipe.id]: convertToRecipeState(recipe),
         };
         // recipes.records = {
         //   ...convertToRecipeState(recipe)
@@ -155,14 +153,14 @@ export const createRecipe = (name: string) => (dispatch: AppDispatch) => {
 
         const recipeRec: Recipe = {
           id: result.id,
-          name: name
+          name: name,
         };
 
         const recipeState: RecipeState = {
           id: result.id,
           loaded: false,
           loading: false,
-          record: recipeRec
+          record: recipeRec,
         };
 
         dispatch(onLoadRecipeSuccess(recipeState));
@@ -173,26 +171,24 @@ export const createRecipe = (name: string) => (dispatch: AppDispatch) => {
       dispatch(onLoadCookbookError("Error"));
     });
 };
-export const createRecipeNameChange = (name: string) => (
-  dispatch: AppDispatch
-) => {
-  console.log(
-    "[CookbookScene.actions] onCreateRecipeNameChange: " +
-      name +
-      ", " +
-      firebase.isInitialized
-  );
-  dispatch(onCreateRecipeNameChange(name));
-};
+export const createRecipeNameChange =
+  (name: string) => (dispatch: AppDispatch) => {
+    console.log(
+      "[CookbookScene.actions] onCreateRecipeNameChange: " +
+        name +
+        ", " +
+        firebase.isInitialized
+    );
+    dispatch(onCreateRecipeNameChange(name));
+  };
 
-export const createRecipeImageUrlChange = (url: Url) => (
-  dispatch: AppDispatch
-) => {
-  console.log(
-    "[CookbookScene.actions] createRecipeImageUrlChange: " +
-      url +
-      ", " +
-      firebase.isInitialized
-  );
-  dispatch(onCreateRecipeImageUrlChange(url));
-};
+export const createRecipeImageUrlChange =
+  (url: Url) => (dispatch: AppDispatch) => {
+    console.log(
+      "[CookbookScene.actions] createRecipeImageUrlChange: " +
+        url +
+        ", " +
+        firebase.isInitialized
+    );
+    dispatch(onCreateRecipeImageUrlChange(url));
+  };

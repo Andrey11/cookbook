@@ -34,7 +34,7 @@ const Search = ({ submit }: SearchFieldProps) => {
           icon: closeIcon,
           onClick: () => {
             setSearchText("");
-          }
+          },
         }}
       />
     </div>

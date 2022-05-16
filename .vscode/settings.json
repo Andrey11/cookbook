@@ -1,7 +1,7 @@
 {
   "workbench.settings.editor": "json",
-  "editor.formatOnSave": true,
-  "editor.tabSize": 2,
+  "editor.formatOnSave": false,
+  "editor.tabSize": 4,
   "javascript.format.enable": false,
   "typescript.tsdk": "node_modules/typescript/lib",
   "eslint.packageManager": "yarn",

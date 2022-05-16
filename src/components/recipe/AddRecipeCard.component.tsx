@@ -7,21 +7,21 @@ import {
   CardMedia,
   CardActions,
   CardActionIcons,
-  CardActionIcon
+  CardActionIcon,
 } from "@rmwc/card";
 
 type AddRecipeCardProps = {
-  createRecipe: Function;
+  createRecipe: (name: string, image: string) => void;
   name: string;
   visible: boolean;
-  onNameChange: Function;
+  onNameChange: (name: string) => void;
 };
 
 const AddRecipeCard = ({
   createRecipe,
   name,
   onNameChange,
-  visible
+  visible,
 }: AddRecipeCardProps) => {
   const [image, setImage] = useState("url(images/mb-bg-fb-16.png)");
 

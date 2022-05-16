@@ -11,11 +11,11 @@ const mapStateToProps = (state: any, ownProps: any) => ({
   imageUrl: ownProps.imageUrl,
   recipeTitle: selector.getRecipeTitle(state, ownProps.recipeId),
   isLoaded:
-    selector.isRecipeLoaded(state, ownProps.recipeId) || ownProps.isLoaded
+    selector.isRecipeLoaded(state, ownProps.recipeId) || ownProps.isLoaded,
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-  loadData: (id: string) => dispatch(loadRecipe(id))
+  loadData: (id: string) => dispatch(loadRecipe(id)),
 });
 
 const Connected = connect(mapStateToProps, mapDispatchToProps)(RecipeCard);

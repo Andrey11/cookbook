@@ -6,12 +6,12 @@ import userReducer from "components/authentication/Authentication.reducer";
 
 export const rootReducer = combineReducers({
   data,
-  userInfo: userReducer
+  userInfo: userReducer,
 });
 
 const store = configureStore({
   devTools: process.env.NODE_ENV !== "production",
-  reducer: rootReducer
+  reducer: rootReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

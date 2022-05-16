@@ -1,5 +1,5 @@
 import React, { useEffect, CSSProperties } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { TextField } from "@rmwc/textfield";
 import { Typography } from "@rmwc/typography";
 import {
@@ -7,12 +7,12 @@ import {
   CardMedia,
   CardActions,
   CardActionButtons,
-  CardActionButton
+  CardActionButton,
 } from "@rmwc/card";
 import {
   AuthenticationFormState,
   AuthenticationFormField,
-  AuthenticationFormAction
+  AuthenticationFormAction,
 } from "./Authentication.types";
 import { HEADER_TYPE } from "components/header/Header.types";
 import Header from "../header/Header.container";
@@ -23,9 +23,9 @@ const Authentication = ({
   formFields,
   formActions,
   shouldNavigate,
-  navigateToUrl
+  navigateToUrl,
 }: AuthenticationFormState) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const imageUrl = "url(images/image-pot-512.png)";
 
   const createFormFields = () => {
@@ -45,7 +45,7 @@ const Authentication = ({
     const fields: NodeList = document.querySelectorAll("." + styles.AuthField);
     const options: any = {};
     fields.forEach((item: any) => {
-      options[item.innerText.toLowerCase()] = item.firstElementChild.value;
+      options[item.innerText.toLowerCase()] = item.childNodes.item(1).value;
     });
 
     return options;
@@ -59,7 +59,7 @@ const Authentication = ({
           key={id}
           onClick={() => {
             const options: any = getOptions(id);
-            return onClick(history, options);
+            return onClick(navigate, options);
           }}
         >
           {label}
@@ -71,7 +71,7 @@ const Authentication = ({
   useEffect(() => {
     console.log("styles: " + `${styles.AuthForm}`);
     if (shouldNavigate) {
-      history.replace(navigateToUrl);
+      navigate(navigateToUrl, { replace: true });
     }
   }, [shouldNavigate]);
 
@@ -86,7 +86,7 @@ const Authentication = ({
             style={
               {
                 backgroundImage: imageUrl,
-                backgroundSize: "contain"
+                backgroundSize: "contain",
               } as CSSProperties
             }
           />
@@ -102,7 +102,7 @@ const Authentication = ({
               style={{
                 justifyContent: "space-between",
                 flex: 1,
-                flexDirection: "row-reverse"
+                flexDirection: "row-reverse",
               }}
             >
               {createFormActions()}

@@ -8,10 +8,10 @@ type AddRecipeDialogProps = {
   imageUrl: Url;
   created: boolean;
   visible: boolean;
-  onNameChange: Function;
-  onImageUrlChange: Function;
-  onRecipeCreate: Function;
-  onCloseDialog: Function;
+  onNameChange: (name: string) => void;
+  onImageUrlChange: (url: Url) => void;
+  onRecipeCreate: (name: string) => void;
+  onCloseDialog: () => void;
 };
 
 const AddRecipeDialog = ({
@@ -19,7 +19,7 @@ const AddRecipeDialog = ({
   visible,
   onNameChange,
   onRecipeCreate,
-  onCloseDialog
+  onCloseDialog,
 }: AddRecipeDialogProps) => {
   return (
     <SimpleDialog

@@ -1,5 +1,5 @@
 import React from "react";
-// import { useHistory, useParams } from "react-router-dom";
+// import { useNavigate, useParams } from "react-router-dom";
 import { Grid, GridCell } from "@rmwc/grid";
 import {
   ImageList,
@@ -7,13 +7,13 @@ import {
   ImageListImageAspectContainer,
   ImageListImage,
   ImageListSupporting,
-  ImageListLabel
+  ImageListLabel,
 } from "@rmwc/image-list";
 import Header from "components/header/Header.container";
 import { List, CollapsibleList, SimpleListItem } from "@rmwc/list";
 
 const RecipeCardDetailsScene = () => {
-  // const history = useHistory();
+  // const history = useNavigate();
   // const { id } = useParams();
 
   return (
@@ -24,7 +24,6 @@ const RecipeCardDetailsScene = () => {
         <GridCell span={12}>
           <List>
             <CollapsibleList
-              startOpen
               handle={
                 <SimpleListItem
                   text="Photos"
@@ -35,7 +34,7 @@ const RecipeCardDetailsScene = () => {
             >
               <ImageList>
                 {["images/mb-bg-fb-16.png", "images/mb-bg-fb-16.png"].map(
-                  src => (
+                  (src) => (
                     <ImageListItem
                       key={src + Math.round(Math.random() * 100)}
                       style={{ margin: "2px", width: "calc(100% / 5 - 4.2px)" }}

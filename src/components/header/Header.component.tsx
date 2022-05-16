@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Search from "../fields/search/Search.component";
 import { Icon } from "@rmwc/icon";
 import Filter, { FiterSearchProps } from "../filter/Filter.component";
@@ -9,10 +9,10 @@ import {
   TopAppBarSection,
   TopAppBarTitle,
   TopAppBarFixedAdjust,
-  TopAppBarNavigationIcon
+  TopAppBarNavigationIcon,
 } from "@rmwc/top-app-bar";
 
-const recipeDetailsHeader = (id: string | undefined, history: any) => {
+const recipeDetailsHeader = (id: string | undefined, navigate: any) => {
   return (
     <>
       <TopAppBar fixed>
@@ -20,7 +20,7 @@ const recipeDetailsHeader = (id: string | undefined, history: any) => {
           <TopAppBarSection>
             <TopAppBarNavigationIcon
               icon="arrow_back"
-              onClick={() => history.goBack()}
+              onClick={() => navigate(-1)}
             />
           </TopAppBarSection>
           <TopAppBarSection alignEnd>
@@ -40,7 +40,7 @@ const recipeDetailsHeader = (id: string | undefined, history: any) => {
   );
 };
 
-const cookbookHeader = (id: string | undefined, logoutUser: Function) => {
+const cookbookHeader = (id: string | undefined, logoutUser: () => void) => {
   const [openFilter, setOpenFilter] = useState(false);
   return (
     <>
@@ -84,7 +84,7 @@ const cookbookHeader = (id: string | undefined, logoutUser: Function) => {
   );
 };
 
-const defaultHeader = (id: string | undefined, history: any) => {
+const defaultHeader = (id: string | undefined, navigate: any) => {
   return (
     <>
       <TopAppBar fixed>
@@ -101,7 +101,7 @@ const defaultHeader = (id: string | undefined, history: any) => {
             <TopAppBarNavigationIcon
               className={"material-icons-outlined"}
               icon="account_circle"
-              onClick={() => history.push("/login")}
+              onClick={() => navigate("/login")}
             />
             <TopAppBarNavigationIcon icon="menu_book" />
           </TopAppBarSection>
@@ -112,7 +112,7 @@ const defaultHeader = (id: string | undefined, history: any) => {
   );
 };
 
-const loginHeader = (history: any) => {
+const loginHeader = (navigate: any) => {
   return (
     <>
       <TopAppBar fixed>
@@ -120,7 +120,7 @@ const loginHeader = (history: any) => {
           <TopAppBarSection>
             <TopAppBarNavigationIcon
               icon="arrow_back"
-              onClick={() => history.goBack()}
+              onClick={() => navigate(-1)}
             />
           </TopAppBarSection>
         </TopAppBarRow>
@@ -132,22 +132,22 @@ const loginHeader = (history: any) => {
 
 type HeaderProps = {
   type: string;
-  logoutUser: Function;
+  logoutUser: () => void;
 };
 
 const Header = ({ type, logoutUser }: HeaderProps) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { id } = useParams();
 
   switch (type) {
     case "login":
-      return loginHeader(history);
+      return loginHeader(navigate);
     case "recipe-details":
-      return recipeDetailsHeader(id, history);
+      return recipeDetailsHeader(id, navigate);
     case "cookbook":
       return cookbookHeader(id, logoutUser);
     default:
-      return defaultHeader(id, history);
+      return defaultHeader(id, navigate);
   }
 };
 

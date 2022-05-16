@@ -4,7 +4,7 @@ import Authentication from "./Authentication.component";
 import {
   AuthenticationFormAction,
   AuthenticationFormField,
-  AuthenticationFormState
+  AuthenticationFormState,
 } from "./Authentication.types";
 import store from "../../store";
 import { createAccount } from "./Authentication.actions";
@@ -15,19 +15,19 @@ const formEmailField: AuthenticationFormField = {
   id: "email",
   label: "Email",
   value: "",
-  type: "text"
+  type: "text",
 };
 
 const formPasswordField: AuthenticationFormField = {
   id: "password",
   label: "Password",
   value: "",
-  type: "password"
+  type: "password",
 };
 
 const defaultCreateAccountFields: Array<AuthenticationFormField> = [
   formEmailField,
-  formPasswordField
+  formPasswordField,
 ];
 
 const defaultCreateAccountActions: Array<AuthenticationFormAction> = [
@@ -38,8 +38,8 @@ const defaultCreateAccountActions: Array<AuthenticationFormAction> = [
     onClick: (_history: any, options: any) => {
       const { email, password } = options;
       store.dispatch(createAccount(email, password));
-    }
-  }
+    },
+  },
 ];
 
 const mapStateToProps = (
@@ -50,7 +50,7 @@ const mapStateToProps = (
   formFields: formFields || defaultCreateAccountFields,
   formActions: defaultCreateAccountActions,
   shouldNavigate: state.userInfo.loggedIn || false,
-  navigateToUrl: "/cookbook/" + state.userInfo.cookbookId
+  navigateToUrl: "/cookbook/" + state.userInfo.cookbookId,
 });
 
 const Connected = connect(mapStateToProps)(Authentication);

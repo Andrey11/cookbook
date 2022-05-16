@@ -8,44 +8,64 @@ import CookbookSceneContainer from "components/cookbook/CookbookScene.container"
 import LoginContainer from "components/authentication/Login.container";
 import CreateAccountContainer from "components/authentication/CreateAccount.container";
 import SceneContainer from "components/scene/Scene.container";
-import { Switch, Route } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 const App = () => {
   return (
     <Provider store={store}>
       <div className={styles.App}>
-        <Switch>
-          <Route path="/recipe/:id">
-            <SceneContainer sceneName="RecipeCardDetailsScene">
-              <RecipeCardDetailsScene />
-            </SceneContainer>
-          </Route>
-          <Route path="/cookbook/:id">
-            <SceneContainer sceneName="CookbookSceneContainer">
-              <CookbookSceneContainer />
-            </SceneContainer>
-          </Route>
-          <Route path="/cookbook">
-            <SceneContainer sceneName="CookbookSceneContainer">
-              <CookbookSceneContainer />
-            </SceneContainer>
-          </Route>
-          <Route path="/create">
-            <SceneContainer sceneName="CreateAccountContainer">
-              <CreateAccountContainer />
-            </SceneContainer>
-          </Route>
-          <Route path="/login">
-            <SceneContainer sceneName="LoginContainer">
-              <LoginContainer />
-            </SceneContainer>
-          </Route>
-          <Route path="/">
-            <SceneContainer sceneName="DefaultScene">
-              <DefaultScene />
-            </SceneContainer>
-          </Route>
-        </Switch>
+        <Routes>
+          <Route
+            path="/recipe/:id"
+            element={
+              <SceneContainer sceneName="RecipeCardDetailsScene">
+                <RecipeCardDetailsScene />
+              </SceneContainer>
+            }
+          />
+          <Route
+            path="/cookbook/:id"
+            element={
+              <SceneContainer sceneName="CookbookSceneContainer">
+                <CookbookSceneContainer />
+              </SceneContainer>
+            }
+          />
+          <Route
+            path="/cookbook"
+            element={
+              <SceneContainer sceneName="CookbookSceneContainer">
+                <CookbookSceneContainer />
+              </SceneContainer>
+            }
+          />
+
+          <Route
+            path="/create"
+            element={
+              <SceneContainer sceneName="CreateAccountContainer">
+                <CreateAccountContainer />
+              </SceneContainer>
+            }
+          />
+
+          <Route
+            path="/login"
+            element={
+              <SceneContainer sceneName="LoginContainer">
+                <LoginContainer />
+              </SceneContainer>
+            }
+          />
+          <Route
+            path="/"
+            element={
+              <SceneContainer sceneName="DefaultScene">
+                <DefaultScene />
+              </SceneContainer>
+            }
+          />
+        </Routes>
       </div>
     </Provider>
   );

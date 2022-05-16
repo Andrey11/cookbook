@@ -7,14 +7,14 @@ type SceneProps = {
   children: any;
   sceneName: string;
   isFirebaseInitialized: boolean;
-  verityAuthState: Function;
+  verityAuthState: () => void;
 };
 
 const Scene = ({
   children,
   isFirebaseInitialized,
   verityAuthState,
-  sceneName
+  sceneName,
 }: SceneProps) => {
   useEffect(() => {
     if (!isFirebaseInitialized) {

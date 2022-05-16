@@ -15,6 +15,6 @@ export const renderWithRedux = (
   const store = mockStore(initialState);
   return {
     ...render(<Provider store={store}>{ui}</Provider>),
-    mockStore: store
+    mockStore: store,
   };
 };

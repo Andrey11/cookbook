@@ -3,7 +3,7 @@ import { User, AuthState } from "./Authentication.types";
 
 const initialState: AuthState = {
   loggedIn: false,
-  isFirebaseInitialized: false
+  isFirebaseInitialized: false,
 };
 
 export const slice = createSlice({
@@ -31,7 +31,7 @@ export const slice = createSlice({
       state.id = undefined;
       state.user = undefined;
     },
-    onLogoutSuccess: state => {
+    onLogoutSuccess: (state) => {
       state.loggedIn = false;
       state.cookbookId = "";
       state.id = undefined;
@@ -60,8 +60,8 @@ export const slice = createSlice({
       state.id = undefined;
       state.user = undefined;
       state.error = action.payload;
-    }
-  }
+    },
+  },
 });
 
 export const {
@@ -71,7 +71,7 @@ export const {
   onLogoutSuccess,
   onCreateUserSuccess,
   onCreateUserError,
-  onFirebaseInitialized
+  onFirebaseInitialized,
 } = slice.actions;
 
 export default slice.reducer;

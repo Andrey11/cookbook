@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Grid, GridCell } from "@rmwc/grid";
 import { ChipSet, Chip } from "@rmwc/chip";
 import { TextField } from "@rmwc/textfield";
@@ -29,9 +29,9 @@ const CookbookScene = ({
   loadCookbook,
   shouldLoadCookbook,
   isFirebaseInitialized,
-  showCreateRecipeDialog
+  showCreateRecipeDialog,
 }: CookbookSceneProps) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { id } = useParams();
 
   useEffect(() => {
@@ -39,7 +39,7 @@ const CookbookScene = ({
       console.log("Should wait for init");
     } else if (shouldLogout && id) {
       console.log("Should logout");
-      history.replace("/");
+      navigate("/");
     } else if (shouldLoadCookbook) {
       console.log("Not loaded, and cookbook is set");
       loadCookbook(cookbookId);
