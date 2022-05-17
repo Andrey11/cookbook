@@ -21,6 +21,8 @@ import {
   arrayUnion,
   collection,
   getDocs,
+  DocumentData,
+  DocumentReference,
 } from "firebase/firestore";
 import { FirebaseStorage, getStorage } from "firebase/storage";
 import { FirebaseConfig } from "../../config/FirebaseConfig";
@@ -79,15 +81,42 @@ class Firebase {
   };
 
   // *** Database API ***
+  doAddCreatedUser = (cookbookId: string, username: string) => {
+    const db: Firestore = Firebase.INSTANCE.database;
+    const cookbookRef: DocumentReference<DocumentData> = doc(
+      db,
+      "cookbook",
+      cookbookId
+    );
+    const docRef: DocumentReference<DocumentData> = doc(
+      db,
+      "users",
+      cookbookId
+    );
+    return setDoc(docRef, {
+      cookbook: cookbookRef,
+      name: username,
+    }).catch((reason: any) => {
+      console.error(
+        "[Firebase][doAddCreatedUser] Error creating user in users doc",
+        reason
+      );
+    });
+  };
+
   doCreateCookbook = (cookbookId: string, username: string) => {
     const db = Firebase.INSTANCE.database;
-
-    return setDoc(doc(db, "cookbook", cookbookId), {
+    const docRef: DocumentReference<DocumentData> = doc(
+      db,
+      "cookbook",
+      cookbookId
+    );
+    return setDoc(docRef, {
       name: username,
       recipes: [],
-      created: serverTimestamp,
-      modified: serverTimestamp,
-    }).catch(function (error) {
+      created: serverTimestamp(),
+      modified: serverTimestamp(),
+    }).catch((error: any) => {
       console.error(
         "[Firebase][doCreateCookbook] Error writing new message to database",
         error
@@ -113,8 +142,8 @@ class Firebase {
       const recipeRef = doc(db, "recipe", auth.currentUser.uid);
       return setDoc(recipeRef, {
         name: name,
-        created: serverTimestamp,
-        modified: serverTimestamp,
+        created: serverTimestamp(),
+        modified: serverTimestamp(),
         createdBy: auth.currentUser.uid,
         modifiedBy: auth.currentUser.uid,
       }).catch((error: any) => {

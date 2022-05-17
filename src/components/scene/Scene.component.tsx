@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Typography } from "@rmwc/typography";
+// import { Typography } from "@rmwc/typography";
 import styles from "./Scene.module.scss";
 import { CircularProgress } from "@rmwc/circular-progress";
 

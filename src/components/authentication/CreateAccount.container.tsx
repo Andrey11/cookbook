@@ -9,7 +9,6 @@ import {
 import store from "../../store";
 import { createAccount } from "./Authentication.actions";
 import { withFirebase } from "../firebase/Firebase";
-import { AUTH_FORM } from "utils/Constants";
 
 const formEmailField: AuthenticationFormField = {
   id: "email",

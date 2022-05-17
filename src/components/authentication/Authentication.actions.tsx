@@ -115,7 +115,10 @@ export const createAccount =
         };
         console.log("created user");
         dispatch(onCreateUserSuccess(user));
-        return firebase.doCreateCookbook(user.cookbookId || "", user.username);
+        return Promise.all([
+          firebase.doCreateCookbook(currentUser.uid, user.username),
+          firebase.doAddCreatedUser(currentUser.uid, user.username),
+        ]);
       })
       .catch((error: any) => {
         dispatch(onCreateUserError(error));
