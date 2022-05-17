@@ -33,7 +33,7 @@ const RecipeCardDetailsScene = () => {
               }
             >
               <ImageList>
-                {["images/mb-bg-fb-16.png", "images/mb-bg-fb-16.png"].map(
+                {["/images/mb-bg-fb-16.png", "/images/mb-bg-fb-16.png"].map(
                   (src) => (
                     <ImageListItem
                       key={src + Math.round(Math.random() * 100)}
