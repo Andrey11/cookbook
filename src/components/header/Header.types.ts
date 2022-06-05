@@ -4,3 +4,13 @@ export const HEADER_TYPE = {
     COOKBOOK: 'cookbook',
     DEFAULT: 'default',
 };
+
+export type HeaderProps = {
+    type: string;
+    logoutUser: () => void;
+    backButtonTooltip?: string;
+};
+
+export type LoginHeaderProps = {
+    backButtonTooltip: string;
+};

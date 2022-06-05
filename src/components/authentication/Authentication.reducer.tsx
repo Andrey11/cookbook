@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction, Slice } from '@reduxjs/toolkit';
 import { RootState } from 'store';
 import { User, AuthState } from './Authentication.types';
 
@@ -8,11 +8,14 @@ const initialState: AuthState = {
     authVerfied: false,
 };
 
-export const slice = createSlice({
+export const authSlice: Slice = createSlice({
     name: 'AuthenticationSlice',
     initialState,
     reducers: {
-        onFirebaseInitialized: (state, action: PayloadAction<AuthState>) => {
+        onFirebaseInitialized: (
+            state: AuthState,
+            action: PayloadAction<AuthState>
+        ) => {
             state.id = action.payload.id;
             state.user = action.payload.user;
             state.loggedIn = action.payload.loggedIn;
@@ -20,35 +23,38 @@ export const slice = createSlice({
             state.isFirebaseInitialized = action.payload.isFirebaseInitialized;
             state.authVerfied = action.payload.authVerfied;
         },
-        onLoginSuccess: (state, action: PayloadAction<User>) => {
+        onLoginSuccess: (state: AuthState, action: PayloadAction<User>) => {
             state.id = action.payload.id || undefined;
             state.user = action.payload;
             state.loggedIn = true;
             state.cookbookId = action.payload.cookbookId || undefined; // "MVNzqtXaUq7HJq0PgOrn";
             state.error = '';
         },
-        onLoginError: (state, action: PayloadAction<string>) => {
+        onLoginError: (state: AuthState, action: PayloadAction<string>) => {
             state.loggedIn = false;
             state.error = action.payload;
             state.cookbookId = '';
             state.id = undefined;
             state.user = undefined;
         },
-        onLogoutSuccess: (state) => {
+        onLogoutSuccess: (state: AuthState) => {
             state.loggedIn = false;
             state.cookbookId = '';
             state.id = undefined;
             state.user = undefined;
             state.error = '';
         },
-        onLogoutError: (state, action: PayloadAction<string>) => {
+        onLogoutError: (state: AuthState, action: PayloadAction<string>) => {
             state.loggedIn = false;
             state.cookbookId = '';
             state.id = undefined;
             state.user = undefined;
             state.error = action.payload;
         },
-        onCreateUserSuccess: (state, action: PayloadAction<User>) => {
+        onCreateUserSuccess: (
+            state: AuthState,
+            action: PayloadAction<User>
+        ) => {
             state.user = action.payload;
             state.user.username = action.payload.username;
             state.user.password = '';
@@ -57,12 +63,19 @@ export const slice = createSlice({
             state.cookbookId = action.payload.cookbookId || undefined;
             state.error = '';
         },
-        onCreateUserError: (state, action: PayloadAction<string>) => {
+        onCreateUserError: (
+            state: AuthState,
+            action: PayloadAction<string>
+        ) => {
             state.loggedIn = false;
             state.cookbookId = '';
             state.id = undefined;
             state.user = undefined;
             state.error = action.payload;
+        },
+        onPasswordResetSuccess: (state: AuthState) => {
+            state.cookbookId = '';
+            state.loggedIn = false;
         },
     },
 });
@@ -75,7 +88,8 @@ export const {
     onCreateUserSuccess,
     onCreateUserError,
     onFirebaseInitialized,
-} = slice.actions;
+    onPasswordResetSuccess,
+} = authSlice.actions;
 
 export const firebaseInitialized = (state: RootState): boolean =>
     state.userInfo.isFirebaseInitialized;
@@ -83,4 +97,13 @@ export const firebaseInitialized = (state: RootState): boolean =>
 export const authVerified = (state: RootState): boolean =>
     state.userInfo.authVerfied;
 
-export default slice.reducer;
+export const userCookbookId = (state: RootState): string =>
+    state.userInfo.user?.cookbookId || '';
+
+export const isUserLoggedIn = (state: RootState): boolean =>
+    state.userInfo.loggedIn;
+
+export const isError = (state: RootState): boolean =>
+    state.userInfo.error && state.userInfo.error.code.length > 0;
+
+export default authSlice.reducer;

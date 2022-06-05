@@ -22,7 +22,6 @@ export type Partial<T> = {
 export interface RecipesState {
     records: Partial<RecipeState>;
     filters?: Array<string>;
-    test: Partial<Recipe>;
 }
 
 export interface CreateRecipeState {

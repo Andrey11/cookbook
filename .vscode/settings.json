@@ -14,7 +14,6 @@
   "eslint.workingDirectories": [{ "mode": "auto" }],
   "[javascript]": { "editor.formatOnSave": false },
   "editor.codeActionsOnSave": { "source.fixAll": true },
-  "editor.codeActionsOnSaveTimeout": 4000,
   "prettier.singleQuote": true,
   "javascript.preferences.quoteStyle": "single",
 }

@@ -11,6 +11,7 @@ import {
     onCreateRecipeAction,
     onEndCreateRecipe,
     onLoadAllRecipesSuccess,
+    onAddRecipeSuccess,
 } from './CookbookScene.reducer';
 
 import { Cookbook } from './Cookbook.types';
@@ -23,8 +24,6 @@ import {
 } from 'components/recipe/RecipeCard.types';
 import { Url } from 'url';
 import { DocumentData, QuerySnapshot } from 'firebase/firestore';
-
-const firebase = Firebase.getInstance();
 
 export const loadCookbook = (id: string) => (dispatch: AppDispatch) => {
     dispatch(onLoadCookbook(id));
@@ -53,11 +52,11 @@ export const loadCookbook = (id: string) => (dispatch: AppDispatch) => {
 };
 
 export const loadRecipe = (id: string) => (dispatch: AppDispatch) => {
+    const fb = Firebase.getInstance();
     const rec: Recipe = { id: id };
     const defaultRecipe: RecipeState = { id: id, loading: true, record: rec };
     dispatch(onBeginLoadRecipe(defaultRecipe));
-    firebase
-        .doLoadRecipeById(id)
+    fb.doLoadRecipeById(id)
         .then((querySnapshot: any) => {
             console.log(`${querySnapshot.id} => ${querySnapshot.data().name}`);
             const recipeRecord: Recipe = {
@@ -98,12 +97,11 @@ export const convertToRecipeState = (rec: DocumentData) => {
 
 export const loadAllRecipes = () => (dispatch: AppDispatch) => {
     // dispatch(onBeginLoadRecipe(defaultRecipe));
-    firebase
-        .doLoadAllRecipes()
+    const fb = Firebase.getInstance();
+    fb.doLoadAllRecipes()
         .then((querySnapshot: QuerySnapshot) => {
             const recipes: RecipesState = {
                 records: {},
-                test: {},
                 filters: [],
             };
 
@@ -142,14 +140,14 @@ export const hideCreateRecipeDialog = () => (dispatch: AppDispatch) => {
 
 export const createRecipe = (name: string) => (dispatch: AppDispatch) => {
     console.log('[CookbookScene.actions] createRecipe');
-    firebase
-        .doCreateRecipe(name)
+    const fb = Firebase.getInstance();
+    fb.doCreateRecipe(name)
         .then((result: any) => {
             // const id = result.id;
             console.log('result: ' + result.toString());
             // const rec = convertToRecipeState(result);
 
-            firebase.doAddRecipeIdToCurrentUserCookbook(result).then(() => {
+            fb.doAddRecipeIdToCurrentUserCookbook(result).then(() => {
                 dispatch(onCreateRecipeAction());
 
                 const recipeRec: Recipe = {
@@ -165,31 +163,35 @@ export const createRecipe = (name: string) => (dispatch: AppDispatch) => {
                 };
 
                 dispatch(onLoadRecipeSuccess(recipeState));
+                dispatch(onAddRecipeSuccess(recipeRec));
             });
         })
-        .catch(() => {
+        .catch((reason: any) => {
             // TODO: fix this
+            console.log('Got error: ' + reason);
             dispatch(onLoadCookbookError('Error'));
         });
 };
 export const createRecipeNameChange =
     (name: string) => (dispatch: AppDispatch) => {
+        const fb = Firebase.getInstance();
         console.log(
             '[CookbookScene.actions] onCreateRecipeNameChange: ' +
                 name +
                 ', ' +
-                firebase.isInitialized
+                fb.isInitialized
         );
         dispatch(onCreateRecipeNameChange(name));
     };
 
 export const createRecipeImageUrlChange =
     (url: Url) => (dispatch: AppDispatch) => {
+        const fb = Firebase.getInstance();
         console.log(
             '[CookbookScene.actions] createRecipeImageUrlChange: ' +
                 url +
                 ', ' +
-                firebase.isInitialized
+                fb.isInitialized
         );
         dispatch(onCreateRecipeImageUrlChange(url));
     };

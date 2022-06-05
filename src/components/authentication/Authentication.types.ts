@@ -26,6 +26,7 @@ export interface AuthenticationFormState {
     formActions: Array<AuthenticationFormAction>;
     shouldNavigate: boolean;
     navigateToUrl: string;
+    hasError: boolean;
 }
 
 export interface User {

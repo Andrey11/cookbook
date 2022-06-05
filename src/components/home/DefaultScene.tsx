@@ -1,25 +1,26 @@
 import React, { useEffect } from 'react';
 import { Grid, GridCell } from '@rmwc/grid';
 import RecipeCard from '../recipe/RecipeCard.container';
-import Header from '../header/Header.container';
+import Header from '../header/Header';
 import { Recipe } from 'components/recipe/RecipeCard.types';
+import { HEADER_TYPE } from 'components/header/Header.types';
+import { useAppDispatch, useAppSelector } from 'hooks';
+import { logout } from 'components/authentication/Authentication.actions';
+import {
+    allRecipesList,
+    shouldReloadAllRecipesList,
+} from 'components/cookbook/CookbookScene.selector';
+import { loadAllRecipes } from 'components/cookbook/CookbookScene.actions';
 
-type DefaultProps = {
-    recipes: Array<Recipe>;
-    loadAllRecipes: () => void;
-    shouldReloadAllRecipes: boolean;
-};
+const DefaultScene: React.FunctionComponent = () => {
+    const dispatch = useAppDispatch();
+    const recipes = useAppSelector(allRecipesList);
+    const shouldReloadAllRecipes = useAppSelector(shouldReloadAllRecipesList);
 
-const Default = ({
-    recipes,
-    loadAllRecipes,
-    shouldReloadAllRecipes,
-}: DefaultProps) => {
     useEffect(() => {
-        console.log('[Default.component] useEffect()');
         if (shouldReloadAllRecipes) {
             console.log('shouldReloadAllRecipes true');
-            loadAllRecipes();
+            dispatch(loadAllRecipes());
         }
     }, [shouldReloadAllRecipes]);
 
@@ -42,7 +43,11 @@ const Default = ({
 
     return (
         <>
-            <Header type={'default'} />
+            <Header
+                type={HEADER_TYPE.DEFAULT}
+                logoutUser={() => dispatch(logout)}
+                backButtonTooltip="Back to Home"
+            />
             <main>
                 <Grid>{createRecipeCardList()}</Grid>
             </main>
@@ -50,4 +55,4 @@ const Default = ({
     );
 };
 
-export default Default;
+export default DefaultScene;

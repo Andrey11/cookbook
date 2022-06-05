@@ -12,6 +12,8 @@ import {
     TopAppBarFixedAdjust,
     TopAppBarNavigationIcon,
 } from '@rmwc/top-app-bar';
+import { Tooltip } from '@rmwc/tooltip';
+import { HeaderProps, LoginHeaderProps } from './Header.types';
 
 const recipeDetailsHeader = (id: string | undefined, navigate: any) => {
     return (
@@ -43,6 +45,7 @@ const recipeDetailsHeader = (id: string | undefined, navigate: any) => {
 
 const cookbookHeader = (id: string | undefined, logoutUser: () => void) => {
     const [openFilter, setOpenFilter] = useState(false);
+    console.log('called cookbookHeader');
     return (
         <>
             <TopAppBar fixed>
@@ -62,7 +65,7 @@ const cookbookHeader = (id: string | undefined, logoutUser: () => void) => {
                     <TopAppBarSection alignEnd>
                         <TopAppBarNavigationIcon
                             icon="account_circle"
-                            onClick={() => logoutUser()}
+                            onClick={logoutUser}
                         />
                         <TopAppBarNavigationIcon
                             icon="filter_list"
@@ -114,16 +117,22 @@ const defaultHeader = (id: string | undefined, navigate: any) => {
     );
 };
 
-const loginHeader = (navigate: any) => {
+export const LoginHeader: React.FunctionComponent<LoginHeaderProps> = ({
+    backButtonTooltip,
+}: LoginHeaderProps) => {
+    const navigate = useNavigate();
+
     return (
         <>
             <TopAppBar fixed>
                 <TopAppBarRow>
                     <TopAppBarSection>
-                        <TopAppBarNavigationIcon
-                            icon="arrow_back"
-                            onClick={() => navigate(-1)}
-                        />
+                        <Tooltip content={backButtonTooltip}>
+                            <TopAppBarNavigationIcon
+                                icon="arrow_back"
+                                onClick={() => navigate(-1)}
+                            />
+                        </Tooltip>
                     </TopAppBarSection>
                 </TopAppBarRow>
             </TopAppBar>
@@ -132,18 +141,13 @@ const loginHeader = (navigate: any) => {
     );
 };
 
-type HeaderProps = {
-    type: string;
-    logoutUser: () => void;
-};
-
-const Header = ({ type, logoutUser }: HeaderProps) => {
+const Header = ({ type, logoutUser, backButtonTooltip = '' }: HeaderProps) => {
     const navigate = useNavigate();
     const { id } = useParams();
 
     switch (type) {
         case 'login':
-            return loginHeader(navigate);
+            return <LoginHeader backButtonTooltip={backButtonTooltip} />;
         case 'recipe-details':
             return recipeDetailsHeader(id, navigate);
         case 'cookbook':

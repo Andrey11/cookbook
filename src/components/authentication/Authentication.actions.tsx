@@ -7,6 +7,7 @@ import {
     onCreateUserSuccess,
     onCreateUserError,
     onFirebaseInitialized,
+    onPasswordResetSuccess,
 } from './Authentication.reducer';
 import {
     resetCookbook,
@@ -81,7 +82,7 @@ export const logout = () => (dispatch: AppDispatch) => {
         .doSignOut()
         .then(() => {
             console.log('onLogoutSuccess');
-            dispatch(onLogoutSuccess());
+            dispatch(onLogoutSuccess({}));
             dispatch(resetCookbook());
             dispatch(resetRecipes());
         })
@@ -125,3 +126,15 @@ export const createAccount =
                 dispatch(onCreateUserError(error));
             });
     };
+
+export const resetPassword = (username: string) => (dispatch: AppDispatch) => {
+    console.log('Action reset password has been called, username=' + username);
+    firebase
+        .doPasswordReset(username)
+        .then(() => {
+            dispatch(onPasswordResetSuccess({}));
+        })
+        .catch((reason: any) => {
+            console.log('Got Error: reset password: ' + reason);
+        });
+};

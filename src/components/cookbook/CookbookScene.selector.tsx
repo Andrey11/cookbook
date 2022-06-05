@@ -36,3 +36,7 @@ export const getCookbookId = (state: any) => {
 export const shouldLoadCookbook = (state: any) => {
     return !state.data.cookbook.loaded && !state.data.cookbook.loading;
 };
+
+export const isLoaded = (state: any) => state.data.cookbook.loaded;
+
+export const isLoading = (state: any) => state.data.cookbook.loading;

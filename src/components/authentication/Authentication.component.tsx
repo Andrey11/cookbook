@@ -14,8 +14,6 @@ import {
     AuthenticationFormField,
     AuthenticationFormAction,
 } from './Authentication.types';
-import { HEADER_TYPE } from 'components/header/Header.types';
-import Header from '../header/Header.container';
 import styles from './Authentication.module.scss';
 
 const Authentication: React.FunctionComponent<AuthenticationFormState> = ({
@@ -24,6 +22,7 @@ const Authentication: React.FunctionComponent<AuthenticationFormState> = ({
     formActions,
     shouldNavigate,
     navigateToUrl,
+    hasError,
 }: AuthenticationFormState) => {
     const navigate = useNavigate();
     const imageUrl = 'url(/images/image-pot-512.png)';
@@ -72,15 +71,16 @@ const Authentication: React.FunctionComponent<AuthenticationFormState> = ({
     };
 
     useEffect(() => {
-        console.log('styles: ' + `${styles.AuthForm}`);
         if (shouldNavigate) {
+            console.log('styles: ' + `${styles.AuthForm}`);
             navigate(navigateToUrl, { replace: true });
+        } else if (hasError) {
+            console.log('hasError');
         }
-    }, [shouldNavigate]);
+    }, [shouldNavigate, hasError]);
 
     return (
         <>
-            <Header type={HEADER_TYPE.LOGIN} />
             <div className={styles.AuthForm}>
                 <Card style={{ width: '21rem' }}>
                     {/* <CardPrimaryAction onClick={() => console.log("clicked")}> */}

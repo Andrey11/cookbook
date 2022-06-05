@@ -4,6 +4,7 @@ import {
     RecipesState,
     RecipeState,
     CreateRecipeState,
+    Recipe,
 } from 'components/recipe/RecipeCard.types';
 import { Url } from 'url';
 
@@ -18,31 +19,46 @@ export const cookbookSlice = createSlice({
         loaded: false,
     } as CookbookState,
     reducers: {
-        onLoadCookbook: (state, action: PayloadAction<string>) => {
+        onLoadCookbook: (
+            state: CookbookState,
+            action: PayloadAction<string>
+        ) => {
             state.loading = true;
             state.loaded = false;
             state.record = null;
             state.error = null;
             state.cookbookId = action.payload;
         },
-        onLoadCookbookSuccess: (state, action: PayloadAction<Cookbook>) => {
+        onLoadCookbookSuccess: (
+            state: CookbookState,
+            action: PayloadAction<Cookbook>
+        ) => {
             state.loading = false;
             state.record = action.payload;
             state.cookbookId = action.payload.id;
             state.loaded = true;
         },
-        onLoadCookbookError: (state, action: PayloadAction<string>) => {
+        onLoadCookbookError: (
+            state: CookbookState,
+            action: PayloadAction<string>
+        ) => {
             state.loading = false;
             state.record = null;
             state.error = action.payload;
             state.loaded = false;
         },
-        resetCookbook: (state: any) => {
+        resetCookbook: (state: CookbookState) => {
             state.loaded = false;
             state.loading = false;
             state.record = null;
             state.error = null;
             state.cookbookId = null;
+        },
+        onAddRecipeSuccess: (
+            state: CookbookState,
+            action: PayloadAction<Recipe>
+        ) => {
+            state.record?.recipes.push(action.payload);
         },
     },
 });
@@ -52,6 +68,7 @@ export const {
     onLoadCookbookSuccess,
     onLoadCookbookError,
     resetCookbook,
+    onAddRecipeSuccess,
 } = cookbookSlice.actions;
 
 export const recipesSlice = createSlice({
@@ -60,7 +77,6 @@ export const recipesSlice = createSlice({
         records: {},
         uiRecords: [],
         filters: [],
-        test: {},
     } as RecipesState,
     reducers: {
         onBeginLoadRecipe: (
@@ -69,10 +85,6 @@ export const recipesSlice = createSlice({
         ) => {
             state.records = {
                 ...state.records,
-                [action.payload.id]: action.payload,
-            };
-            state.test = {
-                ...state.test,
                 [action.payload.id]: action.payload,
             };
         },
@@ -84,10 +96,6 @@ export const recipesSlice = createSlice({
                 ...state.records,
                 [action.payload.id]: action.payload,
             };
-            state.test = {
-                ...state.test,
-                [action.payload.id]: action.payload,
-            };
         },
         onLoadAllRecipesSuccess: (
             state: RecipesState,
@@ -95,10 +103,9 @@ export const recipesSlice = createSlice({
         ) => {
             state.records = action.payload.records;
             state.filters = action.payload.filters;
-            state.test = action.payload.test;
         },
         resetRecipes: (state: RecipesState) => {
-            (state.records = {}), (state.filters = []), (state.test = {});
+            (state.records = {}), (state.filters = []);
         },
     },
 });

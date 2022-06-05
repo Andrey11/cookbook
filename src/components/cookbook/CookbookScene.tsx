@@ -5,44 +5,45 @@ import { ChipSet, Chip } from '@rmwc/chip';
 import { TextField } from '@rmwc/textfield';
 import { Fab } from '@rmwc/fab';
 import RecipeCard from '../recipe/RecipeCard.container';
-import Header from '../header/Header.container';
+import Header from '../header/Header';
 import { Recipe } from 'components/recipe/RecipeCard.types';
 import AddRecipeDialog from '../recipe/AddRecipeDialog.container';
-
-type CookbookSceneProps = {
-    cookbookId: string;
-    loaded: boolean;
-    loading: boolean;
-    shouldLogout: boolean;
-    isFirebaseInitialized: boolean;
-    recipes: Array<Recipe>;
-    loadCookbook: (cookbookId: string) => void;
-    shouldLoadCookbook: boolean;
-    showCreateRecipeDialog: () => void;
-};
-
-const CookbookScene = ({
-    cookbookId,
-    loaded,
-    recipes,
-    shouldLogout,
-    loadCookbook,
-    shouldLoadCookbook,
+import { HEADER_TYPE } from 'components/header/Header.types';
+import { logout } from 'components/authentication/Authentication.actions';
+import { useAppDispatch, useAppSelector } from 'hooks';
+import {
+    getCookbookId,
     isFirebaseInitialized,
-    showCreateRecipeDialog,
-}: CookbookSceneProps) => {
+    isLoaded,
+    // isLoading,
+    recipesList,
+    shouldLoadCookbook,
+    shouldLogout,
+} from './CookbookScene.selector';
+import { loadCookbook, showCreateRecipeDialog } from './CookbookScene.actions';
+
+const CookbookScene: React.FunctionComponent = () => {
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const { id } = useParams();
 
+    const cookbookId = useAppSelector(getCookbookId);
+    const recipes = useAppSelector(recipesList);
+    const loaded = useAppSelector(isLoaded);
+    // const loading = useAppSelector(isLoading);
+    const firebaseInitialized = useAppSelector(isFirebaseInitialized);
+    const doLoadCookbook = useAppSelector(shouldLoadCookbook);
+    const doLogout = useAppSelector(shouldLogout);
+
     useEffect(() => {
-        if (!isFirebaseInitialized) {
+        if (!firebaseInitialized) {
             console.log('Should wait for init');
-        } else if (shouldLogout && id) {
+        } else if (doLogout && id) {
             console.log('Should logout');
             navigate('/');
-        } else if (shouldLoadCookbook) {
+        } else if (doLoadCookbook) {
             console.log('Not loaded, and cookbook is set');
-            loadCookbook(cookbookId);
+            dispatch(loadCookbook(cookbookId));
         } else if (!loaded && !cookbookId) {
             console.log('Not logged in, and no cookbook is set');
         } else {
@@ -54,21 +55,29 @@ const CookbookScene = ({
         if (!recipes || recipes.length === 0) {
             return;
         }
-        return recipes.map((recipe, index) => (
-            <GridCell span={6} key={index + '_' + recipe.id}>
-                <RecipeCard
-                    recipeId={recipe.id}
-                    imageUrl="url(/images/mb-bg-fb-16.png)"
-                    recipeTitle={'Recipe #' + recipe.id}
-                    isLoaded={false}
-                />
-            </GridCell>
-        ));
+        return recipes.map((recipe: Recipe, index: number) => {
+            return (
+                <GridCell span={6} key={index + '_' + recipe.id}>
+                    <RecipeCard
+                        recipeId={recipe.id}
+                        imageUrl="url(/images/mb-bg-fb-16.png)"
+                        recipeTitle={'Recipe #' + recipe.id}
+                        isLoaded={false}
+                    />
+                </GridCell>
+            );
+        });
     };
 
     return (
         <>
-            <Header type="cookbook" />
+            <Header
+                type={HEADER_TYPE.COOKBOOK}
+                logoutUser={() => {
+                    console.log('Why not calling logout?');
+                    dispatch(logout());
+                }}
+            />
             <AddRecipeDialog />
             <Grid>
                 {createRecipeCardList()}
@@ -96,7 +105,7 @@ const CookbookScene = ({
             <Fab
                 icon="restaurant"
                 className="app-fab--absolute"
-                onClick={() => showCreateRecipeDialog()}
+                onClick={() => dispatch(showCreateRecipeDialog())}
             />
         </>
     );

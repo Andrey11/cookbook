@@ -23,6 +23,7 @@ import {
     getDocs,
     DocumentData,
     DocumentReference,
+    addDoc,
 } from 'firebase/firestore';
 import { FirebaseStorage, getStorage } from 'firebase/storage';
 import { FirebaseConfig } from '../../config/FirebaseConfig';
@@ -134,24 +135,25 @@ class Firebase {
         return getDoc(docCookbookRef);
     };
 
-    doCreateRecipe = (name: string) => {
+    doCreateRecipe = async (name: string) => {
         const db = Firebase.INSTANCE.database;
         const auth = Firebase.INSTANCE.auth;
 
         if (auth.currentUser) {
-            const recipeRef = doc(db, 'recipe', auth.currentUser.uid);
-            return setDoc(recipeRef, {
-                name: name,
-                created: serverTimestamp(),
-                modified: serverTimestamp(),
-                createdBy: auth.currentUser.uid,
-                modifiedBy: auth.currentUser.uid,
-            }).catch((error: any) => {
+            try {
+                return await addDoc(collection(db, 'recipe'), {
+                    name: name,
+                    created: serverTimestamp(),
+                    modified: serverTimestamp(),
+                    createdBy: auth.currentUser.uid,
+                    modifiedBy: auth.currentUser.uid,
+                });
+            } catch (error) {
                 console.error(
                     '[Firebase][doCreateRecipe] Error writing new message to database',
                     error
                 );
-            });
+            }
         }
 
         return Promise.reject(
