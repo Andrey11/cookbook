@@ -16,10 +16,10 @@ import {
 import Firebase from '../firebase/Firebase';
 import { User, AuthState } from './Authentication.types';
 
-const firebase = Firebase.getInstance();
-
 export const login =
     (username: string, password: string) => (dispatch: AppDispatch) => {
+        const firebase = Firebase.getInstance();
+
         firebase
             .doSignInWithEmailAndPassword(username, password)
             .then((result: any) => {
@@ -45,6 +45,8 @@ export const checkAuthState = () => (dispatch: AppDispatch) => {
     console.log(
         '[Authentication.actions][checkAuthState] from Scene.component[useEffect]'
     );
+
+    const firebase = Firebase.getInstance();
 
     firebase.auth.onAuthStateChanged((fbUser) => {
         let user: User | undefined;
@@ -77,6 +79,7 @@ export const checkAuthState = () => (dispatch: AppDispatch) => {
 
 export const logout = () => (dispatch: AppDispatch) => {
     console.log('Action logout has been called');
+    const firebase = Firebase.getInstance();
 
     firebase
         .doSignOut()
@@ -100,6 +103,7 @@ export const createAccount =
                 ', password=' +
                 password
         );
+        const firebase = Firebase.getInstance();
 
         firebase
             .doCreateUserWithEmailAndPassword(username, password)
@@ -129,6 +133,8 @@ export const createAccount =
 
 export const resetPassword = (username: string) => (dispatch: AppDispatch) => {
     console.log('Action reset password has been called, username=' + username);
+    const firebase = Firebase.getInstance();
+
     firebase
         .doPasswordReset(username)
         .then(() => {

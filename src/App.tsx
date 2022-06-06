@@ -14,7 +14,7 @@ import ResetPassword from 'components/authentication/ResetPassword';
 const App: React.FunctionComponent = () => {
     return (
         <Provider store={store}>
-            <div className={styles.App}>
+            <div className={styles.App} data-testid="app-screen">
                 <Routes>
                     <Route
                         path="/recipe/:id"
