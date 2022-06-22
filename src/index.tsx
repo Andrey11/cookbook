@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import Firebase, { FirebaseContext } from './components/firebase/Firebase';
 
-import 'rmwc/dist/styles';
+import 'rmwc/styles';
 import './index.scss';
 
 import * as serviceWorker from './serviceWorker';

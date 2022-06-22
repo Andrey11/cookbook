@@ -1,15 +1,9 @@
-import { PayloadAction, createSlice, combineReducers } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { Cookbook, CookbookState } from './Cookbook.types';
-import {
-    RecipesState,
-    RecipeState,
-    CreateRecipeState,
-    Recipe,
-} from 'components/recipe/RecipeCard.types';
-import { Url } from 'url';
+import { Recipe } from '../recipe/RecipeCard.types';
 
 export const cookbookSlice = createSlice({
-    name: 'CookbookScene',
+    name: 'cookbook',
     initialState: {
         record: null,
         cookbookId: '',
@@ -71,97 +65,4 @@ export const {
     onAddRecipeSuccess,
 } = cookbookSlice.actions;
 
-export const recipesSlice = createSlice({
-    name: 'Recipes',
-    initialState: {
-        records: {},
-        uiRecords: [],
-        filters: [],
-    } as RecipesState,
-    reducers: {
-        onBeginLoadRecipe: (
-            state: RecipesState,
-            action: PayloadAction<RecipeState>
-        ) => {
-            state.records = {
-                ...state.records,
-                [action.payload.id]: action.payload,
-            };
-        },
-        onLoadRecipeSuccess: (
-            state: RecipesState,
-            action: PayloadAction<RecipeState>
-        ) => {
-            state.records = {
-                ...state.records,
-                [action.payload.id]: action.payload,
-            };
-        },
-        onLoadAllRecipesSuccess: (
-            state: RecipesState,
-            action: PayloadAction<RecipesState>
-        ) => {
-            state.records = action.payload.records;
-            state.filters = action.payload.filters;
-        },
-        resetRecipes: (state: RecipesState) => {
-            (state.records = {}), (state.filters = []);
-        },
-    },
-});
-
-export const {
-    onBeginLoadRecipe,
-    onLoadRecipeSuccess,
-    onLoadAllRecipesSuccess,
-    resetRecipes,
-} = recipesSlice.actions;
-
-export const createRecipeSlice = createSlice({
-    name: 'CreateRecipe',
-    initialState: {
-        name: '',
-        created: false,
-    } as CreateRecipeState,
-    reducers: {
-        onBeginCreateRecipe: (state: CreateRecipeState) => {
-            state.visible = true;
-        },
-        onCreateRecipeNameChange: (
-            state: CreateRecipeState,
-            action: PayloadAction<string>
-        ) => {
-            state.name = action.payload;
-        },
-        onCreateRecipeImageUrlChange: (
-            state: CreateRecipeState,
-            action: PayloadAction<Url>
-        ) => {
-            state.imageUrl = action.payload;
-        },
-        onCreateRecipeAction: (state: CreateRecipeState) => {
-            state.created = true;
-            state.visible = false;
-        },
-        onEndCreateRecipe: (state: CreateRecipeState) => {
-            state.name = '';
-            state.imageUrl = undefined;
-            state.visible = false;
-            state.created = false;
-        },
-    },
-});
-
-export const {
-    onBeginCreateRecipe,
-    onCreateRecipeNameChange,
-    onCreateRecipeImageUrlChange,
-    onCreateRecipeAction,
-    onEndCreateRecipe,
-} = createRecipeSlice.actions;
-
-export default combineReducers({
-    cookbook: cookbookSlice.reducer,
-    recipes: recipesSlice.reducer,
-    createrecipe: createRecipeSlice.reducer,
-});
+export default cookbookSlice.reducer;

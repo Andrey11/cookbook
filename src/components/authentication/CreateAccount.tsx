@@ -3,12 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import Header from '../header/Header';
 import { HEADER_TYPE } from '../header/Header.types';
 import { createAccount, logout } from './Authentication.actions';
-import { useAppDispatch, useAppSelector } from 'hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import {
     AuthenticationFormAction,
     AuthenticationFormField,
 } from './Authentication.types';
-import store from 'store';
+import store from '../../store';
 import Authentication from './Authentication.component';
 import { isUserLoggedIn, userCookbookId } from './Authentication.reducer';
 
@@ -16,7 +16,7 @@ const formEmailField: AuthenticationFormField = {
     id: 'username',
     label: 'Email',
     value: '',
-    type: 'text',
+    type: '',
 };
 
 const formPasswordField: AuthenticationFormField = {

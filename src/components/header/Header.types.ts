@@ -7,7 +7,7 @@ export const HEADER_TYPE = {
 
 export type HeaderProps = {
     type: string;
-    logoutUser: () => void;
+    logoutUser?: () => void;
     backButtonTooltip?: string;
 };
 

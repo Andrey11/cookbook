@@ -1,9 +1,9 @@
 import React from 'react';
 import { act, render, screen } from '@testing-library/react';
 import App from './App';
-import FirebaseContext from 'components/firebase/FirebaseContext';
+import FirebaseContext from './components/firebase/FirebaseContext';
 import { BrowserRouter } from 'react-router-dom';
-import Firebase from 'components/firebase/Firebase';
+import Firebase from './components/firebase/Firebase';
 
 describe('App tests', () => {
     const FirebaseInstance: any = {

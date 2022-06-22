@@ -6,12 +6,14 @@ type SearchFieldProps = {
     submit: (searchString: string) => void;
 };
 
-const Search = ({ submit }: SearchFieldProps) => {
+const Search: React.FunctionComponent<SearchFieldProps> = ({
+    submit,
+}: SearchFieldProps) => {
     const [searchText, setSearchText] = useState('');
-    const [closeIcon, setCloseIcon] = useState('');
+    const [trailingIconCls, setTrailingIconCls] = useState('');
 
     useEffect(() => {
-        setCloseIcon(searchText.length > 0 ? 'close' : '');
+        setTrailingIconCls(searchText.trim().length > 0 ? '' : styles.Hidden);
     }, [searchText]);
 
     return (
@@ -31,7 +33,8 @@ const Search = ({ submit }: SearchFieldProps) => {
                     }
                 }}
                 trailingIcon={{
-                    icon: closeIcon,
+                    icon: 'close',
+                    className: trailingIconCls,
                     onClick: () => {
                         setSearchText('');
                     },

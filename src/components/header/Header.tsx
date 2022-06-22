@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import React, { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { NavigateFunction, useNavigate, useParams } from 'react-router-dom';
 import Search from '../fields/search/Search.component';
 import { Icon } from '@rmwc/icon';
 import Logo from '../../images/icon-pot.svg';
@@ -43,7 +44,11 @@ const recipeDetailsHeader = (id: string | undefined, navigate: any) => {
     );
 };
 
-const cookbookHeader = (id: string | undefined, logoutUser: () => void) => {
+const cookbookHeader = (
+    id: string | undefined, 
+    logoutUser: () => void, 
+    navigate: NavigateFunction
+) => {
     const [openFilter, setOpenFilter] = useState(false);
     console.log('called cookbookHeader');
     return (
@@ -65,7 +70,8 @@ const cookbookHeader = (id: string | undefined, logoutUser: () => void) => {
                     <TopAppBarSection alignEnd>
                         <TopAppBarNavigationIcon
                             icon="account_circle"
-                            onClick={logoutUser}
+                            // onClick={logoutUser}
+                            onClick={() => navigate('/account')}
                         />
                         <TopAppBarNavigationIcon
                             icon="filter_list"
@@ -89,7 +95,7 @@ const cookbookHeader = (id: string | undefined, logoutUser: () => void) => {
     );
 };
 
-const defaultHeader = (id: string | undefined, navigate: any) => {
+const defaultHeader = (id: string | undefined, navigate: NavigateFunction) => {
     return (
         <>
             <TopAppBar fixed>
@@ -120,7 +126,7 @@ const defaultHeader = (id: string | undefined, navigate: any) => {
 export const LoginHeader: React.FunctionComponent<LoginHeaderProps> = ({
     backButtonTooltip,
 }: LoginHeaderProps) => {
-    const navigate = useNavigate();
+    const navigate: NavigateFunction = useNavigate();
 
     return (
         <>
@@ -144,6 +150,7 @@ export const LoginHeader: React.FunctionComponent<LoginHeaderProps> = ({
 const Header = ({ type, logoutUser, backButtonTooltip = '' }: HeaderProps) => {
     const navigate = useNavigate();
     const { id } = useParams();
+    const logoutFn = logoutUser ? logoutUser : () => { return; };
 
     switch (type) {
         case 'login':
@@ -151,7 +158,7 @@ const Header = ({ type, logoutUser, backButtonTooltip = '' }: HeaderProps) => {
         case 'recipe-details':
             return recipeDetailsHeader(id, navigate);
         case 'cookbook':
-            return cookbookHeader(id, logoutUser);
+            return cookbookHeader(id, logoutFn, navigate);
         default:
             return defaultHeader(id, navigate);
     }

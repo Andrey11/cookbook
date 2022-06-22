@@ -1,15 +1,70 @@
-import { createSlice, PayloadAction, Slice } from '@reduxjs/toolkit';
-import { RootState } from 'store';
-import { User, AuthState } from './Authentication.types';
+import { 
+    createAsyncThunk, 
+    createSlice, 
+    PayloadAction, 
+    Slice 
+} from '@reduxjs/toolkit';
+import { getAvatar, loadUserData, setAvatar, updateUserData } from '../user/AccountApi';
+import { RootState } from '../../store';
+import { User, AuthState, UserData } from './Authentication.types';
 
 const initialState: AuthState = {
     loggedIn: false,
+    userInfoLoaded: false,
+    status: 'idle',
     isFirebaseInitialized: false,
     authVerfied: false,
+    avatarUrl: '',
+    avatarName: '',
+    nickname: '',
+    firstname: '',
+    lastname: ''
 };
 
+export const updateUserDataAsync = createAsyncThunk(
+  'authentication/updateUserData',
+  async (userData: any) => {
+    await updateUserData(userData.userId, userData);
+    // The value we return becomes the `fulfilled` action payload
+    return userData;
+  }
+);
+export const loadUserDataAsync = createAsyncThunk(
+  'authentication/loadUserData',
+  async (userId: string) => {
+    const response = await loadUserData(userId);
+    const dataProps: any = response.data();
+    const userData: UserData = {
+        nickname: dataProps.nickname,
+        firstname: dataProps.firstname,
+        lastname: dataProps.lastname,
+        avatarName: dataProps.avatarName,
+        avatarUrl: ''
+    }
+    // The value we return becomes the `fulfilled` action payload
+    return userData;
+  }
+);
+export const loadUserAvatarAsync = createAsyncThunk(
+  'authentication/loadUserAvatar',
+  async (avatarPath: string) => {
+    const userAvatar = await getAvatar(avatarPath);
+    // The value we return becomes the `fulfilled` action payload
+    return userAvatar;
+  }
+);
+
+export const uploadUserAvatarAsync = createAsyncThunk(
+  'authentication/uploadUserAvatar',
+  async (uploadData: any) => {
+    const userAvatar = await setAvatar(uploadData.userId, uploadData.file);
+    // The value we return becomes the `fulfilled` action payload
+    return userAvatar;
+  }
+);
+
 export const authSlice: Slice = createSlice({
-    name: 'AuthenticationSlice',
+    name: 'authentication',
     initialState,
     reducers: {
         onFirebaseInitialized: (
@@ -39,10 +94,14 @@ export const authSlice: Slice = createSlice({
         },
         onLogoutSuccess: (state: AuthState) => {
             state.loggedIn = false;
+            state.userInfoLoaded = false;
             state.cookbookId = '';
             state.id = undefined;
             state.user = undefined;
             state.error = '';
+            state.nickname = '';
+            state.firstname = '';
+            state.lastname = '';
         },
         onLogoutError: (state: AuthState, action: PayloadAction<string>) => {
             state.loggedIn = false;
@@ -78,6 +137,45 @@ export const authSlice: Slice = createSlice({
             state.loggedIn = false;
         },
     },
+    extraReducers: (builder) => {
+    builder
+      .addCase(updateUserDataAsync.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(updateUserDataAsync.fulfilled, (state, action) => {
+        state.status = 'idle';
+        const userData: UserData = action.payload;
+        state.firstname = userData.firstname;
+        state.lastname = userData.lastname;
+        state.nickname = userData.nickname;
+        state.avatarName = userData.avatarName;
+      })
+      .addCase(loadUserDataAsync.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(loadUserDataAsync.fulfilled, (state, action) => {
+        state.status = 'idle';
+        const userData: UserData = action.payload;
+        state.firstname = userData.firstname;
+        state.lastname = userData.lastname;
+        state.nickname = userData.nickname;
+        state.avatarName = userData.avatarName;
+      })
+      .addCase(loadUserAvatarAsync.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(loadUserAvatarAsync.fulfilled, (state, action) => {
+        state.status = 'idle';
+        state.avatarUrl = action.payload;
+      })
+      .addCase(uploadUserAvatarAsync.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(uploadUserAvatarAsync.fulfilled, (state, action) => {
+        state.status = 'idle';
+        state.avatarName = action.payload;
+      });
+  },
 });
 
 export const {
@@ -105,5 +203,28 @@ export const isUserLoggedIn = (state: RootState): boolean =>
 
 export const isError = (state: RootState): boolean =>
     state.userInfo.error && state.userInfo.error.code.length > 0;
+
+export const getUserEmail = (state: RootState): string => 
+    state.userInfo.user?.username || '';
+export const getUserNickname = (state: RootState): string => 
+    state.userInfo.nickname || '';
+export const getUserFirstname = (state: RootState): string => 
+    state.userInfo.firstname || '';
+export const getUserLastname = (state: RootState): string => 
+    state.userInfo.lastname || '';
+export const getUserData = (state: RootState): UserData => {
+    return {
+        nickname: getUserNickname(state),
+        lastname: getUserLastname(state),
+        firstname: getUserFirstname(state),
+        avatarName: getAvatarName(state),
+        avatarUrl: getAvatarUrl(state)
+    };
+}
+
+export const getStatus = (state: RootState): string => state.userInfo.status;
+
+export const getAvatarUrl = (state: RootState): string => state.userInfo.avatarUrl || '';
+export const getAvatarName = (state: RootState): string => state.userInfo.avatarName || '';
 
 export default authSlice.reducer;

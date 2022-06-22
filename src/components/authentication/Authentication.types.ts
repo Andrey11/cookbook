@@ -43,7 +43,6 @@ export interface User {
 export interface AuthState {
     user?: User;
     loggedIn: boolean | false;
-    avatarUrl?: Url;
     error?: string;
     id?: string;
     cookbooks?: Array<Cookbook>;
@@ -51,4 +50,19 @@ export interface AuthState {
     recipes?: Array<Cookbook>;
     isFirebaseInitialized: boolean | false;
     authVerfied: boolean;
+    userInfoLoaded: boolean;
+    status: string;
+    nickname?: string;
+    firstname?: string;
+    lastname?: string;
+    avatarUrl?: string;
+    avatarName?: string;
+}
+
+export interface UserData {
+    nickname: string;
+    firstname: string;
+    lastname: string;
+    avatarUrl: string;
+    avatarName: string;
 }

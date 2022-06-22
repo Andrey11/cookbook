@@ -2,14 +2,15 @@ import React from 'react';
 import styles from './App.module.scss';
 import { Provider } from 'react-redux';
 import store from './store';
-import DefaultScene from 'components/home/DefaultScene';
-import RecipeCardDetailsScene from 'components/recipe/RecipeCardDetailsScene.component';
-import CookbookScene from 'components/cookbook/CookbookScene';
-import CreateAccount from 'components/authentication/CreateAccount';
-import Scene from 'components/scene/Scene';
+import DefaultScene from './components/home/DefaultScene';
+import RecipeCardDetailsScene from './components/recipe/RecipeCardDetailsScene';
+import CookbookScene from './components/cookbook/CookbookScene';
+import CreateAccount from './components/authentication/CreateAccount';
+import Scene from './components/scene/Scene';
 import { Route, Routes } from 'react-router-dom';
-import Login from 'components/authentication/Login';
-import ResetPassword from 'components/authentication/ResetPassword';
+import Login from './components/authentication/Login';
+import ResetPassword from './components/authentication/ResetPassword';
+import Account from './components/user/Account';
 
 const App: React.FunctionComponent = () => {
     return (
@@ -25,17 +26,26 @@ const App: React.FunctionComponent = () => {
                         }
                     />
                     <Route
-                        path="/cookbook/:id"
+                        path="/account"
                         element={
-                            <Scene sceneName="CookbookScene">
-                                <CookbookScene />
+                            <Scene sceneName="Account" authRequired={true}>
+                                <Account />
                             </Scene>
                         }
                     />
                     <Route
+                        path="/cookbook/:id"
+                        element={
+                            <Scene sceneName="CookbookScene" authRequired={true}>
+                                <CookbookScene />
+                            </Scene>
+                        }
+                    />
+                    
+                    <Route
                         path="/cookbook"
                         element={
-                            <Scene sceneName="CookbookScene">
+                            <Scene sceneName="CookbookScene" authRequired={true}>
                                 <CookbookScene />
                             </Scene>
                         }

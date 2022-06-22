@@ -1,34 +1,56 @@
-export const isRecipeDefined = (state: any, recipeId: string) => {
+import { RootState } from '../../store';
+
+export const isRecipeDefined = (
+    state: RootState,
+    recipeId: string
+): boolean => {
     return (
-        state.data &&
-        state.data.recipes &&
-        state.data.recipes &&
-        state.data.recipes.records &&
-        state.data.recipes.records[recipeId]
+        state.recipes &&
+        state.recipes.records &&
+        state.recipes.records[recipeId] &&
+        !!state.recipes.records[recipeId].record
     );
 };
 
-export const isRecipeLoaded = (state: any, recipeId: string) => {
+export const isRecipeLoaded = (state: RootState, recipeId: string): boolean => {
     return (
         isRecipeDefined(state, recipeId) &&
-        state.data.recipes.records[recipeId].loaded
+        state.recipes.records[recipeId].loaded
     );
 };
 
-export const getRecipeRecord = (state: any, recipeId: string) => {
+export const getRecipeRecord = (state: RootState, recipeId: string) => {
     return isRecipeLoaded(state, recipeId)
-        ? state.data.recipes.records[recipeId].record
+        ? state.recipes.records[recipeId].record
         : null;
 };
 
-export const getRecipeTitle = (state: any, recipeId: string) => {
-    const rec = getRecipeRecord(state, recipeId);
-    return rec ? rec.name : 'no name';
+export const getRecipeUrl = (state: RootState, recipeId: string): string => {
+    return isRecipeLoaded(state, recipeId)
+        ? state.recipes.records[recipeId].record.imageUrl ||
+              'url(/images/mb-bg-fb-16.png)'
+        : '';
 };
 
-export const isRecipeLoading = (state: any, recipeId: string) => {
+export const getRecipeTitle = (state: RootState, recipeId: string): string => {
+    const rec = getRecipeRecord(state, recipeId);
+    return rec ? rec.name || 'no name' : 'no name';
+};
+
+export const getRecipeCreatedBy = (
+    state: RootState,
+    recipeId: string
+): string => {
+    const rec = getRecipeRecord(state, recipeId);
+    return rec ? rec.createdBy || 'unknown' : 'unknown';
+};
+
+export const isRecipeLoading = (
+    state: RootState,
+    recipeId: string
+): boolean => {
     return (
         isRecipeDefined(state, recipeId) &&
-        state.data.recipes.records[recipeId].loading
+        state.recipes.records[recipeId].loading
     );
 };

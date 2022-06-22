@@ -104,6 +104,7 @@ const Authentication: React.FunctionComponent<AuthenticationFormState> = ({
                         </Typography>
                         {createFormFields()}
                     </div>
+                    { hasError && <div>Error</div>}
                     <CardActions>
                         <CardActionButtons
                             style={{

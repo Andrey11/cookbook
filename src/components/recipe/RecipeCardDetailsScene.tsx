@@ -9,11 +9,11 @@ import {
     ImageListSupporting,
     ImageListLabel,
 } from '@rmwc/image-list';
-import Header from 'components/header/Header';
+import Header from '../header/Header';
 import { List, CollapsibleList, SimpleListItem } from '@rmwc/list';
-import { HEADER_TYPE } from 'components/header/Header.types';
-import { useAppDispatch } from 'hooks';
-import { logout } from 'components/authentication/Authentication.actions';
+import { HEADER_TYPE } from '../header/Header.types';
+import { useAppDispatch } from '../../hooks';
+import { logout } from '../authentication/Authentication.actions';
 
 const RecipeCardDetailsScene: React.FunctionComponent = () => {
     // const history = useNavigate();

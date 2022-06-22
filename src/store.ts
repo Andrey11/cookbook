@@ -1,12 +1,20 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { Action, combineReducers } from '@reduxjs/toolkit';
 import { ThunkAction } from 'redux-thunk';
-import data from './components/cookbook/CookbookScene.reducer';
-import userReducer from 'components/authentication/Authentication.reducer';
-import sceneReducer from 'components/scene/sceneSlice';
+import cookbookReducer from './components/cookbook/CookbookScene.reducer';
+import userReducer from './components/authentication/Authentication.reducer';
+import recipesReducer from './components/recipe/recipesSlice';
+import sceneReducer from './components/scene/sceneSlice';
+import addRecipeReducer from './components/recipe/dialog/addRecipeSlice';
+
+const uiReducers = combineReducers({
+    addrecipe: addRecipeReducer
+});
 
 export const rootReducer = combineReducers({
-    data,
+    ui: uiReducers,
+    cookbook: cookbookReducer,
+    recipes: recipesReducer,
     userInfo: userReducer,
     scene: sceneReducer,
 });

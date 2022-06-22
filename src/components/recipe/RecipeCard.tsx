@@ -1,4 +1,4 @@
-import React, { CSSProperties, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Typography } from '@rmwc/typography';
 import {
     Card,
@@ -10,41 +10,60 @@ import {
     CardActionIcons,
     CardActionIcon,
 } from '@rmwc/card';
-import { useNavigate } from 'react-router-dom';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '../../hooks';
+import { AppDispatch, RootState } from '../../store';
+import { loadRecipe } from '../cookbook/CookbookScene.actions';
+import {
+    getRecipeCreatedBy,
+    getRecipeTitle,
+    getRecipeUrl,
+    isRecipeLoaded,
+    isRecipeLoading,
+} from './RecipeCard.selector';
+import { useSelector } from 'react-redux';
 
 type RecipeCardProps = {
-    recipeId: string | null;
-    imageUrl: string | null;
-    recipeTitle: string | 'Title';
-    isLoaded: boolean;
-    loadData: (recipeId: string) => void;
+    recipeId: string;
 };
 
-const RecipeCard = ({
+const RecipeCard: React.FunctionComponent<RecipeCardProps> = ({
     recipeId,
-    imageUrl,
-    recipeTitle,
-    isLoaded,
-    loadData,
 }: RecipeCardProps) => {
-    const navigate = useNavigate();
+    const navigate: NavigateFunction = useNavigate();
+    const dispatch: AppDispatch = useAppDispatch();
+
+    const isLoaded: boolean = useSelector((state: RootState) =>
+        isRecipeLoaded(state, recipeId)
+    );
+    const isLoading: boolean = useSelector((state: RootState) =>
+        isRecipeLoading(state, recipeId)
+    );
+    const imageUrl: string = useSelector((state: RootState) =>
+        getRecipeUrl(state, recipeId)
+    );
+    const recipeTitle: string = useSelector((state: RootState) =>
+        getRecipeTitle(state, recipeId)
+    );
+    const recipeCreatedBy: string = useSelector((state: RootState) =>
+        getRecipeCreatedBy(state, recipeId)
+    );
 
     useEffect(() => {
-        if (!isLoaded && recipeId) {
+        if (!isLoaded && !isLoading && recipeId) {
             console.log('Should load recipe');
-            if (typeof loadData === 'function') {
-                loadData(recipeId);
-            }
+            dispatch(loadRecipe(recipeId));
         }
-    });
+    }, [isLoaded, isLoading, recipeId]);
 
     return (
         <Card style={{ width: 'auto' }}>
-            {/* <Card style={{ width: "21rem" }}></Card> */}
             <CardPrimaryAction onClick={() => navigate('/recipe/' + recipeId)}>
                 <CardMedia
                     sixteenByNine
-                    style={{ backgroundImage: imageUrl } as CSSProperties}
+                    style={{
+                        backgroundImage: imageUrl,
+                    }}
                 />
                 <div style={{ padding: '0 1rem 1rem 1rem' }}>
                     <Typography use="headline6" tag="h2">
@@ -55,7 +74,7 @@ const RecipeCard = ({
                         tag="h3"
                         style={{ marginTop: '-1rem' }}
                     >
-                        by Some Author
+                        by {recipeCreatedBy}
                     </Typography>
                     <Typography use="body1" tag="div">
                         Visit food that you like to eat, and you will always be
@@ -65,7 +84,6 @@ const RecipeCard = ({
             </CardPrimaryAction>
             <CardActions>
                 <CardActionButtons>
-                    <CardActionButton>Read</CardActionButton>
                     <CardActionButton>Bookmark</CardActionButton>
                 </CardActionButtons>
                 <CardActionIcons>

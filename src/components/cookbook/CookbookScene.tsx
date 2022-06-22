@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Grid, GridCell } from '@rmwc/grid';
-import { ChipSet, Chip } from '@rmwc/chip';
-import { TextField } from '@rmwc/textfield';
+// import { ChipSet, Chip } from '@rmwc/chip';
+// import { TextField } from '@rmwc/textfield';
 import { Fab } from '@rmwc/fab';
-import RecipeCard from '../recipe/RecipeCard.container';
+import RecipeCard from '../recipe/RecipeCard';
 import Header from '../header/Header';
-import { Recipe } from 'components/recipe/RecipeCard.types';
-import AddRecipeDialog from '../recipe/AddRecipeDialog.container';
-import { HEADER_TYPE } from 'components/header/Header.types';
-import { logout } from 'components/authentication/Authentication.actions';
-import { useAppDispatch, useAppSelector } from 'hooks';
+import { Recipe } from '../recipe/RecipeCard.types';
+import AddRecipeDialog from '../recipe/dialog/AddRecipeDialog';
+import { HEADER_TYPE } from '../header/Header.types';
+import { logout } from '../authentication/Authentication.actions';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import {
     getCookbookId,
     isFirebaseInitialized,
@@ -38,18 +38,20 @@ const CookbookScene: React.FunctionComponent = () => {
     useEffect(() => {
         if (!firebaseInitialized) {
             console.log('Should wait for init');
-        } else if (doLogout && id) {
-            console.log('Should logout');
-            navigate('/');
+        // } else if (doLogout && id) {
+        //     console.log('Should logout');
+        //     navigate('/');
         } else if (doLoadCookbook) {
             console.log('Not loaded, and cookbook is set');
             dispatch(loadCookbook(cookbookId));
         } else if (!loaded && !cookbookId) {
             console.log('Not logged in, and no cookbook is set');
+        } else if (id && cookbookId && id !== cookbookId) {
+            navigate('/cookbook/' + cookbookId, {replace: true});
         } else {
             console.log('What is happening');
         }
-    });
+    }, [firebaseInitialized, doLogout, id, doLoadCookbook, loaded, cookbookId]);
 
     const createRecipeCardList = () => {
         if (!recipes || recipes.length === 0) {
@@ -60,9 +62,9 @@ const CookbookScene: React.FunctionComponent = () => {
                 <GridCell span={6} key={index + '_' + recipe.id}>
                     <RecipeCard
                         recipeId={recipe.id}
-                        imageUrl="url(/images/mb-bg-fb-16.png)"
-                        recipeTitle={'Recipe #' + recipe.id}
-                        isLoaded={false}
+                        // imageUrl="url(/images/mb-bg-fb-16.png)"
+                        // recipeTitle={'Recipe #' + recipe.id}
+                        // isLoaded={false}
                     />
                 </GridCell>
             );
@@ -81,7 +83,7 @@ const CookbookScene: React.FunctionComponent = () => {
             <AddRecipeDialog />
             <Grid>
                 {createRecipeCardList()}
-                <GridCell span={6}>
+                {/* <GridCell span={6}>
                     <ChipSet>
                         <Chip
                             selected
@@ -99,7 +101,7 @@ const CookbookScene: React.FunctionComponent = () => {
                         />
                     </ChipSet>
                     <TextField icon="search" trailingIcon="close" />
-                </GridCell>
+                </GridCell> */}
             </Grid>
 
             <Fab

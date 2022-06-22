@@ -2,3 +2,41 @@
   color: var(--mdc-theme-on-primary, #69a267);
   background-color: var(--mdc-theme-background, #edf8ee);
 }
+
+%TextInputField {
+    width: 100%;
+
+    & [class*="mdc-notched-outline__"] {
+      border-color: var(--mdc-theme-on-primary, #69a267) !important;
+      border-width: 1px;
+      opacity: 0.5;
+    }
+
+    &[class*="mdc-text-field--focused"] {
+      & [class*="mdc-notched-outline__"] {
+        border-color: var(--mdc-theme-on-primary, #69a267) !important;
+        border-width: 1px;
+        opacity: 1;
+      }
+    }
+
+    &[class*="mdc-text-field"] {
+      > input {
+        color: var(--mdc-theme-text-primary-on-background, #096809);
+        caret-color: var(--mdc-theme-on-primary, #69a267);
+        &:disabled {
+          color: var(--mdc-theme-text-surface-on-background, #091309);
+        }
+      }
+
+      label[class="mdc-floating-label"],
+      label[class="mdc-floating-label mdc-floating-label--float-above"] {
+        color: var(--mdc-theme-on-primary, #69a267);
+      }
+
+      > i {
+        top: 20%;
+        color: var(--mdc-theme-on-primary, #69a267);
+      }
+    }
+  }

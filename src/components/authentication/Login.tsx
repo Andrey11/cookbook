@@ -7,15 +7,14 @@ import {
 import store from '../../store';
 import { login, logout } from './Authentication.actions';
 import { withFirebase } from '../firebase/Firebase';
-import { useAppDispatch, useAppSelector } from 'hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import {
     isError,
     isUserLoggedIn,
     userCookbookId,
 } from './Authentication.reducer';
-import Header from 'components/header/Header';
-import { HEADER_TYPE } from 'components/header/Header.types';
-// import { AUTH_FORM } from "utils/Constants";
+import Header from '../header/Header';
+import { HEADER_TYPE } from '../header/Header.types';
 
 const formEmailField: AuthenticationFormField = {
     id: 'username',

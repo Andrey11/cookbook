@@ -9,12 +9,10 @@ import {
     onFirebaseInitialized,
     onPasswordResetSuccess,
 } from './Authentication.reducer';
-import {
-    resetCookbook,
-    resetRecipes,
-} from 'components/cookbook/CookbookScene.reducer';
+import { resetCookbook } from '../cookbook/CookbookScene.reducer';
 import Firebase from '../firebase/Firebase';
 import { User, AuthState } from './Authentication.types';
+import { resetRecipes } from '../recipe/recipesSlice';
 
 export const login =
     (username: string, password: string) => (dispatch: AppDispatch) => {
@@ -32,7 +30,7 @@ export const login =
                     avatarUrl: currentUser.avatarUrl,
                     cookbookId: currentUser.uid,
                     cookbooks: [],
-                    recipes: [],
+                    recipes: []
                 };
                 dispatch(onLoginSuccess(user));
             })
@@ -43,7 +41,7 @@ export const login =
 
 export const checkAuthState = () => (dispatch: AppDispatch) => {
     console.log(
-        '[Authentication.actions][checkAuthState] from Scene.component[useEffect]'
+        '[Authentication.actions][checkAuthState] Scene.component[useEffect]'
     );
 
     const firebase = Firebase.getInstance();
@@ -51,6 +49,9 @@ export const checkAuthState = () => (dispatch: AppDispatch) => {
     firebase.auth.onAuthStateChanged((fbUser) => {
         let user: User | undefined;
         let isLoggedIn = false;
+
+        const authState = fbUser ? fbUser?.email : 'not logged in';
+        console.log('AuthStateChanged: ' + authState);
 
         if (fbUser) {
             isLoggedIn = true;
@@ -68,9 +69,11 @@ export const checkAuthState = () => (dispatch: AppDispatch) => {
 
         const userState: AuthState = {
             user: user,
+            status: 'idle',
             loggedIn: isLoggedIn,
             isFirebaseInitialized: true,
             authVerfied: true,
+            userInfoLoaded: false,
         };
 
         dispatch(onFirebaseInitialized(userState));

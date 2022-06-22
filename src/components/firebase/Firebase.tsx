@@ -1,3 +1,4 @@
+import { UserData } from '../authentication/Authentication.types';
 import firebase, { initializeApp } from 'firebase/app';
 import {
     getAuth,
@@ -25,7 +26,7 @@ import {
     DocumentReference,
     addDoc,
 } from 'firebase/firestore';
-import { FirebaseStorage, getStorage } from 'firebase/storage';
+import { FirebaseStorage, getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import { FirebaseConfig } from '../../config/FirebaseConfig';
 import FirebaseContext, { withFirebase } from './FirebaseContext';
 
@@ -105,8 +106,33 @@ class Firebase {
         });
     };
 
+    doUpdateUserInfo = (userId: string, userData: any) => {
+        const db: Firestore = Firebase.INSTANCE.database;
+        const docRef: DocumentReference<DocumentData> = doc(
+            db,
+            'users',
+            userId
+        );
+         return updateDoc(docRef, {
+            nickname: userData.nickname,
+            firstname: userData.firstname,
+            lastname: userData.lastname,
+            avatarName: userData.avatarName
+        }).catch((reason: any) => {
+            console.error(
+                '[Firebase][doUpdateUserInfo] Error updating user in users doc',
+                reason
+            );
+        });
+    };
+
     doCreateCookbook = (cookbookId: string, username: string) => {
         const db = Firebase.INSTANCE.database;
+        const userRef: DocumentReference<DocumentData> = doc(
+            db,
+            'users',
+            cookbookId
+        );
         const docRef: DocumentReference<DocumentData> = doc(
             db,
             'cookbook',
@@ -114,12 +140,13 @@ class Firebase {
         );
         return setDoc(docRef, {
             name: username,
+            user: userRef,
             recipes: [],
             created: serverTimestamp(),
             modified: serverTimestamp(),
         }).catch((error: any) => {
             console.error(
-                '[Firebase][doCreateCookbook] Error writing new message to database',
+                '[Firebase][doCreateCookbook] Error writing new message to db',
                 error
             );
         });
@@ -135,29 +162,35 @@ class Firebase {
         return getDoc(docCookbookRef);
     };
 
-    doCreateRecipe = async (name: string) => {
+    doCreateRecipe = async (name: string, userData: UserData) => {
         const db = Firebase.INSTANCE.database;
         const auth = Firebase.INSTANCE.auth;
 
         if (auth.currentUser) {
+            const userRef: DocumentReference<DocumentData> = doc(
+                db,
+                'users',
+                auth.currentUser.uid
+            );
             try {
                 return await addDoc(collection(db, 'recipe'), {
                     name: name,
                     created: serverTimestamp(),
                     modified: serverTimestamp(),
-                    createdBy: auth.currentUser.uid,
-                    modifiedBy: auth.currentUser.uid,
+                    createdBy: userRef,
+                    modifiedBy: userRef,
+                    modifiedUser: {...userData}
                 });
             } catch (error) {
                 console.error(
-                    '[Firebase][doCreateRecipe] Error writing new message to database',
+                    '[Firebase][doCreateRecipe] Error writing message to db',
                     error
                 );
             }
         }
 
         return Promise.reject(
-            '[Firebase][doAddRecipeIdToCurrentUserCookbook] Error not authenticated'
+            '[Firebase][doAddRecipeIdToCurrentUserCookbook] Not authenticated'
         );
     };
 
@@ -172,14 +205,43 @@ class Firebase {
                 recipes: arrayUnion(recipeRef),
             }).catch((error: any) => {
                 console.error(
-                    '[Firebase][doAddRecipeIdToCurrentUserCookbook] Error writing new message to database',
+                    '[Firebase][doAddRecipeIdToCurrentUserCookbook] ' + 
+                    'Error writing new message to db',
                     error
                 );
             });
         }
         return Promise.reject(
-            '[Firebase][doAddRecipeIdToCurrentUserCookbook] Error not authenticated'
+            '[Firebase][doAddRecipeIdToCurrentUserCookbook] Not authenticated'
         );
+    };
+
+    doUploadAvatar = (userId: string, file: any) => {
+        const storage: FirebaseStorage = Firebase.INSTANCE.storage;
+        const gsAvatars = ref(storage, `avatars/${userId}/${file.name}`);
+
+        return uploadBytes(gsAvatars, file).then((snapshot) => {
+            return snapshot.ref.name;
+        });
+    };
+
+    doGetAvatarImageById = (avatarPath: string) => {
+        const storage: FirebaseStorage = Firebase.INSTANCE.storage;
+        const gsReference = ref(storage, `avatars/${avatarPath}`);
+
+        return getDownloadURL(gsReference).then((avatarUrl) => {
+            return avatarUrl;
+        })
+    };
+
+    doLoadUserById = (userId: string) => {
+        const db: Firestore = Firebase.INSTANCE.database;
+        const docRef: DocumentReference<DocumentData> = doc(
+            db,
+            'users',
+            userId
+        );
+        return getDoc(docRef);
     };
 
     doLoadRecipeById = (recipeId: string) => {

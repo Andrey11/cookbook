@@ -26,7 +26,11 @@ const defaultFiterState: FiterSearchProps = {
     french: true,
 };
 
-const Filter = ({ visible, reset, submit }: FilterOwnProps) => {
+const Filter: React.FunctionComponent<FilterOwnProps> = ({
+    visible,
+    reset,
+    submit,
+}: FilterOwnProps) => {
     const [selected, setSelected] = useState(defaultFiterState);
 
     const openCls = visible ? styles.PanelOpen : '';
