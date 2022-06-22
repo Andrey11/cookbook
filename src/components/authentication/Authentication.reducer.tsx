@@ -48,18 +48,16 @@ export const loadUserDataAsync = createAsyncThunk(
 export const loadUserAvatarAsync = createAsyncThunk(
   'authentication/loadUserAvatar',
   async (avatarPath: string) => {
-    const userAvatar = await getAvatar(avatarPath);
-    // The value we return becomes the `fulfilled` action payload
-    return userAvatar;
+    const avatarUrl = await getAvatar(avatarPath);
+    return avatarUrl;
   }
 );
 
 export const uploadUserAvatarAsync = createAsyncThunk(
   'authentication/uploadUserAvatar',
   async (uploadData: any) => {
-    const userAvatar = await setAvatar(uploadData.userId, uploadData.file);
-    // The value we return becomes the `fulfilled` action payload
-    return userAvatar;
+    const avatarName = await setAvatar(uploadData.userId, uploadData.file);
+    return avatarName;
   }
 );
 
@@ -102,6 +100,8 @@ export const authSlice: Slice = createSlice({
             state.nickname = '';
             state.firstname = '';
             state.lastname = '';
+            state.avatarName = '';
+            state.avatarUrl = '';
         },
         onLogoutError: (state: AuthState, action: PayloadAction<string>) => {
             state.loggedIn = false;
