@@ -1,10 +1,16 @@
 import React, { useEffect } from 'react';
 import { withFirebase } from '../firebase/FirebaseContext';
-import { authVerified } from '../authentication/Authentication.reducer';
+import { 
+    authVerified, 
+    getUserId, 
+    isUserInfoLoaded, 
+    isUserLoggedIn, 
+    loadUserDataAsync 
+} from '../authentication/Authentication.reducer';
 import { checkAuthState } from '../authentication/Authentication.actions';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { setActiveScene } from './sceneSlice';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import LoadingScreen from './LoadingScreen';
 import { shouldLogout } from '../cookbook/CookbookScene.selector';
 
@@ -22,24 +28,29 @@ const Scene: React.FunctionComponent<SceneProps> = (props: SceneProps) => {
     const isAuthVerified: boolean = useAppSelector(authVerified);
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
-    const { id } = useParams();
-    const location = useLocation();
+    // const { id } = useParams();
+    // const location = useLocation();
     const doLogout: boolean = useAppSelector(shouldLogout);
+    const userInfoLoaded: boolean = useAppSelector(isUserInfoLoaded);
+    const userLoggedIn: boolean = useAppSelector(isUserLoggedIn); 
+    const userId: string = useAppSelector(getUserId);
 
     useEffect(() => {
         if (!isAuthVerified) {
+            console.log('[Scene] auth is not verified');
             dispatch(checkAuthState());
+        } else if (isAuthVerified && userLoggedIn && !userInfoLoaded) {
+            console.log('[Scene] user info is not yet loaded');
+            dispatch(loadUserDataAsync(userId));
         } else if (doLogout && authRequired) {
             navigate('/', {replace: true});
         }
-    }, [isAuthVerified, doLogout, authRequired]);
+    }, [isAuthVerified, doLogout, authRequired, userLoggedIn, userInfoLoaded, userId]);
 
     useEffect(() => {
-        console.log('params: ' + id + ', location: ' + location.pathname);
+        console.log('[Scene.component] ' + sceneName);
         dispatch(setActiveScene(sceneName));
     }, [sceneName]);
-
-    console.log('[Scene.component] ' + sceneName);
 
     return (
         <>

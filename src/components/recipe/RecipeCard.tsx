@@ -22,6 +22,8 @@ import {
     isRecipeLoading,
 } from './RecipeCard.selector';
 import { useSelector } from 'react-redux';
+import { ListDivider } from '@rmwc/list';
+import { Icon } from '@rmwc/icon';
 
 type RecipeCardProps = {
     recipeId: string;
@@ -65,26 +67,36 @@ const RecipeCard: React.FunctionComponent<RecipeCardProps> = ({
                         backgroundImage: imageUrl,
                     }}
                 />
-                <div style={{ padding: '0 1rem 1rem 1rem' }}>
+                <div style={{ padding: '0 1rem' }}>
                     <Typography use="headline6" tag="h2">
                         {recipeTitle}
                     </Typography>
                     <Typography
                         use="subtitle2"
-                        tag="h3"
+                        tag="h1"
                         style={{ marginTop: '-1rem' }}
                     >
                         by {recipeCreatedBy}
                     </Typography>
-                    <Typography use="body1" tag="div">
+                    <ListDivider />
+                    <Typography use="body1" tag="h1">
                         Visit food that you like to eat, and you will always be
                         happy every day.
+                    </Typography>
+                    <ListDivider />
+                    <Typography 
+                        use="subtitle2" 
+                        tag="div" 
+                        style={
+                            {margin: '0.67rem 0', display: "flex", flexDirection: "row", float: "right", gap: "4px"}
+                        }>
+                        <Icon icon="av_timer" /> 45 min
                     </Typography>
                 </div>
             </CardPrimaryAction>
             <CardActions>
                 <CardActionButtons>
-                    <CardActionButton>Bookmark</CardActionButton>
+                    <CardActionButton>View</CardActionButton>
                 </CardActionButtons>
                 <CardActionIcons>
                     <CardActionIcon onIcon="favorite" icon="favorite_border" />

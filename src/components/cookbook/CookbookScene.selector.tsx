@@ -14,13 +14,9 @@ export const shouldReloadAllRecipesList = (state: any) => {
     return Object.keys(state.recipes.records).length === 0;
 };
 
-export const isFirebaseInitialized = (state: any) => {
-    return state.userInfo.isFirebaseInitialized;
-};
-
 export const shouldLogout = (state: any) => {
     return (
-        isFirebaseInitialized(state) &&
+        state.userInfo.isFirebaseInitialized &&
         state.userInfo.loggedIn === false &&
         !state.cookbook.cookbookId
     );
@@ -34,7 +30,7 @@ export const getCookbookId = (state: any) => {
 };
 
 export const shouldLoadCookbook = (state: any) => {
-    return !state.cookbook.loaded && !state.cookbook.loading;
+    return state.userInfo.loggedIn && !state.cookbook.loaded && !state.cookbook.loading;
 };
 
 export const isLoaded = (state: any) => state.cookbook.loaded;

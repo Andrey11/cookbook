@@ -12,22 +12,22 @@ import {
     CardActionIcon
 } from '@rmwc/card';
 import { logout } from '../authentication/Authentication.actions';
-import styles from './Account.module.scss';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { HEADER_TYPE } from '../header/Header.types';
 import Header from '../header/Header';
 import { 
     getStatus,
     getUserData,
-    getUserEmail, 
-    loadUserDataAsync, 
+    getUserEmail,
     updateUserDataAsync, 
     loadUserAvatarAsync,
-    userCookbookId,
-    uploadUserAvatarAsync
+    uploadUserAvatarAsync,
+    getUserId,
+    isUserInfoLoaded
 } from '../authentication/Authentication.reducer';
-// import { setAvatar } from './AccountApi';
 import { UserData } from '../authentication/Authentication.types';
+
+import styles from './Account.module.scss';
 
 const Account: React.FunctionComponent = () => {
     const dispatch = useAppDispatch();
@@ -35,9 +35,9 @@ const Account: React.FunctionComponent = () => {
 
     const email: string = useAppSelector(getUserEmail);
     const userData: UserData = useAppSelector(getUserData);
-    const userId: string = useAppSelector(userCookbookId);
+    const userId: string = useAppSelector(getUserId);
+    const userInfoLoaded: boolean = useAppSelector(isUserInfoLoaded);
 
-    const [loaded, setLoaded] = useState(false);
     const [localNname, setLocalNname] = useState('');
     const [localFname, setLocalFname] = useState('');
     const [localLname, setLocalLname] = useState('');
@@ -70,15 +70,11 @@ const Account: React.FunctionComponent = () => {
     }, [status, updating]);
 
     useEffect(() => {
-        if (!loaded && userId) {
-            console.log('[Account] not loaded use effect');
-            dispatch(loadUserDataAsync(userId));
-            setLoaded(true);
-        } else if (loaded && userId && localAvatarName) {
+        if (userInfoLoaded && userId && localAvatarName) {
             const avatarPath = `${userId}/${localAvatarName}`;
             dispatch(loadUserAvatarAsync(avatarPath));
         }
-    }, [loaded, userId, localAvatarName]);
+    }, [userInfoLoaded, userId, localAvatarName]);
 
     const onUpdateClicked = () => {
         setUpdating(true);
@@ -90,7 +86,6 @@ const Account: React.FunctionComponent = () => {
             avatarName: localAvatarName
         }));
     };
-
 
     const onImageSelected = () => {
         inputFile.current.click();

@@ -30,7 +30,7 @@ export const login =
                     avatarUrl: currentUser.avatarUrl,
                     cookbookId: currentUser.uid,
                     cookbooks: [],
-                    recipes: []
+                    recipes: [],
                 };
                 dispatch(onLoginSuccess(user));
             })
@@ -40,9 +40,7 @@ export const login =
     };
 
 export const checkAuthState = () => (dispatch: AppDispatch) => {
-    console.log(
-        '[Authentication.actions][checkAuthState] Scene.component[useEffect]'
-    );
+    console.log('[Authentication.actions][checkAuthState] Scene.component[useEffect]');
 
     const firebase = Firebase.getInstance();
 
@@ -104,7 +102,7 @@ export const createAccount =
             'Action create account has been called, username=' +
                 username +
                 ', password=' +
-                password
+                password,
         );
         const firebase = Firebase.getInstance();
 

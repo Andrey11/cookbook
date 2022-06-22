@@ -13,7 +13,6 @@ import { logout } from '../authentication/Authentication.actions';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import {
     getCookbookId,
-    isFirebaseInitialized,
     isLoaded,
     // isLoading,
     recipesList,
@@ -31,17 +30,11 @@ const CookbookScene: React.FunctionComponent = () => {
     const recipes = useAppSelector(recipesList);
     const loaded = useAppSelector(isLoaded);
     // const loading = useAppSelector(isLoading);
-    const firebaseInitialized = useAppSelector(isFirebaseInitialized);
     const doLoadCookbook = useAppSelector(shouldLoadCookbook);
     const doLogout = useAppSelector(shouldLogout);
 
     useEffect(() => {
-        if (!firebaseInitialized) {
-            console.log('Should wait for init');
-        // } else if (doLogout && id) {
-        //     console.log('Should logout');
-        //     navigate('/');
-        } else if (doLoadCookbook) {
+        if (doLoadCookbook) {
             console.log('Not loaded, and cookbook is set');
             dispatch(loadCookbook(cookbookId));
         } else if (!loaded && !cookbookId) {
@@ -51,7 +44,7 @@ const CookbookScene: React.FunctionComponent = () => {
         } else {
             console.log('What is happening');
         }
-    }, [firebaseInitialized, doLogout, id, doLoadCookbook, loaded, cookbookId]);
+    }, [doLogout, id, doLoadCookbook, loaded, cookbookId]);
 
     const createRecipeCardList = () => {
         if (!recipes || recipes.length === 0) {

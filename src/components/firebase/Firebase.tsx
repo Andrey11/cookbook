@@ -70,8 +70,7 @@ class Firebase {
 
     doSignOut = () => signOut(Firebase.INSTANCE.auth);
 
-    doPasswordReset = (email: string) =>
-        sendPasswordResetEmail(Firebase.INSTANCE.auth, email);
+    doPasswordReset = (email: string) => sendPasswordResetEmail(Firebase.INSTANCE.auth, email);
 
     doPasswordUpdate = (password: string) => {
         const authModule: Auth = Firebase.INSTANCE.auth;

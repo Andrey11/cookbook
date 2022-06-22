@@ -74,7 +74,7 @@ export const loadRecipe = (id: string) => (dispatch: AppDispatch) => {
                 getDoc(queryData.createdBy)
                     .then((result: any) => {
                         console.log('Success: ' + result);
-                        recipeRecord.createdBy = result.data().name;
+                        recipeRecord.createdBy = result.data().nickname;
 
                         const recipe: RecipeState = {
                             id: recipeRecord.id,
@@ -110,7 +110,7 @@ export const convertToRecipeState = (rec: DocumentData) => {
         id: rec.id,
         description: recipeInfo.description,
         name: recipeInfo.name,
-        // createdBy: recipeInfo.createdBy.path()
+        createdBy: recipeInfo.modifiedUser.nickname
     };
 
     const recipeState: RecipeState = {

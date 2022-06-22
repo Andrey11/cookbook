@@ -1,0 +1,8 @@
+@import '../../scss/mixins.module.scss';
+
+.RecipeCard {
+
+  &Field {
+    @include text-input-field();
+  }
+}

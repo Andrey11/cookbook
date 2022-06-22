@@ -29,14 +29,9 @@ const DefaultScene: React.FunctionComponent = () => {
         if (allRecipes.length === 0) {
             return;
         }
-        return allRecipes.map((recipe: Recipe, index) => (
-            <GridCell span={4} key={index + '_' + recipe.id}>
-                <RecipeCard
-                    recipeId={recipe.id}
-                    // imageUrl="url(../images/mb-bg-fb-16.png)"
-                    // recipeTitle={'Recipe #' + recipe.name}
-                    // loaded={true}
-                />
+        return allRecipes.map((recipe: Recipe) => (
+            <GridCell span={4} key={recipe.id}>
+                <RecipeCard recipeId={recipe.id} />
             </GridCell>
         ));
     };
