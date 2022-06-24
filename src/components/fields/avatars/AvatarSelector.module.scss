@@ -1,6 +1,6 @@
-@import '../../scss/mixins.module.scss';
+@import '../../../scss/mixins.module.scss';
 
-.AccountForm {
+.AvatarSelectorForm {
   margin-top: 16px;
   display: flex;
   flex-direction: row;
@@ -13,21 +13,12 @@
     width: 21rem;
   }
 
-  .AccountField {
-
-    @include text-input-field();
-
-    &:not(:last-of-type) {
-      margin-bottom: 1rem;
-    }
-  }
-
-  .AccountActions {
+  .AvatarSelectorActions {
     flex: 1;
     justify-content: space-between;
     flex-direction: row-reverse;
   }
-  .AccountAvatarActionIcons {
+  .AvatarSelectorActionIcons {
     justify-content: center;
   }
 }

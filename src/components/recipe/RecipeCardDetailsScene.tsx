@@ -1,5 +1,4 @@
 import React from 'react';
-// import { useNavigate, useParams } from "react-router-dom";
 import { Grid, GridCell } from '@rmwc/grid';
 import {
     ImageList,
@@ -12,20 +11,26 @@ import {
 import Header from '../header/Header';
 import { List, CollapsibleList, SimpleListItem } from '@rmwc/list';
 import { HEADER_TYPE } from '../header/Header.types';
-import { useAppDispatch } from '../../hooks';
-import { logout } from '../authentication/Authentication.actions';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
+import { getRecipeTitle } from './RecipeCard.selector';
+import { useParams } from 'react-router-dom';
 
 const RecipeCardDetailsScene: React.FunctionComponent = () => {
     // const history = useNavigate();
-    // const { id } = useParams();
-    const dispatch = useAppDispatch();
+    const { id } = useParams();
+    // const dispatch = useAppDispatch();
+    const recipeTitle: string = useSelector((state: RootState) =>
+        {
+            return getRecipeTitle(state, id || '');
+        }
+    );
 
     return (
         <>
             <Header
                 type={HEADER_TYPE.RECIPE_DETAILS}
-                logoutUser={() => dispatch(logout)}
-                backButtonTooltip="Back to Home"
+                title={recipeTitle}
             />
 
             <Grid>
