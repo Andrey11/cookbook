@@ -12,71 +12,71 @@ import { HEADER_TYPE } from '../header/Header.types';
 import { logout } from '../authentication/Authentication.actions';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import {
-    getCookbookId,
-    isLoaded,
-    // isLoading,
-    recipesList,
-    shouldLoadCookbook,
-    shouldLogout,
+  getCookbookId,
+  isLoaded,
+  // isLoading,
+  recipesList,
+  shouldLoadCookbook,
+  shouldLogout,
 } from './CookbookScene.selector';
 import { loadCookbook, showCreateRecipeDialog } from './CookbookScene.actions';
 
 const CookbookScene: React.FunctionComponent = () => {
-    const dispatch = useAppDispatch();
-    const navigate = useNavigate();
-    const { id } = useParams();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const { id } = useParams();
 
-    const cookbookId = useAppSelector(getCookbookId);
-    const recipes = useAppSelector(recipesList);
-    const loaded = useAppSelector(isLoaded);
-    // const loading = useAppSelector(isLoading);
-    const doLoadCookbook = useAppSelector(shouldLoadCookbook);
-    const doLogout = useAppSelector(shouldLogout);
+  const cookbookId = useAppSelector(getCookbookId);
+  const recipes = useAppSelector(recipesList);
+  const loaded = useAppSelector(isLoaded);
+  // const loading = useAppSelector(isLoading);
+  const doLoadCookbook = useAppSelector(shouldLoadCookbook);
+  const doLogout = useAppSelector(shouldLogout);
 
-    useEffect(() => {
-        if (doLoadCookbook) {
-            console.log('Not loaded, and cookbook is set');
-            dispatch(loadCookbook(cookbookId));
-        } else if (!loaded && !cookbookId) {
-            console.log('Not logged in, and no cookbook is set');
-        } else if (id && cookbookId && id !== cookbookId) {
-            navigate('/cookbook/' + cookbookId, {replace: true});
-        } else {
-            console.log('What is happening');
-        }
-    }, [doLogout, id, doLoadCookbook, loaded, cookbookId]);
+  useEffect(() => {
+    if (doLoadCookbook) {
+      console.log('Not loaded, and cookbook is set');
+      dispatch(loadCookbook(cookbookId));
+    } else if (!loaded && !cookbookId) {
+      console.log('Not logged in, and no cookbook is set');
+    } else if (id && cookbookId && id !== cookbookId) {
+      navigate('/cookbook/' + cookbookId, { replace: true });
+    } else {
+      console.log('What is happening');
+    }
+  }, [doLogout, id, doLoadCookbook, loaded, cookbookId]);
 
-    const createRecipeCardList = () => {
-        if (!recipes || recipes.length === 0) {
-            return;
-        }
-        return recipes.map((recipe: Recipe, index: number) => {
-            return (
-                <GridCell span={6} key={index + '_' + recipe.id}>
-                    <RecipeCard
-                        recipeId={recipe.id}
-                        // imageUrl="url(/images/mb-bg-fb-16.png)"
-                        // recipeTitle={'Recipe #' + recipe.id}
-                        // isLoaded={false}
-                    />
-                </GridCell>
-            );
-        });
-    };
+  const createRecipeCardList = () => {
+    if (!recipes || recipes.length === 0) {
+      return;
+    }
+    return recipes.map((recipe: Recipe, index: number) => {
+      return (
+        <GridCell span={6} key={index + '_' + recipe.id}>
+          <RecipeCard
+            recipeId={recipe.id}
+            // imageUrl="url(/images/mb-bg-fb-16.png)"
+            // recipeTitle={'Recipe #' + recipe.id}
+            // isLoaded={false}
+          />
+        </GridCell>
+      );
+    });
+  };
 
-    return (
-        <>
-            <Header
-                type={HEADER_TYPE.COOKBOOK}
-                logoutUser={() => {
-                    console.log('Why not calling logout?');
-                    dispatch(logout());
-                }}
-            />
-            <AddRecipeDialog />
-            <Grid>
-                {createRecipeCardList()}
-                {/* <GridCell span={6}>
+  return (
+    <>
+      <Header
+        type={HEADER_TYPE.COOKBOOK}
+        logoutUser={() => {
+          console.log('Why not calling logout?');
+          dispatch(logout());
+        }}
+      />
+      <AddRecipeDialog />
+      <Grid>
+        {createRecipeCardList()}
+        {/* <GridCell span={6}>
                     <ChipSet>
                         <Chip
                             selected
@@ -95,15 +95,11 @@ const CookbookScene: React.FunctionComponent = () => {
                     </ChipSet>
                     <TextField icon="search" trailingIcon="close" />
                 </GridCell> */}
-            </Grid>
+      </Grid>
 
-            <Fab
-                icon="restaurant"
-                className="app-fab--absolute"
-                onClick={() => dispatch(showCreateRecipeDialog())}
-            />
-        </>
-    );
+      <Fab icon="restaurant" className="app-fab--absolute" onClick={() => dispatch(showCreateRecipeDialog())} />
+    </>
+  );
 };
 
 export default CookbookScene;

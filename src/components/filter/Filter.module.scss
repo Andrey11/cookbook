@@ -8,6 +8,7 @@
   position: fixed;
   z-index: 2;
   transition: box-shadow 200ms linear;
+  transition: max-height 0.3s ease-in;
 
   &Open {
     max-height: 260px;

@@ -13,80 +13,80 @@ import ResetPassword from './components/authentication/ResetPassword';
 import Account from './components/user/Account';
 
 const App: React.FunctionComponent = () => {
-    return (
-        <Provider store={store}>
-            <div className={styles.App} data-testid="app-screen">
-                <Routes>
-                    <Route
-                        path="/recipe/:id"
-                        element={
-                            <Scene sceneName="RecipeCardDetailsScene">
-                                <RecipeCardDetailsScene />
-                            </Scene>
-                        }
-                    />
-                    <Route
-                        path="/account"
-                        element={
-                            <Scene sceneName="Account" authRequired={true}>
-                                <Account />
-                            </Scene>
-                        }
-                    />
-                    <Route
-                        path="/cookbook/:id"
-                        element={
-                            <Scene sceneName="CookbookScene" authRequired={true}>
-                                <CookbookScene />
-                            </Scene>
-                        }
-                    />
-                    
-                    <Route
-                        path="/cookbook"
-                        element={
-                            <Scene sceneName="CookbookScene" authRequired={true}>
-                                <CookbookScene />
-                            </Scene>
-                        }
-                    />
+  return (
+    <Provider store={store}>
+      <div className={styles.App} data-testid="app-screen">
+        <Routes>
+          <Route
+            path="/recipe/:id"
+            element={
+              <Scene sceneName="RecipeCardDetailsScene">
+                <RecipeCardDetailsScene />
+              </Scene>
+            }
+          />
+          <Route
+            path="/account"
+            element={
+              <Scene sceneName="Account" authRequired={true}>
+                <Account />
+              </Scene>
+            }
+          />
+          <Route
+            path="/cookbook/:id"
+            element={
+              <Scene sceneName="CookbookScene" authRequired={true}>
+                <CookbookScene />
+              </Scene>
+            }
+          />
 
-                    <Route
-                        path="/create"
-                        element={
-                            <Scene sceneName="CreateAccount">
-                                <CreateAccount />
-                            </Scene>
-                        }
-                    />
-                    <Route
-                        path="/reset"
-                        element={
-                            <Scene sceneName="ResetPassword">
-                                <ResetPassword />
-                            </Scene>
-                        }
-                    />
-                    <Route
-                        path="/login"
-                        element={
-                            <Scene sceneName="Login">
-                                <Login />
-                            </Scene>
-                        }
-                    />
-                    <Route
-                        path="/"
-                        element={
-                            <Scene sceneName="DefaultScene">
-                                <DefaultScene />
-                            </Scene>
-                        }
-                    />
-                </Routes>
-            </div>
-        </Provider>
-    );
+          <Route
+            path="/cookbook"
+            element={
+              <Scene sceneName="CookbookScene" authRequired={true}>
+                <CookbookScene />
+              </Scene>
+            }
+          />
+
+          <Route
+            path="/create"
+            element={
+              <Scene sceneName="CreateAccount">
+                <CreateAccount />
+              </Scene>
+            }
+          />
+          <Route
+            path="/reset"
+            element={
+              <Scene sceneName="ResetPassword">
+                <ResetPassword />
+              </Scene>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <Scene sceneName="Login">
+                <Login />
+              </Scene>
+            }
+          />
+          <Route
+            path="/"
+            element={
+              <Scene sceneName="DefaultScene">
+                <DefaultScene />
+              </Scene>
+            }
+          />
+        </Routes>
+      </div>
+    </Provider>
+  );
 };
 
 export default App;
